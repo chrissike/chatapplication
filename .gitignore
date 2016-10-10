@@ -5,8 +5,8 @@ bin/
 chatApplication/Benchmarking-ChatApp-Protokolldatei
 
 #Eclipse
-#.classpath
-#.project
+.classpath
+.project
 .settings/
 
 #IntelliJ
@@ -27,5 +27,4 @@ tmp/**/*
 .DS_Store
 
 #Project
-.classpath
 /src/main/bin/
