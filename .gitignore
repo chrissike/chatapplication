@@ -1,7 +1,7 @@
 /logs
 *.log
 out
-bin/**
+bin/
 chatApplication/Benchmarking-ChatApp-Protokolldatei
 
 #Eclipse
@@ -27,4 +27,5 @@ tmp/**/*
 .DS_Store
 
 #Project
-/src/main/bin/**
+.classpath
+/src/main/bin/
