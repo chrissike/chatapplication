@@ -27,6 +27,4 @@ tmp/**/*
 .DS_Store
 
 #Project
-/bin
-/src/main/bin/
-/bin/
+/src/main/bin/**
