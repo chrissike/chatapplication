@@ -25,4 +25,8 @@ tmp/**/*
 
 #Mac OS
 .DS_Store
+
+#Project
 /bin
+/src/main/bin/
+/bin/

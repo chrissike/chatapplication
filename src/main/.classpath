@@ -3,5 +3,9 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/lib"/>
+	<classpathentry kind="lib" path="/chatapplication/lib/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="/chatapplication/lib/commons-math3-3.6.jar"/>
+	<classpathentry kind="lib" path="/chatapplication/lib/log4j-1.2.15.jar"/>
+	<classpathentry kind="lib" path="/chatapplication/lib/jgoodies-forms-1.4.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
