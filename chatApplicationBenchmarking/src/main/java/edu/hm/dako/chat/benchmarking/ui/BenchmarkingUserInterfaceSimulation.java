@@ -1,13 +1,18 @@
 package edu.hm.dako.chat.benchmarking.ui;
 
 import javafx.scene.control.ProgressBar;
+
 import javax.swing.JProgressBar;
 
+import org.apache.log4j.PropertyConfigurator;
+
+import edu.hm.dako.chat.server.ui.ChatServerGuiInterface;
 import edu.hm.dako.chat.benchmarking.data.UserInterfaceInputParameters;
 import edu.hm.dako.chat.benchmarking.data.UserInterfaceResultData;
 import edu.hm.dako.chat.benchmarking.data.UserInterfaceStartData;
 import edu.hm.dako.chat.benchmarking.service.BenchmarkingClientUserInterface;
 import edu.hm.dako.chat.benchmarking.service.impl.BenchmarkingClientCoordinator;
+import edu.hm.dako.chat.server.ServerStartData;
 
 /**
  * Diese Klasse simuliert eine Benutzeroberflaeche.
@@ -16,16 +21,18 @@ import edu.hm.dako.chat.benchmarking.service.impl.BenchmarkingClientCoordinator;
  */
 
 public class BenchmarkingUserInterfaceSimulation implements
-    BenchmarkingClientUserInterface {
+    BenchmarkingClientUserInterface, ChatServerGuiInterface {
 
   private int timeCounter = 0;
 
+  @Override
   public void showStartData(UserInterfaceStartData data) {
 
     System.out.println("Testbeginn: " + data.getStartTime());
     System.out.println("Geplante Requests: " + data.getNumberOfRequests());
   }
 
+  @Override
   public void showResultData(UserInterfaceResultData data) {
 
     System.out.println("Testende: " + data.getEndTime());
@@ -49,34 +56,42 @@ public class BenchmarkingUserInterfaceSimulation implements
 	  + data.getMaxCpuUsage());
   }
 
+  @Override
   public void setMessageLine(String message) {
     System.out.println("*** Meldung: " + message + " ***");
   }
 
+  @Override
   public void addCurrentRunTime(long sec) {
     // Feld Testdauer um sec erhoehen
     timeCounter += sec;
     System.out.println("Laufzeitzaehler: " + timeCounter);
   }
 
+  @Override
   public void resetCurrentRunTime() {
     // Feld Testdauer auf 0 setzen
     timeCounter = 0;
   }
 
+  @Override
   public synchronized void testFinished() {
     System.out.println("Testlauf beendet");
   }
 
+  @Override
   public JProgressBar getProgressBar() {
     return null;
   }
 
+  @Override
   public ProgressBar getProgressBarFx() {
     return null;
   }
 
+  @Override
   public void countUpProgressTask() {
+
   }
 
   /**
@@ -85,7 +100,10 @@ public class BenchmarkingUserInterfaceSimulation implements
    * @param args
    */
   public static void main(String args[]) {
+    PropertyConfigurator.configureAndWatch("log4j.client.properties",
+	  60 * 1000);
     new BenchmarkingUserInterfaceSimulation().doWork();
+
   }
 
   public void doWork() {
@@ -98,5 +116,25 @@ public class BenchmarkingUserInterfaceSimulation implements
 
     BenchmarkingClientCoordinator benchClient = new BenchmarkingClientCoordinator();
     benchClient.executeTest(parm, this);
+  }
+
+  @Override
+  public void showStartData(ServerStartData data) {
+
+  }
+
+  @Override
+  public void incrNumberOfLoggedInClients() {
+
+  }
+
+  @Override
+  public void decrNumberOfLoggedInClients() {
+
+  }
+
+  @Override
+  public void incrNumberOfRequests() {
+
   }
 }

@@ -1,5 +1,11 @@
 package edu.hm.dako.chat.benchmarking.service;
 
+/**
+ * Schnittstelle zum Benchmarking-Client
+ */
+
+import javafx.scene.control.ProgressBar;
+
 import javax.swing.JProgressBar;
 
 import edu.hm.dako.chat.benchmarking.data.UserInterfaceResultData;
@@ -58,6 +64,8 @@ public interface BenchmarkingClientUserInterface {
    * Uebergibt den Progressbar an die GUI
    */
   public JProgressBar getProgressBar();
+
+  public ProgressBar getProgressBarFx();
 
   /**
    * Stellt Verarbeitungsfortschritt auf Progressbar das

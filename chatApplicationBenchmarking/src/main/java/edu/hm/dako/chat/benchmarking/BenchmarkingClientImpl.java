@@ -152,6 +152,7 @@ public class BenchmarkingClientImpl extends AbstractChatClient
 	 * ein Logout ausgefuehrt. Der Vorgang wird abprupt abgebrochen, wenn dies
 	 * ueber die GUI gewuenscht wird.
 	 */
+	@Override
 	public void run() {
 
 		try {
@@ -361,32 +362,32 @@ public class BenchmarkingClientImpl extends AbstractChatClient
 		log.debug("Vom Server initiierte Wiederholungen: " + getNumberOfRetries());
 	}
 
-
+	@Override
 	// Wird nicht genutzt, nur fuer ClientGui relevant
 	public void setUserList(Vector<String> names) {
 	}
 
-
+	@Override
 	// Wird nicht genutzt, nur fuer ClientGui relevant
 	public void setMessageLine(String sender, String message) {
 	}
 
-
+	@Override
 	// Wird nicht genutzt, nur fuer ClientGui relevant
 	public void setErrorMessage(String sender, String errorMessage, long errorCode) {
 	}
 
-
+	@Override
 	// Wird nicht genutzt, nur fuer BenchmarkingClientCoordinator relevant
 	public void loginComplete() {
 	}
 
-
+	@Override
 	// Wird nicht genutzt, nur fuer BenchmarkingClientCoordinator relevant
 	public void logoutComplete() {
 	}
 
-
+	@Override
 	public synchronized void setLock(boolean lock) {
 		chatResponseReceived.getAndSet(lock);
 		if (chatResponseReceived.get() == false) {
@@ -397,7 +398,7 @@ public class BenchmarkingClientImpl extends AbstractChatClient
 		}
 	}
 
-
+	@Override
 	public synchronized boolean getLock() {
 		if (chatResponseReceived.get() == true) {
 			log.debug(Thread.currentThread().getName() + " wartet auf notify");
@@ -414,38 +415,38 @@ public class BenchmarkingClientImpl extends AbstractChatClient
 		}
 	}
 
-
+	@Override
 	public void setLastServerTime(long lastServerTime) {
 		this.lastServerTime.getAndSet(lastServerTime);
 	}
 
-
+	@Override
 	public void abortTest() {
 		userInterface.abortTest();
 	}
 
-
+	@Override
 	public boolean isRunning() {
 		return userInterface.isRunning();
 	}
 
-
+	@Override
 	public void releaseTest() {
 		userInterface.releaseTest();
 	}
 
-
+	@Override
 	public boolean isTestAborted() {
 		return userInterface.isTestAborted();
 	}
 
-
+	@Override
 	public synchronized long getLastServerTime() {
 		long time = lastServerTime.get();
 		return time;
 	}
 
-
+	@Override
 	public void setSessionStatisticsCounter(long numberOfSentEvents,
 			long numberOfReceivedConfirms, long numberOfLostConfirms, long numberOfRetries,
 			long numberOfReceivedChatMessages) {
@@ -457,27 +458,27 @@ public class BenchmarkingClientImpl extends AbstractChatClient
 		this.numberOfReceivedChatMessages = numberOfReceivedChatMessages;
 	}
 
-
+	@Override
 	public long getNumberOfSentEvents() {
 		return this.numberOfSentEvents;
 	}
 
-
+	@Override
 	public long getNumberOfReceivedConfirms() {
 		return this.numberOfReceivedConfirms;
 	}
 
-
+	@Override
 	public long getNumberOfLostConfirms() {
 		return this.numberOfLostConfirms;
 	}
 
-
+	@Override
 	public long getNumberOfRetries() {
 		return this.numberOfRetries;
 	}
 
-
+	@Override
 	public long getNumberOfReceivedChatMessages() {
 		return this.numberOfReceivedChatMessages;
 	}

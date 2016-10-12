@@ -20,7 +20,7 @@ import org.apache.commons.math3.stat.descriptive.rank.Max;
 import org.apache.commons.math3.stat.descriptive.rank.Min;
 import org.apache.commons.math3.stat.descriptive.rank.Percentile;
 
-import edu.hm.dako.chat.benchmarking.BenchmarkingClientUserInterface;
+import edu.hm.dako.chat.benchmarking.service.BenchmarkingClientUserInterface;
 
 /**
  * Die Klasse sammelt Statistikdaten zur Ermittlung von Round Trip Times (RTT)

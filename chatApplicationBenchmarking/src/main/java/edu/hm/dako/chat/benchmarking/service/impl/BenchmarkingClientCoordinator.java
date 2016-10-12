@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import edu.hm.dako.chat.client.ClientUserInterface;
 import edu.hm.dako.chat.benchmarking.BenchmarkingClientFactory;
 import edu.hm.dako.chat.benchmarking.BenchmarkingTimeCounterThread;
 import edu.hm.dako.chat.benchmarking.data.UserInterfaceInputParameters;
@@ -17,17 +18,15 @@ import edu.hm.dako.chat.benchmarking.data.UserInterfaceResultData;
 import edu.hm.dako.chat.benchmarking.data.UserInterfaceStartData;
 import edu.hm.dako.chat.benchmarking.service.BenchmarkingClientUserInterface;
 import edu.hm.dako.chat.benchmarking.service.BenchmarkingStartInterface;
-import edu.hm.dako.chat.client.ClientUserInterface;
-import edu.hm.dako.chat.benchmarking.service.impl.CpuUtilisationWatch;
-import edu.hm.dako.chat.benchmarking.service.impl.DistributionMetrics;
-import edu.hm.dako.chat.benchmarking.service.impl.SharedClientStatistics;
+import edu.hm.dako.chat.server.ui.ChatServerGuiInterface;
 
 /**
  * Basisklasse zum Starten eines Benchmarks
  *
  * @author Mandl
  */
-public class BenchmarkingClientCoordinator extends Thread implements BenchmarkingStartInterface, ClientUserInterface {
+public class BenchmarkingClientCoordinator extends Thread
+		implements BenchmarkingStartInterface, ClientUserInterface {
 	private static Log log = LogFactory.getLog(BenchmarkingClientCoordinator.class);
 
 	// Daten aller Client-Threads zur Verwaltung der Statistik
@@ -46,6 +45,8 @@ public class BenchmarkingClientCoordinator extends Thread implements Benchmarkin
 
 	// GUI-Schnittstelle
 	BenchmarkingClientUserInterface clientGui;
+
+	ChatServerGuiInterface server;
 
 	// Anzahl aller Requests, die auszufuehren sind
 	long numberOfAllRequests;
@@ -66,33 +67,37 @@ public class BenchmarkingClientCoordinator extends Thread implements Benchmarkin
 	 * Methode liefert die aktuelle Zeit als String
 	 *
 	 * @param cal
-	 *            Kalender
+	 *          Kalender
 	 * @return Zeit als String
 	 */
 	private String getCurrentTime(Calendar cal) {
 		return new SimpleDateFormat("dd.MM.yy HH:mm:ss:SSS").format(cal.getTime());
 	}
 
-	public void executeTest(UserInterfaceInputParameters parm, BenchmarkingClientUserInterface clientGui) {
+	@Override
+	public void executeTest(UserInterfaceInputParameters parm,
+			BenchmarkingClientUserInterface clientGui) {
 
 		this.parm = parm;
 		this.clientGui = clientGui;
 
-		clientGui.setMessageLine(
-				parm.mapImplementationTypeToString(parm.getImplementationType()) + ": Benchmark gestartet");
+		clientGui
+				.setMessageLine(parm.mapImplementationTypeToString(parm.getImplementationType())
+						+ ": Benchmark gestartet");
 
 		// Anzahl aller erwarteten Requests ermitteln
 
 		numberOfAllRequests = parm.getNumberOfClients() * parm.getNumberOfMessages();
 
 		// Gemeinsamen Datenbereich fuer alle Threads anlegen
-//		sharedData = new SharedClientStatistics(parm.getNumberOfClients(), parm.getNumberOfMessages(),
-//				parm.getClientThinkTime(), this.clientGui);
+		sharedData = new SharedClientStatistics(parm.getNumberOfClients(),
+				parm.getNumberOfMessages(), parm.getClientThinkTime(), this.clientGui);
 
 		// Berechnung aller Messages fuer Progress-Bar
 		if (clientGui.getProgressBar() != null) {
-			clientGui.getProgressBar().setMaximum(parm.getNumberOfClients() * parm.getNumberOfMessages()
-					+ parm.getNumberOfClients() + parm.getNumberOfClients());
+			clientGui.getProgressBar()
+					.setMaximum(parm.getNumberOfClients() * parm.getNumberOfMessages()
+							+ parm.getNumberOfClients() + parm.getNumberOfClients());
 		}
 
 		/**
@@ -119,19 +124,20 @@ public class BenchmarkingClientCoordinator extends Thread implements Benchmarkin
 	 * im User-Interface Eingaben moeglich sind, waehrend der Benchmark laeuft
 	 * (z.B. Abbruch).
 	 */
-
+	@Override
 	public void run() {
 
 		// Test aktiv
 		running = true;
 
-		// Client-Threads in Abhaengigkeit des Implementierungstyps
-		// instanziieren
+		// Client-Threads in Abhaengigkeit des Implementierungstyps instanziieren
 		// und starten
-		ExecutorService executorService = Executors.newFixedThreadPool(parm.getNumberOfClients());
+		ExecutorService executorService = Executors
+				.newFixedThreadPool(parm.getNumberOfClients());
 
 		for (int i = 0; i < parm.getNumberOfClients(); i++) {
-			executorService.submit(BenchmarkingClientFactory.getClient(this, parm, i, sharedData));
+			executorService
+					.submit(BenchmarkingClientFactory.getClient(this, parm, i, sharedData));
 		}
 
 		// Startwerte anzeigen
@@ -150,7 +156,8 @@ public class BenchmarkingClientCoordinator extends Thread implements Benchmarkin
 
 		clientGui.showStartData(startData);
 
-		clientGui.setMessageLine("Alle " + parm.getNumberOfClients() + " Clients-Threads gestartet");
+		clientGui.setMessageLine(
+				"Alle " + parm.getNumberOfClients() + " Clients-Threads gestartet");
 
 		// Auf das Ende aller Clients warten
 		executorService.shutdown();
@@ -175,84 +182,141 @@ public class BenchmarkingClientCoordinator extends Thread implements Benchmarkin
 		UserInterfaceResultData resultData = getResultData(parm, startTime);
 
 		clientGui.showResultData(resultData);
-		clientGui.setMessageLine(
-				parm.mapImplementationTypeToString(parm.getImplementationType()) + ": Benchmark beendet");
+		clientGui
+				.setMessageLine(parm.mapImplementationTypeToString(parm.getImplementationType())
+						+ ": Benchmark beendet");
 
 		clientGui.testFinished();
 
-		log.debug("Anzahl aller erneuten Sendungen wegen Nachrichtenverlust (Uebertragungswiederholungen): "
-				+ sharedData.getSumOfAllRetries());
+		log.debug(
+				"Anzahl aller erneuten Sendungen wegen Nachrichtenverlust (Uebertragungswiederholungen): "
+						+ sharedData.getSumOfAllRetries());
 
 		// Datensatz fuer Benchmark-Lauf auf Protokolldatei schreiben
 		sharedData.writeStatisticSet("Benchmarking-ChatApp-Protokolldatei",
 				parm.mapImplementationTypeToString(parm.getImplementationType()),
-				parm.mapMeasurementTypeToString(parm.getMeasurementType()), startTimeAsString, resultData.getEndTime(),
-				cpuUtilisationWatch.getAverageCpuUtilisation());
+				parm.mapMeasurementTypeToString(parm.getMeasurementType()), startTimeAsString,
+				resultData.getEndTime(), cpuUtilisationWatch.getAverageCpuUtilisation());
 
 		// In der GUI erneute Testlaeufe zulassen
 		running = false;
 	}
 
+	@Override
 	// Wird nicht genutzt, nur fuer ChatClientGUI relevant
 	public synchronized void setUserList(Vector<String> names) {
 	}
 
+	@Override
 	// Wird nicht genutzt, nur fuer ChatClientGUI relevant
 	public synchronized void setMessageLine(String sender, String message) {
 	}
 
+	@Override
 	// Wird nicht genutzt, nur fuer BenchmarkingClientImpl relevant
 	public synchronized void setLock(boolean lock) {
 	}
 
+	@Override
 	// Wird nicht genutzt, nur fuer ChatClientGUI
 	public void setErrorMessage(String sender, String errorMessage, long errorCode) {
 	}
 
+	@Override
 	// Wird nicht genutzt, nur fuer BenchmarkingClientImpl relevant
 	public void loginComplete() {
 	}
 
+	@Override
 	// Wird nicht genutzt, nur fuer BenchmarkingClientImpl relevant
 	public void logoutComplete() {
 	}
 
+	@Override
 	// Wird nicht genutzt, nur fuer BenchmarkingClientImpl relevant
 	public synchronized boolean getLock() {
 		return false;
 	}
 
+	@Override
 	// Wird nicht genutzt, nur fuer BenchmarkingClientImpl relevant
 	public synchronized void setLastServerTime(long lastServerTime) {
 	}
 
+	@Override
 	public synchronized void abortTest() {
 		abortedFlag = true;
 	}
 
+	@Override
 	public synchronized boolean isRunning() {
 		return (this.running);
 	}
 
+	@Override
 	public synchronized void releaseTest() {
 		this.abortedFlag = false;
 	}
 
+	@Override
 	public synchronized boolean isTestAborted() {
 		return abortedFlag;
 	}
 
+	@Override
+	// Wird nicht genutzt, nur fuer BenchmarkingClientImpl relevant
+	public synchronized long getLastServerTime() {
+		return 0;
+	}
+
+	@Override
+	// Wird nicht genutzt, nur fuer BenchmarkingClientImpl relevant
+	public synchronized void setSessionStatisticsCounter(long numberOfSentEvents,
+			long numberOfReceivedConfirms, long numberOfLostConfirms, long numberOfRetries,
+			long numberOfReceivedChatMessages) {
+	}
+
+	@Override
+	// Wird nicht genutzt, nur fuer BenchmarkingClientImpl relevant
+	public synchronized long getNumberOfSentEvents() {
+		return 0;
+	}
+
+	@Override
+	// Wird nicht genutzt, nur fuer BenchmarkingClientImpl relevant
+	public synchronized long getNumberOfReceivedConfirms() {
+		return 0;
+	}
+
+	@Override
+	// Wird nicht genutzt, nur fuer BenchmarkingClientImpl relevant
+	public synchronized long getNumberOfLostConfirms() {
+		return 0;
+	}
+
+	@Override
+	// Wird nicht genutzt, nur fuer BenchmarkingClientImpl relevant
+	public synchronized long getNumberOfRetries() {
+		return 0;
+	}
+
+	@Override
+	// Wird nicht genutzt, nur fuer BenchmarkingClientImpl relevant
+	public synchronized long getNumberOfReceivedChatMessages() {
+		return 0;
+	}
 
 	/**
 	 * Ergebnisdaten des Tests aufbereiten
 	 * 
 	 * @param parm
-	 *            Eingabedaten fuer die GUI
+	 *          Eingabedaten fuer die GUI
 	 * @param startTime
-	 *            Startzeit des Tests
+	 *          Startzeit des Tests
 	 * @return
 	 */
-	private UserInterfaceResultData getResultData(UserInterfaceInputParameters parm, long startTime) {
+	private UserInterfaceResultData getResultData(UserInterfaceInputParameters parm,
+			long startTime) {
 
 		Calendar cal;
 		UserInterfaceResultData resultData = new UserInterfaceResultData();
@@ -287,45 +351,10 @@ public class BenchmarkingClientCoordinator extends Thread implements Benchmarkin
 		resultData.setNumberOfLostResponses(sharedData.getNumberOfLostResponses());
 		resultData.setNumberOfRetries(sharedData.getSumOfAllRetries());
 		resultData.setNumberOfSentEventMessages(sharedData.getSumOfAllSentEventMessages());
-		resultData.setNumberOfReceivedConfirmEvents(sharedData.getSumOfAllReceivedConfirmEvents());
+		resultData
+				.setNumberOfReceivedConfirmEvents(sharedData.getSumOfAllReceivedConfirmEvents());
 		resultData.setNumberOfLostConfirmEvents(sharedData.getSumOfAllLostConfirmEvents());
 		resultData.setNumberOfRetriedEvents(sharedData.getSumOfAllRetriedEvents());
 		return resultData;
-	}
-
-	public long getLastServerTime() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	public void setSessionStatisticsCounter(long numberOfSentEvents, long numberOfReceivedConfirms,
-			long numberOfLostConfirms, long numberOfRetries, long numberOfReceivedChatMessages) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public long getNumberOfSentEvents() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	public long getNumberOfReceivedConfirms() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	public long getNumberOfLostConfirms() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	public long getNumberOfRetries() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	public long getNumberOfReceivedChatMessages() {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 }

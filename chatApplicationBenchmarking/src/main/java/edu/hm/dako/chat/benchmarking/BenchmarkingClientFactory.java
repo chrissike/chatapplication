@@ -1,7 +1,7 @@
 package edu.hm.dako.chat.benchmarking;
 
-import edu.hm.dako.chat.benchmarking.data.UserInterfaceInputParameters;
 import edu.hm.dako.chat.client.ClientUserInterface;
+import edu.hm.dako.chat.benchmarking.data.UserInterfaceInputParameters;
 import edu.hm.dako.chat.benchmarking.service.impl.SharedClientStatistics;
 import edu.hm.dako.chat.connection.factory.ConnectionFactory;
 import edu.hm.dako.chat.connection.factory.DecoratingConnectionFactory;
@@ -10,7 +10,7 @@ import edu.hm.dako.chat.connection.factory.TcpConnectionFactory;
 /**
  * Uebernimmt die Konfiguration und die Erzeugung bestimmter Client-Typen fuer
  * das Benchmarking. Siehe
- * {@link edu.hm.dako.chat.benchmarking.dto.echo.benchmarking.UserInterfaceInputParameters.ImplementationType}
+ * {@link edu.hm.dako.chat.benchmarking.data.echo.benchmarking.UserInterfaceInputParameters.ImplementationType}
  * Dies beinhaltet die {@link ConnectionFactory}, die Adressen, Ports, Denkzeit
  * etc.
  */
