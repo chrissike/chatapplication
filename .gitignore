@@ -3,6 +3,7 @@
 out
 bin/
 chatApplication/Benchmarking-ChatApp-Protokolldatei
+target/
 
 #Eclipse
 .classpath

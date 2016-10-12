@@ -24,6 +24,7 @@ import javafx.scene.paint.Color;
  * @author Paul Mandl
  *
  */
+@SuppressWarnings("restriction")
 public class LogInGuiController implements Initializable {
 
 	private static Log log = LogFactory.getLog(LogInGuiController.class);
@@ -37,7 +38,7 @@ public class LogInGuiController implements Initializable {
 	@FXML
 	private TextField txtServerPort;
 	@FXML
-	private ComboBox comboServerType;
+	private ComboBox<String> comboServerType;
 	@FXML
 	private Button loginButton;
 	@FXML
@@ -115,7 +116,7 @@ public class LogInGuiController implements Initializable {
 
 		// Verbindung herstellen und beim Server anmelden
 
-		appController.createCommunicator((String) comboServerType.getValue(), serverPort,
+		appController.createCommunicator(comboServerType.getValue(), serverPort,
 				txtServername.getText());
 		try {
 			appController.getCommunicator().login(userName);

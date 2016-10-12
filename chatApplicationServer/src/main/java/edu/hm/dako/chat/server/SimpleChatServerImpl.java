@@ -19,7 +19,6 @@ import javafx.concurrent.Task;
  *
  * @author Peter Mandl
  */
-@SuppressWarnings("restriction")
 public class SimpleChatServerImpl extends AbstractChatServer {
 
 	private static Log log = LogFactory.getLog(SimpleChatServerImpl.class);

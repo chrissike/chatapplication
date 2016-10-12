@@ -11,7 +11,13 @@
 	<url>http://maven.apache.org</url>
 
 	<properties>
+		<java.version>1.8</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		
+		<wildfly-jms-client-bom.version>8.0.0.Final</wildfly-jms-client-bom.version>
+				
+		<!-- plugin versions -->
+		<maven-compiler.version>3.1</maven-compiler.version>
 	</properties>
 
 	<modules>
@@ -66,6 +72,12 @@
 				<artifactId>log4j-api</artifactId>
 				<version>2.6.2</version>
 			</dependency>
+			<dependency>
+				<groupId>org.wildfly</groupId>
+				<artifactId>wildfly-jms-client-bom</artifactId>
+				<version>${wildfly-jms-client-bom.version}</version>
+				<type>pom</type>
+			</dependency>
 
 			<!-- Tests -->
 			<dependency>
@@ -76,4 +88,19 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven-compiler.version}</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+					<encoding>${project.build.sourceEncoding}</encoding>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
