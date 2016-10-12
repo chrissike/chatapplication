@@ -16,16 +16,24 @@ import javax.naming.NamingException;
  *
  */
 public class SimpleJmsProducer {
-	
-	//standalone-full.xml.org
-	//<jms-destinations> 
-	//<jms-queue name=”ExpiryQueue”> 
-	//<entry name=”java:/jms/queue/ExpiryQueue”/> 
-	//</jms-queue> 
-	//<jms-queue name=”DLQ”> 
-	//<entry name=”java:/jms/queue/DLQ”/> 
-	//</jms-queue> 
-	//</jms-destinations>
+
+// TODO: Die Konfiguration entsprechend im Code hinterlegen
+//	<jms-destinations>
+//    <jms-queue name="ExpiryQueue">
+//        <entry name="java:/jms/queue/ExpiryQueue"/>
+//    </jms-queue>
+//    <jms-queue name="DLQ">
+//        <entry name="java:/jms/queue/DLQ"/>
+//    </jms-queue>
+//    <jms-queue name="ChatRequestQueue">
+//        <entry name="jms/queue/chatreq"/>
+//        <entry name="java:jboss/exported/jms/queue/chatreq"/>
+//    </jms-queue>
+//    <jms-topic name="ChatResponseTopic">
+//        <entry name="jms/topic/chatresp"/>
+//        <entry name="java:jboss/exported/jms/topic/chatresp"/>
+//    </jms-topic>
+//	</jms-destinations>
 	
 	private static final String CONNECTION_FACTORY = "jms/RemoteConnectionFactory";
     private static final String QUEUE_DESTINATION = "jms/queue/DLQ";
