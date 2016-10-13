@@ -22,17 +22,14 @@
 		<dependency>
 			<groupId>edu.hm.dako.chat</groupId>
 			<artifactId>chatApplicationCommons</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>edu.hm.dako.chat</groupId>
 			<artifactId>chatApplicationClient</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>edu.hm.dako.chat</groupId>
 			<artifactId>chatApplicationServer</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.jgoodies</groupId>

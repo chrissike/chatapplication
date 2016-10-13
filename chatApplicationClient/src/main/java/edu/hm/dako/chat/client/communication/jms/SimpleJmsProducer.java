@@ -51,7 +51,7 @@ public class SimpleJmsProducer {
         final Properties env = new Properties();
         env.put(Context.INITIAL_CONTEXT_FACTORY, INITIAL_CONTEXT_FACTORY);
         env.put(Context.PROVIDER_URL, System.getProperty(Context.PROVIDER_URL, PROVIDER_URL));
-        env.put(Context.SECURITY_PRINCIPAL, "guest");     	// username
+        env.put(Context.SECURITY_PRINCIPAL, "guest");   // username
         env.put(Context.SECURITY_CREDENTIALS, "guest"); // password
         
         try {

@@ -1,5 +1,6 @@
 package edu.hm.dako.chat.client.ui;
 
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
@@ -7,6 +8,8 @@ import java.util.regex.Pattern;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import edu.hm.dako.chat.client.communication.rest.MessagingHandler;
+import edu.hm.dako.chat.client.communication.rest.MessagingHandlerImpl;
 import edu.hm.dako.chat.common.SystemConstants;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -30,6 +33,8 @@ public class LogInGuiController implements Initializable {
 	private static Log log = LogFactory.getLog(LogInGuiController.class);
 
 	private String userName;
+	//TODO: Max: Adresse zentral in einer Config-Datei speichern.
+	private static final String URI = "http://127.0.0.1:8080";
 
 	@FXML
 	private TextField txtUsername;
@@ -116,19 +121,30 @@ public class LogInGuiController implements Initializable {
 
 		// Verbindung herstellen und beim Server anmelden
 
-		appController.createCommunicator(comboServerType.getValue(), serverPort,
-				txtServername.getText());
+//MAX: REST-Anfragen
 		try {
-			appController.getCommunicator().login(userName);
-		} catch (Exception e2) {
-
-			// Benutzer mit dem angegebenen Namen schon angemeldet
-			log.error("Login konnte nicht zum Server gesendet werden, Server aktiv?");
-			appController.setErrorMessage("Chat-Client",
-					"Login konnte nicht gesendet werden, vermutlich ist der Server nicht aktiv", 4);
-			// Verbindung zum Server wird wieder abgebaut
-			appController.getCommunicator().cancelConnection();
+			MessagingHandler handler = new MessagingHandlerImpl(URI);
+			handler.login(userName, "login", URI);
+		} catch (URISyntaxException e) {
+			appController.setErrorMessage("Chat-Client", "Die Uri ist falsch", 1001);
 		}
+		
+		
+//MAX:	Alter Code für den Login über Websockets! 
+		
+//		appController.createCommunicator(comboServerType.getValue(), serverPort,
+//				txtServername.getText());
+//		try {
+//			appController.getCommunicator().login(userName);
+//		} catch (Exception e2) {
+//
+//			// Benutzer mit dem angegebenen Namen schon angemeldet
+//			log.error("Login konnte nicht zum Server gesendet werden, Server aktiv?");
+//			appController.setErrorMessage("Chat-Client",
+//					"Login konnte nicht gesendet werden, vermutlich ist der Server nicht aktiv", 4);
+//			// Verbindung zum Server wird wieder abgebaut
+//			appController.getCommunicator().cancelConnection();
+//		}
 	}
 
 	public String getUserName() {

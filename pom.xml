@@ -13,9 +13,9 @@
 	<properties>
 		<java.version>1.8</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		
+
 		<wildfly-jms-client-bom.version>8.0.0.Final</wildfly-jms-client-bom.version>
-				
+
 		<!-- plugin versions -->
 		<maven-compiler.version>3.1</maven-compiler.version>
 	</properties>
@@ -29,6 +29,23 @@
 
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>edu.hm.dako.chat</groupId>
+				<artifactId>chatApplicationCommons</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>edu.hm.dako.chat</groupId>
+				<artifactId>chatApplicationClient</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>edu.hm.dako.chat</groupId>
+				<artifactId>chatApplicationServer</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<!-- 3rd party Libs -->
 			<!-- https://mvnrepository.com/artifact/commons-logging/commons-logging -->
 			<dependency>
 				<groupId>commons-logging</groupId>
@@ -77,6 +94,12 @@
 				<artifactId>wildfly-jms-client-bom</artifactId>
 				<version>${wildfly-jms-client-bom.version}</version>
 				<type>pom</type>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/javax.ws.rs/javax.ws.rs-api -->
+			<dependency>
+				<groupId>javax.ws.rs</groupId>
+				<artifactId>javax.ws.rs-api</artifactId>
+				<version>2.0.1</version>
 			</dependency>
 
 			<!-- Tests -->
