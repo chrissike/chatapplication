@@ -122,29 +122,29 @@ public class LogInGuiController implements Initializable {
 		// Verbindung herstellen und beim Server anmelden
 
 //MAX: REST-Anfragen
-		try {
-			MessagingHandler handler = new MessagingHandlerImpl(URI);
-			handler.login(userName, "login", URI);
-		} catch (URISyntaxException e) {
-			appController.setErrorMessage("Chat-Client", "Die Uri ist falsch", 1001);
-		}
+//		try {
+//			MessagingHandler handler = new MessagingHandlerImpl(URI);
+//			handler.login(userName, "login", URI);
+//		} catch (URISyntaxException e) {
+//			appController.setErrorMessage("Chat-Client", "Die Uri ist falsch", 1001);
+//		}
 		
 		
 //MAX:	Alter Code für den Login über Websockets! 
 		
-//		appController.createCommunicator(comboServerType.getValue(), serverPort,
-//				txtServername.getText());
-//		try {
-//			appController.getCommunicator().login(userName);
-//		} catch (Exception e2) {
-//
-//			// Benutzer mit dem angegebenen Namen schon angemeldet
-//			log.error("Login konnte nicht zum Server gesendet werden, Server aktiv?");
-//			appController.setErrorMessage("Chat-Client",
-//					"Login konnte nicht gesendet werden, vermutlich ist der Server nicht aktiv", 4);
-//			// Verbindung zum Server wird wieder abgebaut
-//			appController.getCommunicator().cancelConnection();
-//		}
+		appController.createCommunicator(comboServerType.getValue(), serverPort,
+				txtServername.getText());
+		try {
+			appController.getCommunicator().login(userName);
+		} catch (Exception e2) {
+
+			// Benutzer mit dem angegebenen Namen schon angemeldet
+			log.error("Login konnte nicht zum Server gesendet werden, Server aktiv?");
+			appController.setErrorMessage("Chat-Client",
+					"Login konnte nicht gesendet werden, vermutlich ist der Server nicht aktiv", 4);
+			// Verbindung zum Server wird wieder abgebaut
+			appController.getCommunicator().cancelConnection();
+		}
 	}
 
 	public String getUserName() {

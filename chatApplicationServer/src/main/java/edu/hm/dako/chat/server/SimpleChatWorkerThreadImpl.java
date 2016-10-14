@@ -27,7 +27,6 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 
 	public SimpleChatWorkerThreadImpl(Connection con, SharedChatClientList clients,
 			SharedServerCounter counter, ChatServerGuiInterface serverGuiInterface) {
-
 		super(con, clients, counter, serverGuiInterface);
 	}
 
@@ -85,7 +84,7 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 	}
 
 	@Override
-	protected void loginRequestAction(ChatPDU receivedPdu) {
+	public void loginRequestAction(ChatPDU receivedPdu) {
 
 		ChatPDU pdu;
 		log.debug("Login-Request-PDU fuer " + receivedPdu.getUserName() + " empfangen");
