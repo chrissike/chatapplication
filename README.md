@@ -1,7 +1,16 @@
 # chatapplication
 
+## Getting started
+    1. Wildfly starten
+    2. Maven-build auf dem Parent-Projekt ausführen (mvn install)
+    -> Die Serverkomponente wird automatisch auf dem Wildfly deployed
+
 ## Architektur IST-Stand
+![Component](./dokumentation/refactoredChatAppComponentModel_new.png)
+
+## Architektur alter Stand
 ![Component](./dokumentation/refactoredChatAppComponentModel.png)
+
 
 
 ## Quellen zum Nachschlagen
