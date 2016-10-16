@@ -1,0 +1,39 @@
+LastSessions<|||>1<|||>TraceDB
+LastActiveSession<|||>1<|||>TraceDB
+ColWidths_connform.ListSessions<|||>1<|||>163,50,50,50,50,50,53
+ColsVisible_connform.ListSessions<|||>1<|||>0
+ColPositions_connform.ListSessions<|||>1<|||>0,1,2,3,4,5,6
+ColSort_connform.ListSessions<|||>1<|||>0,0
+Servers\VerteilteSysteme\SessionCreated<|||>1<|||>2016-10-16 11:04:02
+Servers\VerteilteSysteme\Host<|||>1<|||>localhost
+Servers\VerteilteSysteme\WindowsAuth<|||>3<|||>0
+Servers\VerteilteSysteme\User<|||>1<|||>root
+Servers\VerteilteSysteme\Password<|||>1<|||>3A35467366736678265
+Servers\VerteilteSysteme\LoginPrompt<|||>3<|||>0
+Servers\VerteilteSysteme\Port<|||>1<|||>3316
+Servers\VerteilteSysteme\NetType<|||>3<|||>0
+Servers\VerteilteSysteme\Compressed<|||>3<|||>0
+Servers\VerteilteSysteme\LocalTimeZone<|||>3<|||>0
+Servers\VerteilteSysteme\QueryTimeout<|||>3<|||>0
+Servers\VerteilteSysteme\FullTableStatus<|||>3<|||>1
+Servers\VerteilteSysteme\Databases<|||>1<|||>
+Servers\VerteilteSysteme\Comment<|||>1<|||>
+Servers\VerteilteSysteme\StartupScriptFilename<|||>1<|||>
+Servers\VerteilteSysteme\SSHtunnelHost<|||>1<|||>
+Servers\VerteilteSysteme\SSHtunnelHostPort<|||>3<|||>0
+Servers\VerteilteSysteme\SSHtunnelUser<|||>1<|||>
+Servers\VerteilteSysteme\SSHtunnelPassword<|||>1<|||>3
+Servers\VerteilteSysteme\SSHtunnelTimeout<|||>3<|||>4
+Servers\VerteilteSysteme\SSHtunnelPrivateKey<|||>1<|||>
+Servers\VerteilteSysteme\SSHtunnelPort<|||>3<|||>3307
+Servers\VerteilteSysteme\SSL_Active<|||>3<|||>0
+Servers\VerteilteSysteme\SSL_Key<|||>1<|||>
+Servers\VerteilteSysteme\SSL_Cert<|||>1<|||>
+Servers\VerteilteSysteme\SSL_CA<|||>1<|||>
+Servers\VerteilteSysteme\SSL_Cipher<|||>1<|||>
+Servers\VerteilteSysteme\RefusedCount<|||>3<|||>8
+Servers\VerteilteSysteme\ServerVersionFull<|||>1<|||>10.1.18-MariaDB - mariadb.org binary distribution
+Servers\VerteilteSysteme\ConnectCount<|||>3<|||>1
+Servers\VerteilteSysteme\ServerVersion<|||>3<|||>100118
+Servers\VerteilteSysteme\LastConnect<|||>1<|||>2016-10-16 11:15:57
+Servers\VerteilteSysteme\lastUsedDB<|||>1<|||>
