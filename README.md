@@ -8,8 +8,8 @@
 ## Architektur IST-Stand
 ![Component](./dokumentation/refactoredChatAppComponentModel3.png)
 
-## Architektur alter Stand
-![Component](./dokumentation/refactoredChatAppComponentModel1.png)
+## Architektur Stand zum Anfang
+![Component](./dokumentation/chatApplicationComponentModelOld.png)
 
 
 
