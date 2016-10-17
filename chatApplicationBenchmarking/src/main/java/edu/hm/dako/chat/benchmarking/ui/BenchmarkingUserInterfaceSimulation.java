@@ -6,13 +6,13 @@ import javax.swing.JProgressBar;
 
 import org.apache.log4j.PropertyConfigurator;
 
-import edu.hm.dako.chat.server.ui.ChatServerGuiInterface;
+//import edu.hm.dako.chat.server.ui.ChatServerGuiInterface;
 import edu.hm.dako.chat.benchmarking.data.UserInterfaceInputParameters;
 import edu.hm.dako.chat.benchmarking.data.UserInterfaceResultData;
 import edu.hm.dako.chat.benchmarking.data.UserInterfaceStartData;
 import edu.hm.dako.chat.benchmarking.service.BenchmarkingClientUserInterface;
 import edu.hm.dako.chat.benchmarking.service.impl.BenchmarkingClientCoordinator;
-import edu.hm.dako.chat.server.ServerStartData;
+//import edu.hm.dako.chat.server.ServerStartData;
 
 /**
  * Diese Klasse simuliert eine Benutzeroberflaeche.
@@ -21,7 +21,7 @@ import edu.hm.dako.chat.server.ServerStartData;
  */
 
 public class BenchmarkingUserInterfaceSimulation implements
-    BenchmarkingClientUserInterface, ChatServerGuiInterface {
+    BenchmarkingClientUserInterface { //TODO: Max: Abhängigkeit auflösen , ChatServerGuiInterface {
 
   private int timeCounter = 0;
 
@@ -118,23 +118,24 @@ public class BenchmarkingUserInterfaceSimulation implements
     benchClient.executeTest(parm, this);
   }
 
-  @Override
-  public void showStartData(ServerStartData data) {
-
-  }
-
-  @Override
-  public void incrNumberOfLoggedInClients() {
-
-  }
-
-  @Override
-  public void decrNumberOfLoggedInClients() {
-
-  }
-
-  @Override
-  public void incrNumberOfRequests() {
-
-  }
+//TODO: Max: Abhängigkeit auflösen
+//  @Override
+//  public void showStartData(ServerStartData data) {
+//
+//  }
+//
+//  @Override
+//  public void incrNumberOfLoggedInClients() {
+//
+//  }
+//
+//  @Override
+//  public void decrNumberOfLoggedInClients() {
+//
+//  }
+//
+//  @Override
+//  public void incrNumberOfRequests() {
+//
+//  }
 }

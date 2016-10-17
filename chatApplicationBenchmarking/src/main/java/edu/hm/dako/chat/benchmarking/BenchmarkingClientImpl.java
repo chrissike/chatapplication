@@ -14,10 +14,10 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import edu.hm.dako.chat.client.AbstractChatClient;
-import edu.hm.dako.chat.client.ClientImpl;
-import edu.hm.dako.chat.client.ClientUserInterface;
+import edu.hm.dako.chat.client.communication.AbstractChatClient;
+import edu.hm.dako.chat.client.communication.ClientImpl;
 import edu.hm.dako.chat.client.communication.SimpleMessageListenerThreadImpl;
+import edu.hm.dako.chat.client.ui.ClientUserInterface;
 import edu.hm.dako.chat.common.ClientConversationStatus;
 import edu.hm.dako.chat.common.ExceptionHandler;
 import edu.hm.dako.chat.common.ImplementationType;

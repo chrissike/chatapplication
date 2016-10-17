@@ -1,4 +1,4 @@
-package edu.hm.dako.chat.client;
+package edu.hm.dako.chat.client.ui;
 
 import java.util.Vector;
 

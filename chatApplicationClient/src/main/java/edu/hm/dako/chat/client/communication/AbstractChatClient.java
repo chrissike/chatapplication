@@ -1,4 +1,4 @@
-package edu.hm.dako.chat.client;
+package edu.hm.dako.chat.client.communication;
 
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -6,8 +6,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import edu.hm.dako.chat.client.communication.ClientCommunication;
 import edu.hm.dako.chat.client.data.SharedClientData;
+import edu.hm.dako.chat.client.ui.ClientUserInterface;
 import edu.hm.dako.chat.common.ChatPDU;
 import edu.hm.dako.chat.common.ClientConversationStatus;
 import edu.hm.dako.chat.common.ExceptionHandler;

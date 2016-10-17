@@ -1,8 +1,8 @@
 package edu.hm.dako.chat.benchmarking;
 
-import edu.hm.dako.chat.client.ClientUserInterface;
 import edu.hm.dako.chat.benchmarking.data.UserInterfaceInputParameters;
 import edu.hm.dako.chat.benchmarking.service.impl.SharedClientStatistics;
+import edu.hm.dako.chat.client.ui.ClientUserInterface;
 import edu.hm.dako.chat.connection.factory.ConnectionFactory;
 import edu.hm.dako.chat.connection.factory.DecoratingConnectionFactory;
 import edu.hm.dako.chat.connection.factory.TcpConnectionFactory;

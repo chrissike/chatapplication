@@ -10,7 +10,6 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import edu.hm.dako.chat.client.ClientUserInterface;
 import edu.hm.dako.chat.benchmarking.BenchmarkingClientFactory;
 import edu.hm.dako.chat.benchmarking.BenchmarkingTimeCounterThread;
 import edu.hm.dako.chat.benchmarking.data.UserInterfaceInputParameters;
@@ -18,7 +17,7 @@ import edu.hm.dako.chat.benchmarking.data.UserInterfaceResultData;
 import edu.hm.dako.chat.benchmarking.data.UserInterfaceStartData;
 import edu.hm.dako.chat.benchmarking.service.BenchmarkingClientUserInterface;
 import edu.hm.dako.chat.benchmarking.service.BenchmarkingStartInterface;
-import edu.hm.dako.chat.server.ui.ChatServerGuiInterface;
+import edu.hm.dako.chat.client.ui.ClientUserInterface;
 
 /**
  * Basisklasse zum Starten eines Benchmarks
@@ -46,7 +45,8 @@ public class BenchmarkingClientCoordinator extends Thread
 	// GUI-Schnittstelle
 	BenchmarkingClientUserInterface clientGui;
 
-	ChatServerGuiInterface server;
+	//TODO: Max: Abhängigkeit auflösen!
+//	ChatServerGuiInterface server;
 
 	// Anzahl aller Requests, die auszufuehren sind
 	long numberOfAllRequests;

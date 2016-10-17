@@ -1,6 +1,6 @@
-package edu.hm.dako.chat.client;
+package edu.hm.dako.chat.client.communication;
 
-import edu.hm.dako.chat.client.communication.SimpleMessageListenerThreadImpl;
+import edu.hm.dako.chat.client.ui.ClientUserInterface;
 import edu.hm.dako.chat.common.ExceptionHandler;
 import edu.hm.dako.chat.common.SystemConstants;
 

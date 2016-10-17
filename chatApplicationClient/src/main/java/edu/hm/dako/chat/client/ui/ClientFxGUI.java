@@ -9,8 +9,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 //import org.apache.log4.log4j.PropertyConfigurator;
 
-import edu.hm.dako.chat.client.ClientImpl;
-import edu.hm.dako.chat.client.ClientUserInterface;
+import edu.hm.dako.chat.client.communication.ClientImpl;
 import edu.hm.dako.chat.client.data.ClientModel;
 import edu.hm.dako.chat.common.ExceptionHandler;
 import javafx.application.Application;

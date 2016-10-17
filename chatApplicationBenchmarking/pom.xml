@@ -27,10 +27,10 @@
 			<groupId>edu.hm.dako.chat</groupId>
 			<artifactId>chatApplicationClient</artifactId>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>edu.hm.dako.chat</groupId>
 			<artifactId>chatApplicationServer</artifactId>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>com.jgoodies</groupId>
 			<artifactId>jgoodies-common</artifactId>
