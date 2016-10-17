@@ -6,7 +6,7 @@
     -> Die Serverkomponente wird automatisch auf dem Wildfly deployed
 
 ## Architektur IST-Stand
-![Component](./dokumentation/refactoredChatAppComponentModel_new.png)
+![Component](./dokumentation/refactoredChatAppComponentModel3.png)
 
 ## Architektur alter Stand
 ![Component](./dokumentation/refactoredChatAppComponentModel.png)
