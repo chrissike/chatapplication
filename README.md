@@ -9,7 +9,7 @@
 ![Component](./dokumentation/refactoredChatAppComponentModel3.png)
 
 ## Architektur Stand zum Anfang
-![Component](./dokumentation/chatApplicationComponentModelOld.png)
+![Component](./dokumentation/refactoredChatAppComponentModelOld.png)
 
 
 
