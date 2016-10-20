@@ -44,6 +44,12 @@
 			<artifactId>javaee-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/javax.ejb/ejb-api -->
+		<dependency>
+			<groupId>javax.ejb</groupId>
+			<artifactId>ejb-api</artifactId>
+			<version>3.0</version>
+		</dependency>
 
 		<!-- Testing -->
 		<dependency>
