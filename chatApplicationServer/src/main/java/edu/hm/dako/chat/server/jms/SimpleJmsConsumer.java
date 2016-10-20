@@ -5,6 +5,7 @@ import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
 import javax.jms.JMSConsumer;
 import javax.jms.JMSContext;
+import javax.jms.MessageListener;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -36,7 +37,7 @@ public class SimpleJmsConsumer {
 //		</jms-destinations>
 	
 	private static final String CONNECTION_FACTORY = "jms/RemoteConnectionFactory";
-    private static final String QUEUE_DESTINATION = "jms/queue/testqueue";
+    private static final String QUEUE_DESTINATION = "java:jboss/exported/jms/queue/chatreq";
     private static final String INITIAL_CONTEXT_FACTORY = "org.jboss.naming.remote.client.InitialContextFactory";
     private static final String PROVIDER_URL = "http-remoting://127.0.0.1:8080";
     
@@ -65,8 +66,11 @@ public class SimpleJmsConsumer {
 	        context = connectionFactory.createContext("guest", "guest"); // again, don't do this in production
 	        
 	        // Read a message.  If nothing is there, this will return null
+	        MessageListener listener = new MessageListenerImpl();
 	        JMSConsumer consumer = context.createConsumer(destination);
 	        String text = consumer.receiveBodyNoWait(String.class);
+	        consumer.setMessageListener(listener);
+	        
 	        System.out.println("Received message: " + text );
         } finally {
         	if (namingContext != null) {
