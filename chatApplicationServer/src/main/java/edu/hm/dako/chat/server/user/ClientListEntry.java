@@ -1,10 +1,11 @@
-package edu.hm.dako.chat.common;
+package edu.hm.dako.chat.server.user;
 
 import java.util.Vector;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import edu.hm.dako.chat.common.ClientConversationStatus;
 import edu.hm.dako.chat.connection.Connection;
 
 /**

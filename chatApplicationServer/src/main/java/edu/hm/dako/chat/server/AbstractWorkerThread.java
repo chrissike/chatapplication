@@ -5,6 +5,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import edu.hm.dako.chat.common.ChatPDU;
 import edu.hm.dako.chat.connection.Connection;
 import edu.hm.dako.chat.server.ui.ChatServerGuiInterface;
+import edu.hm.dako.chat.server.user.SharedChatClientList;
 
 /**
  * Abstrakte Klasse mit Basisfunktionalitaet fuer serverseitige Worker-Threads

@@ -1,6 +1,7 @@
 package edu.hm.dako.chat.server;
 
 import edu.hm.dako.chat.server.ui.ChatServerGuiInterface;
+import edu.hm.dako.chat.server.user.SharedChatClientList;
 
 /**
  * Gemeinsame Attribute fuer alle Implementierungen

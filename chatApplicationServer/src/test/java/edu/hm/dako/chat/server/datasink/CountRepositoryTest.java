@@ -2,9 +2,6 @@ package edu.hm.dako.chat.server.datasink;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.junit.Test;
-
-import edu.hm.dako.chat.server.datasink.model.CountEntity;
 
 public class CountRepositoryTest {
 

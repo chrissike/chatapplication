@@ -28,6 +28,7 @@ import javafx.stage.WindowEvent;
  * @author Paul Mandl
  *
  */
+@SuppressWarnings("restriction")
 public class ClientFxGUI extends Application implements ClientUserInterface {
 
 	private static Log log = LogFactory.getLog(ClientFxGUI.class);
@@ -38,7 +39,6 @@ public class ClientFxGUI extends Application implements ClientUserInterface {
 	private ClientModel model = new ClientModel();
 
 	public static void main(String[] args) {
-		//PropertyConfigurator.configureAndWatch("log4j.client.properties", 60 * 1000);
 		launch(args);
 	}
 
@@ -47,15 +47,14 @@ public class ClientFxGUI extends Application implements ClientUserInterface {
 	 * aktivieren
 	 * 
 	 * @param String
-	 *          serverType Servertyp
+	 *            serverType Servertyp
 	 * @param port
-	 *          Serverport
+	 *            Serverport
 	 * @param host
-	 *          Hostname oder IP-Adresse des Servers
+	 *            Hostname oder IP-Adresse des Servers
 	 * @return Referenz auf Kommunikationsobjekt
 	 */
 	public ClientImpl createCommunicator(String serverType, int port, String host) {
-
 		communicator = new ClientImpl(this, port, host, serverType);
 		return communicator;
 	}
@@ -68,11 +67,11 @@ public class ClientFxGUI extends Application implements ClientUserInterface {
 		return model;
 	}
 
+	
 	/**
 	 * Diese Methode wird von Java FX bei Aufruf der launch-Methode implizit
 	 * aufgerufen
 	 */
-
 	public void start(Stage primaryStage) throws Exception {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("LogInGui.fxml"));
 		Parent root = loader.load();
@@ -95,7 +94,7 @@ public class ClientFxGUI extends Application implements ClientUserInterface {
 			lc2 = loader.getController();
 			lc2.setAppController(this);
 			Platform.runLater(new Runnable() {
-			
+
 				public void run() {
 					stage.setTitle("Angemeldet");
 					stage.setScene(new Scene(root, 600, 400));
@@ -106,7 +105,7 @@ public class ClientFxGUI extends Application implements ClientUserInterface {
 			ExceptionHandler.logException(e);
 		}
 		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-		
+
 			public void handle(WindowEvent event) {
 				try {
 					getCommunicator().logout(getModel().getUserName());
@@ -126,7 +125,7 @@ public class ClientFxGUI extends Application implements ClientUserInterface {
 				users.add(anUserList);
 			}
 			Platform.runLater(new Runnable() {
-			
+
 				public void run() {
 					getModel().users.setAll(users);
 					log.debug(users);
@@ -143,7 +142,7 @@ public class ClientFxGUI extends Application implements ClientUserInterface {
 			messageText = sender + ": " + message;
 		}
 		Platform.runLater(new Runnable() {
-		
+
 			public void run() {
 				getModel().chats.add(messageText);
 			}
@@ -179,9 +178,8 @@ public class ClientFxGUI extends Application implements ClientUserInterface {
 		return 0;
 	}
 
-	public void setSessionStatisticsCounter(long numberOfSentEvents,
-			long numberOfReceivedConfirms, long numberOfLostConfirms, long numberOfRetries,
-			long numberOfReceivedChatMessages) {
+	public void setSessionStatisticsCounter(long numberOfSentEvents, long numberOfReceivedConfirms,
+			long numberOfLostConfirms, long numberOfRetries, long numberOfReceivedChatMessages) {
 
 	}
 
@@ -208,7 +206,7 @@ public class ClientFxGUI extends Application implements ClientUserInterface {
 	public void setErrorMessage(final String sender, final String errorMessage, final long errorCode) {
 		log.debug("errorMessage: " + errorMessage);
 		Platform.runLater(new Runnable() {
-		
+
 			public void run() {
 				Alert alert = new Alert(Alert.AlertType.ERROR);
 				alert.setTitle("Es ist ein Fehler im " + sender + " aufgetreten");
@@ -219,12 +217,10 @@ public class ClientFxGUI extends Application implements ClientUserInterface {
 		});
 	}
 
-
 	public void loginComplete() {
 		log.debug("Login erfolreich");
 		createNextGui();
 	}
-
 
 	public void logoutComplete() {
 		log.debug("Abnmeldung durchgefuehrt");

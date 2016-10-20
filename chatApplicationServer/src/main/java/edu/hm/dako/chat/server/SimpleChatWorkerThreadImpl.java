@@ -7,12 +7,13 @@ import org.apache.commons.logging.LogFactory;
 
 import edu.hm.dako.chat.common.ChatPDU;
 import edu.hm.dako.chat.common.ClientConversationStatus;
-import edu.hm.dako.chat.common.ClientListEntry;
+import edu.hm.dako.chat.server.user.ClientListEntry;
 import edu.hm.dako.chat.common.ExceptionHandler;
 import edu.hm.dako.chat.connection.Connection;
 import edu.hm.dako.chat.connection.exception.ConnectionTimeoutException;
 import edu.hm.dako.chat.connection.exception.EndOfFileException;
 import edu.hm.dako.chat.server.ui.ChatServerGuiInterface;
+import edu.hm.dako.chat.server.user.SharedChatClientList;
 
 /**
  * Worker-Thread zur serverseitigen Bedienung einer Session mit einem Client.
@@ -89,8 +90,7 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 		ChatPDU pdu;
 		log.debug("Login-Request-PDU fuer " + receivedPdu.getUserName() + " empfangen");
 
-		// Neuer Client moechte sich einloggen, Client in Client-Liste
-		// eintragen
+		// Neuer Client moechte sich einloggen, Client in Client-Liste eintragen
 		if (!clients.existsClient(receivedPdu.getUserName())) {
 			log.debug("User nicht in Clientliste: " + receivedPdu.getUserName());
 			ClientListEntry client = new ClientListEntry(receivedPdu.getUserName(), connection);

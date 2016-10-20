@@ -10,7 +10,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 /**
- * <p>This is a very simple example of a JMS comsumer.  This is a simplified version of the quickstarts
+ * <p>This is a very simple example of a JMS comsumer. 
+ * This is a simplified version of the quickstarts
  * provided by JBoss.</p>
  *
  */

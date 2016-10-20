@@ -7,11 +7,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import edu.hm.dako.chat.common.ClientListEntry;
+import edu.hm.dako.chat.server.user.ClientListEntry;
 import edu.hm.dako.chat.common.ExceptionHandler;
 import edu.hm.dako.chat.connection.Connection;
 import edu.hm.dako.chat.server.tcp.ServerSocketInterface;
 import edu.hm.dako.chat.server.ui.ChatServerGuiInterface;
+import edu.hm.dako.chat.server.user.SharedChatClientList;
 import javafx.concurrent.Task;
 
 /**

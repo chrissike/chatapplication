@@ -12,7 +12,6 @@ import org.apache.log4j.PropertyConfigurator;
 import edu.hm.dako.chat.benchmarking.data.UserInterfaceInputParameters;
 import edu.hm.dako.chat.benchmarking.data.UserInterfaceResultData;
 import edu.hm.dako.chat.benchmarking.data.UserInterfaceStartData;
-import edu.hm.dako.chat.benchmarking.data.UserInterfaceInputParameters.MeasurementType;
 import edu.hm.dako.chat.benchmarking.service.BenchmarkingClientUserInterface;
 import edu.hm.dako.chat.benchmarking.service.impl.BenchmarkingClientCoordinator;
 import edu.hm.dako.chat.common.SystemConstants;
@@ -59,9 +58,8 @@ import javafx.stage.Stage;
  * 
  */
 
-public class BenchmarkingClientGuiFx2 extends Application
-
-		implements BenchmarkingClientUserInterface {
+@SuppressWarnings("restriction")
+public class BenchmarkingClientGuiFx2 extends Application implements BenchmarkingClientUserInterface {
 
 	// BenchmarkingClient Initialisieren
 	BenchmarkingClientCoordinator benchClient;
@@ -83,10 +81,10 @@ public class BenchmarkingClientGuiFx2 extends Application
 	final VBox box = new VBox();
 
 	// Auswahl fuer Comboboxen
-	ObservableList<String> implTypeOptions = FXCollections.observableArrayList(
-			SystemConstants.IMPL_TCP_SIMPLE, SystemConstants.IMPL_TCP_ADVANCED);
-	ObservableList<String> measureTypeOptions = FXCollections
-			.observableArrayList("Variable Threads", "Variable Length");
+	ObservableList<String> implTypeOptions = FXCollections.observableArrayList(SystemConstants.IMPL_TCP_SIMPLE,
+			SystemConstants.IMPL_TCP_ADVANCED);
+	ObservableList<String> measureTypeOptions = FXCollections.observableArrayList("Variable Threads",
+			"Variable Length");
 
 	// Comboboxen
 	private ComboBox<String> optionListImplType;
@@ -160,10 +158,9 @@ public class BenchmarkingClientGuiFx2 extends Application
 	private StringProperty labelString = new SimpleStringProperty();
 
 	// Patterns fuer die Pruefung der eingegebenen IP-Adressen
-	private static final Pattern IPV6_PATTERN = Pattern
-			.compile("^(?:[0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$");
-	private static final Pattern IPV4_PATTERN = Pattern.compile(
-			"(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)");
+	private static final Pattern IPV6_PATTERN = Pattern.compile("^(?:[0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$");
+	private static final Pattern IPV4_PATTERN = Pattern
+			.compile("(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)");
 
 	// Kennzeichen, ob alle Parameter ordnungsgemaess eingegeben wurden, um den
 	// Benchmark zu
@@ -503,8 +500,7 @@ public class BenchmarkingClientGuiFx2 extends Application
 	 * @param rowIndex
 	 * @return textField
 	 */
-	private TextField createNotEditableTextfield(GridPane pane, int columnIndex,
-			int rowIndex) {
+	private TextField createNotEditableTextfield(GridPane pane, int columnIndex, int rowIndex) {
 		TextField textField = new TextField();
 		pane.add(textField, columnIndex, rowIndex);
 		textField.setMaxSize(155, 28);
@@ -516,7 +512,8 @@ public class BenchmarkingClientGuiFx2 extends Application
 	}
 
 	/**
-	 * Erstellung editierbarer Textfelder Erstellung nicht editierbarer Textfelder
+	 * Erstellung editierbarer Textfelder Erstellung nicht editierbarer
+	 * Textfelder
 	 * 
 	 * @param pane
 	 * @param columnIndex
@@ -524,8 +521,7 @@ public class BenchmarkingClientGuiFx2 extends Application
 	 * @param value
 	 * @return textField
 	 */
-	private TextField createEditableTextfield(GridPane pane, int columnIndex, int rowIndex,
-			String value) {
+	private TextField createEditableTextfield(GridPane pane, int columnIndex, int rowIndex, String value) {
 		TextField textField = new TextField(value);
 		pane.add(textField, columnIndex, rowIndex);
 		textField.setMaxSize(155, 28);
@@ -588,8 +584,7 @@ public class BenchmarkingClientGuiFx2 extends Application
 		scrollPane.setContent(box);
 		box.heightProperty().addListener(new ChangeListener<Number>() {
 			@Override
-			public void changed(ObservableValue<? extends Number> observable, Number oldValue,
-					Number newValue) {
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 				scrollPane.setVvalue((Double) newValue);
 			}
 		});
@@ -628,8 +623,8 @@ public class BenchmarkingClientGuiFx2 extends Application
 				final NumberFormat format = new DecimalFormat("0.00 %");
 				task.progressProperty().addListener(new ChangeListener<Number>() {
 					@Override
-					public void changed(ObservableValue<? extends Number> observable,
-							Number oldValue, Number newValue) {
+					public void changed(ObservableValue<? extends Number> observable, Number oldValue,
+							Number newValue) {
 						labelString.setValue(format.format(newValue));
 					}
 				});
@@ -821,8 +816,7 @@ public class BenchmarkingClientGuiFx2 extends Application
 
 		String testString4 = textFieldNumberOfMessagesPerClients.getText();
 		if (testString4.matches("[0-9]+")) {
-			Integer iNumberOfMessages = new Integer(
-					textFieldNumberOfMessagesPerClients.getText());
+			Integer iNumberOfMessages = new Integer(textFieldNumberOfMessagesPerClients.getText());
 			if (iNumberOfMessages < 1) {
 				// nicht numerisch
 				// Aktualisieren des Frames auf dem Bildschirm
@@ -946,12 +940,10 @@ public class BenchmarkingClientGuiFx2 extends Application
 		// Comboboxen auslesen
 		String item = new String(optionListImplType.getValue().toString());
 		if (item.equals(SystemConstants.IMPL_TCP_ADVANCED)) {
-			iParam.setImplementationType(
-					edu.hm.dako.chat.common.ImplementationType.TCPAdvancedImplementation);
+			iParam.setImplementationType(edu.hm.dako.chat.common.ImplementationType.TCPAdvancedImplementation);
 			implType.setTextFill(Color.web(SystemConstants.BLACK_COLOR));
 		} else if (item.equals(SystemConstants.IMPL_TCP_SIMPLE)) {
-			iParam.setImplementationType(
-					edu.hm.dako.chat.common.ImplementationType.TCPSimpleImplementation);
+			iParam.setImplementationType(edu.hm.dako.chat.common.ImplementationType.TCPSimpleImplementation);
 			implType.setTextFill(Color.web(SystemConstants.BLACK_COLOR));
 		} else if (item.equals(SystemConstants.IMPL_UDP_ADVANCED)) {
 			setAlert("Der Typ UDPAdvanced wurde noch nicht Implementiert");
@@ -966,8 +958,7 @@ public class BenchmarkingClientGuiFx2 extends Application
 		if (item1.equals("Variable Threads")) {
 			iParam.setMeasurementType(UserInterfaceInputParameters.MeasurementType.VarThreads);
 		} else if (item1.equals("Variable Length")) {
-			iParam
-					.setMeasurementType(UserInterfaceInputParameters.MeasurementType.VarMsgLength);
+			iParam.setMeasurementType(UserInterfaceInputParameters.MeasurementType.VarMsgLength);
 		} else {
 			setAlert("Art der Messung nicht festgelegt!");
 			startable = false;
@@ -982,8 +973,7 @@ public class BenchmarkingClientGuiFx2 extends Application
 	private void setAlert(String message) {
 		Alert alert = new Alert(Alert.AlertType.WARNING);
 		alert.setTitle("Fehler!");
-		alert.setHeaderText(
-				"Bei den von ihnen eingegebenen Parametern ist ein Fehler aufgetreten:");
+		alert.setHeaderText("Bei den von ihnen eingegebenen Parametern ist ein Fehler aufgetreten:");
 		alert.setContentText(message);
 		Platform.runLater(new Runnable() {
 			@Override
@@ -1033,7 +1023,8 @@ public class BenchmarkingClientGuiFx2 extends Application
 		 */
 
 		/**
-		 * Um den Prozessbalken wieder auf null zu setzen wird er vom Task entbunden
+		 * Um den Prozessbalken wieder auf null zu setzen wird er vom Task
+		 * entbunden
 		 */
 
 		Platform.runLater(() -> {
@@ -1053,8 +1044,7 @@ public class BenchmarkingClientGuiFx2 extends Application
 	@Override
 	public void showStartData(UserInterfaceStartData data) {
 		String strNumberOfRequests = (new Long(data.getNumberOfRequests())).toString();
-		String strNumberOfPlannedEventMessages = (new Long(
-				data.getNumberOfPlannedEventMessages())).toString();
+		String strNumberOfPlannedEventMessages = (new Long(data.getNumberOfPlannedEventMessages())).toString();
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
@@ -1074,86 +1064,75 @@ public class BenchmarkingClientGuiFx2 extends Application
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				textFieldSentRequests
-						.setText((new Long(data.getNumberOfSentRequests())).toString());
+				textFieldSentRequests.setText((new Long(data.getNumberOfSentRequests())).toString());
 				textFieldTestEnd.setText(data.getEndTime());
-				textFieldReceivedResponses
-						.setText((new Long(data.getNumberOfResponses())).toString());
+				textFieldReceivedResponses.setText((new Long(data.getNumberOfResponses())).toString());
 				textFieldMaxHeapUsage.setText((new Long(data.getMaxHeapSize())).toString());
-				textFieldNumberOfRetries
-						.setText((new Long(data.getNumberOfRetries())).toString());
+				textFieldNumberOfRetries.setText((new Long(data.getNumberOfRetries())).toString());
 
 				Formatter formatter = new Formatter();
-				textFieldAvgRTT
-						.setText(formatter.format("%.2f", (new Double(data.getMean()))).toString());
+				textFieldAvgRTT.setText(formatter.format("%.2f", (new Double(data.getMean()))).toString());
 				formatter.close();
 
 				formatter = new Formatter();
-				textFieldAvgServerTime.setText(
-						formatter.format("%.2f", (new Double(data.getAvgServerTime()))).toString());
+				textFieldAvgServerTime
+						.setText(formatter.format("%.2f", (new Double(data.getAvgServerTime()))).toString());
 				formatter.close();
 
 				formatter = new Formatter();
-				textFieldMaxRTT.setText(
-						formatter.format("%.2f", (new Double(data.getMaximum()))).toString());
+				textFieldMaxRTT.setText(formatter.format("%.2f", (new Double(data.getMaximum()))).toString());
 				formatter.close();
 
 				formatter = new Formatter();
-				textFieldMinRTT.setText(
-						formatter.format("%.2f", (new Double(data.getMinimum()))).toString());
+				textFieldMinRTT.setText(formatter.format("%.2f", (new Double(data.getMinimum()))).toString());
 				formatter.close();
 
 				formatter = new Formatter();
-				textField10Percentile.setText(
-						formatter.format("%.2f", (new Double(data.getPercentile10()))).toString());
+				textField10Percentile
+						.setText(formatter.format("%.2f", (new Double(data.getPercentile10()))).toString());
 				formatter.close();
 
 				formatter = new Formatter();
-				textField25Percentile.setText(
-						formatter.format("%.2f", (new Double(data.getPercentile25()))).toString());
+				textField25Percentile
+						.setText(formatter.format("%.2f", (new Double(data.getPercentile25()))).toString());
 				formatter.close();
 
 				formatter = new Formatter();
-				textField50Percentile.setText(
-						formatter.format("%.2f", (new Double(data.getPercentile50()))).toString());
+				textField50Percentile
+						.setText(formatter.format("%.2f", (new Double(data.getPercentile50()))).toString());
 				formatter.close();
 
 				formatter = new Formatter();
-				textField75Percentile.setText(
-						formatter.format("%.2f", (new Double(data.getPercentile75()))).toString());
+				textField75Percentile
+						.setText(formatter.format("%.2f", (new Double(data.getPercentile75()))).toString());
 				formatter.close();
 
 				formatter = new Formatter();
-				textField90Percentile.setText(
-						formatter.format("%.2f", (new Double(data.getPercentile90()))).toString());
+				textField90Percentile
+						.setText(formatter.format("%.2f", (new Double(data.getPercentile90()))).toString());
 				formatter.close();
 
 				formatter = new Formatter();
-				textFieldRange
-						.setText(formatter.format("%.2f", (new Double(data.getRange()))).toString());
+				textFieldRange.setText(formatter.format("%.2f", (new Double(data.getRange()))).toString());
 				formatter.close();
 
 				formatter = new Formatter();
-				textFieldInterquartilRange.setText(formatter
-						.format("%.2f", (new Double(data.getInterquartilRange()))).toString());
+				textFieldInterquartilRange
+						.setText(formatter.format("%.2f", (new Double(data.getInterquartilRange()))).toString());
 				formatter.close();
 
 				formatter = new Formatter();
-				textFieldStandardDeviation.setText(formatter
-						.format("%.2f", (new Double(data.getStandardDeviation()))).toString());
+				textFieldStandardDeviation
+						.setText(formatter.format("%.2f", (new Double(data.getStandardDeviation()))).toString());
 				formatter.close();
 
 				formatter = new Formatter();
-				textFieldAvgCpuUsage.setText(formatter
-						.format("%.2f", (new Double(data.getMaxCpuUsage() * 100))).toString());
-				textFieldSentEventMessages
-						.setText((new Long(data.getNumberOfSentEventMessages())).toString());
-				textFieldReceivedConfirmEvents
-						.setText((new Long(data.getNumberOfReceivedConfirmEvents())).toString());
-				textFieldLostConfirmEvents
-						.setText((new Long(data.getNumberOfLostConfirmEvents())).toString());
-				textFieldRetriedEvents
-						.setText((new Long(data.getNumberOfRetriedEvents())).toString());
+				textFieldAvgCpuUsage
+						.setText(formatter.format("%.2f", (new Double(data.getMaxCpuUsage() * 100))).toString());
+				textFieldSentEventMessages.setText((new Long(data.getNumberOfSentEventMessages())).toString());
+				textFieldReceivedConfirmEvents.setText((new Long(data.getNumberOfReceivedConfirmEvents())).toString());
+				textFieldLostConfirmEvents.setText((new Long(data.getNumberOfLostConfirmEvents())).toString());
+				textFieldRetriedEvents.setText((new Long(data.getNumberOfRetriedEvents())).toString());
 				formatter.close();
 			}
 		});
@@ -1193,8 +1172,8 @@ public class BenchmarkingClientGuiFx2 extends Application
 	}
 
 	/**
-	 * GUI-Feld fuer die Ausgabe der Laufzeit hinzufuegen, GUI-Aktion wird in die
-	 * Queue des Event-Dispatching-Thread eingetragen
+	 * GUI-Feld fuer die Ausgabe der Laufzeit hinzufuegen, GUI-Aktion wird in
+	 * die Queue des Event-Dispatching-Thread eingetragen
 	 */
 	@Override
 	public void addCurrentRunTime(long sec) {
