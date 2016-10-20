@@ -72,23 +72,9 @@ public class SimpleJmsProducer {
 	        QueueConnection connection = null;
 	        try {
 				connection = connectionFactory.createQueueConnection();
-			} catch (JMSException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	        
-	        QueueSession session = null;
-	        
-	        try {
-				 session = connection.createQueueSession(false, Session.AUTO_ACKNOWLEDGE);
-			} catch (JMSException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	        
-	        QueueSender sender = null;
-	        try {
-				 sender = session.createSender((Queue) namingContext.lookup(QUEUE_DESTINATION));
+	        	QueueSession session = connection.createQueueSession(false, Session.AUTO_ACKNOWLEDGE);
+				QueueSender sender = session.createSender((Queue) namingContext.lookup(QUEUE_DESTINATION));
+				sender.send(session.createObjectMessage(new ChatPDU()));
 			} catch (JMSException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -102,13 +88,6 @@ public class SimpleJmsProducer {
 //				// TODO Auto-generated catch block
 //				e.printStackTrace();
 //			}
-
-	        try {
-				sender.send(session.createObjectMessage(new ChatPDU()));
-			} catch (JMSException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 	        
 //	        context.createProducer().send(destination, msg);
 //	        context.createProducer().send(destination, "This is my hello JMS message at " + new Date());  
