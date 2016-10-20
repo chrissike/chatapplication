@@ -1,13 +1,20 @@
 package edu.hm.dako.chat.client.communication.jms;
 
-import javax.jms.ConnectionFactory;
-import javax.jms.Destination;
+import java.util.Properties;
+
 import javax.jms.JMSContext;
+import javax.jms.JMSException;
+import javax.jms.Queue;
+import javax.jms.QueueConnection;
+import javax.jms.QueueConnectionFactory;
+import javax.jms.QueueSender;
+import javax.jms.QueueSession;
+import javax.jms.Session;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import java.util.Date;
-import java.util.Properties;
+
+import edu.hm.dako.chat.common.ChatPDU;
 
 /**
  * <p>This is a very simple example of a JMS producer.  This is a simplified version of the quickstarts
@@ -57,14 +64,54 @@ public class SimpleJmsProducer {
 	        namingContext = new InitialContext(env);
 	        
 	        // Use JNDI to look up the connection factory and queue
-	        ConnectionFactory connectionFactory = (ConnectionFactory) namingContext.lookup(CONNECTION_FACTORY);
-	        Destination destination = (Destination) namingContext.lookup(QUEUE_DESTINATION);
-	        
+	        QueueConnectionFactory connectionFactory = (QueueConnectionFactory) namingContext.lookup(CONNECTION_FACTORY);
+//	        Destination destination = (Destination) namingContext.lookup(QUEUE_DESTINATION);
+	       
 	        // Create a JMS context to use to create producers
 	        context = connectionFactory.createContext("guest", "guest"); // again, don't do this in production
+	        QueueConnection connection = null;
+	        try {
+				connection = connectionFactory.createQueueConnection();
+			} catch (JMSException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        
+	        QueueSession session = null;
+	        
+	        try {
+				 session = connection.createQueueSession(false, Session.AUTO_ACKNOWLEDGE);
+			} catch (JMSException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        
+	        QueueSender sender = null;
+	        try {
+				 sender = session.createSender((Queue) namingContext.lookup(QUEUE_DESTINATION));
+			} catch (JMSException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	        
 	        // Create a producer and send a message
-	        context.createProducer().send(destination, "This is my hello JMS message at " + new Date());  
+//	        javax.jms.ObjectMessage msg = null;
+//	        try {
+//				msg.setObject(new ChatPDU());
+//			} catch (JMSException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+
+	        try {
+				sender.send(session.createObjectMessage(new ChatPDU()));
+			} catch (JMSException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        
+//	        context.createProducer().send(destination, msg);
+//	        context.createProducer().send(destination, "This is my hello JMS message at " + new Date());  
 	        System.out.println("Message sent.");
         } finally {
         	if (namingContext != null) {
