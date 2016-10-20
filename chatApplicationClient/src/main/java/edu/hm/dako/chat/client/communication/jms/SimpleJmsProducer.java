@@ -71,7 +71,7 @@ public class SimpleJmsProducer {
 	        context = connectionFactory.createContext("guest", "guest"); // again, don't do this in production
 	        QueueConnection connection = null;
 	        try {
-				connection = connectionFactory.createQueueConnection();
+				connection = connectionFactory.createQueueConnection("guest", "guest");
 	        	QueueSession session = connection.createQueueSession(false, Session.AUTO_ACKNOWLEDGE);
 				QueueSender sender = session.createSender((Queue) namingContext.lookup(QUEUE_DESTINATION));
 				sender.send(session.createObjectMessage(new ChatPDU()));
