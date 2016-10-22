@@ -9,7 +9,6 @@ import edu.hm.dako.chat.common.ImplementationType;
 import edu.hm.dako.chat.connection.Connection;
 import edu.hm.dako.chat.connection.LoggingConnectionDecorator;
 import edu.hm.dako.chat.server.tcp.ServerSocketInterface;
-import edu.hm.dako.chat.server.ui.ChatServerGuiInterface;
 import edu.hm.dako.chat.server.tcp.TcpServerSocket;
 
 /**
@@ -41,7 +40,7 @@ public final class ServerFactory {
 	 * @throws Exception
 	 */
 	public static ChatServerInterface getServer(ImplementationType implType, int serverPort, int sendBufferSize,
-			int receiveBufferSize, ChatServerGuiInterface serverGuiInterface) throws Exception {
+			int receiveBufferSize) throws Exception {
 		log.debug("ChatServer (" + implType.toString() + ") wird gestartet, Serverport: " + serverPort
 				+ ", Sendepuffer: " + sendBufferSize + ", Empfangspuffer: " + receiveBufferSize);
 		System.out.println("ChatServer (" + implType.toString() + ") wird gestartet, Listen-Port: " + serverPort
@@ -53,8 +52,8 @@ public final class ServerFactory {
 
 			try {
 				TcpServerSocket tcpServerSocket = new TcpServerSocket(serverPort, sendBufferSize, receiveBufferSize);
-				return new SimpleChatServerImpl(Executors.newCachedThreadPool(),
-						getDecoratedServerSocket(tcpServerSocket), serverGuiInterface);
+				return null; // new SimpleChatServerImpl(Executors.newCachedThreadPool(),
+						//getDecoratedServerSocket(tcpServerSocket), serverGuiInterface);
 			} catch (Exception e) {
 				throw new Exception(e);
 			}

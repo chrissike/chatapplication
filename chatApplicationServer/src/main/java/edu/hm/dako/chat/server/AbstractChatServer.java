@@ -1,6 +1,5 @@
 package edu.hm.dako.chat.server;
 
-import edu.hm.dako.chat.server.ui.ChatServerGuiInterface;
 import edu.hm.dako.chat.server.user.SharedChatClientList;
 
 /**
@@ -18,7 +17,5 @@ public abstract class AbstractChatServer implements ChatServerInterface {
 	// Zaehler fuer Test
 	protected SharedServerCounter counter;
 
-	// Referenz auf Server GUI fuer die Meldung von Ereignissen
-	protected ChatServerGuiInterface serverGuiInterface;
 
 }

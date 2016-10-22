@@ -49,6 +49,7 @@ public class SimpleJmsProducer {
     public static void main( String[] args ) throws NamingException {
     	Context namingContext = null;
         JMSContext context = null;
+        QueueConnection connection = null;
         
         // Set up the namingContext for the JNDI lookup
         // Make sure you create an application user in Wildfly that matches the 
@@ -57,8 +58,8 @@ public class SimpleJmsProducer {
         final Properties env = new Properties();
         env.put(Context.INITIAL_CONTEXT_FACTORY, INITIAL_CONTEXT_FACTORY);
         env.put(Context.PROVIDER_URL, System.getProperty(Context.PROVIDER_URL, PROVIDER_URL));
-        env.put(Context.SECURITY_PRINCIPAL, "guest");   // username
-        env.put(Context.SECURITY_CREDENTIALS, "guest"); // password
+        env.put(Context.SECURITY_PRINCIPAL, "guest");
+        env.put(Context.SECURITY_CREDENTIALS, "guest");
         
         try {
 	        namingContext = new InitialContext(env);
@@ -69,9 +70,10 @@ public class SimpleJmsProducer {
 	       
 	        // Create a JMS context to use to create producers
 	        context = connectionFactory.createContext("guest", "guest"); // again, don't do this in production
-	        QueueConnection connection = null;
+	        
 	        try {
 				connection = connectionFactory.createQueueConnection("guest", "guest");
+				connection.start();
 	        	QueueSession session = connection.createQueueSession(false, Session.AUTO_ACKNOWLEDGE);
 				QueueSender sender = session.createSender((Queue) namingContext.lookup(QUEUE_DESTINATION));
 				sender.send(session.createObjectMessage(new ChatPDU()));
@@ -92,7 +94,15 @@ public class SimpleJmsProducer {
 //	        context.createProducer().send(destination, msg);
 //	        context.createProducer().send(destination, "This is my hello JMS message at " + new Date());  
 	        System.out.println("Message sent.");
+
         } finally {
+        	if (connection != null)   {
+                try {
+                   connection.close();
+                } catch (JMSException e) {                    
+                  e.printStackTrace();
+                }
+            } 
         	if (namingContext != null) {
         		namingContext.close();
         	}

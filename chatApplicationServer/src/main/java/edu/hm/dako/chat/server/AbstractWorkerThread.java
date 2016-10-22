@@ -4,7 +4,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import edu.hm.dako.chat.common.ChatPDU;
 import edu.hm.dako.chat.connection.Connection;
-import edu.hm.dako.chat.server.ui.ChatServerGuiInterface;
 import edu.hm.dako.chat.server.user.SharedChatClientList;
 
 /**
@@ -39,16 +38,13 @@ public abstract class AbstractWorkerThread extends Thread {
 	protected AtomicInteger eventCounter;
 	protected AtomicInteger confirmCounter;
 
-	protected ChatServerGuiInterface serverGuiInterface;
-
 	public AbstractWorkerThread(Connection con, SharedChatClientList clients,
-			SharedServerCounter counter, ChatServerGuiInterface serverGuiInterface) {
+			SharedServerCounter counter) {
 		this.connection = con;
 		this.clients = clients;
 		this.logoutCounter = counter.logoutCounter;
 		this.eventCounter = counter.eventCounter;
 		this.confirmCounter = counter.confirmCounter;
-		this.serverGuiInterface = serverGuiInterface;
 	}
 
 	/**

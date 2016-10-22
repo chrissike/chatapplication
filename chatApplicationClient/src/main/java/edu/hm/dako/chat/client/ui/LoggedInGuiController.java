@@ -2,9 +2,14 @@ package edu.hm.dako.chat.client.ui;
 
 import java.io.IOException;
 
+import javax.jms.JMSException;
+import javax.naming.NamingException;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import edu.hm.dako.chat.client.communication.jms.JmsProducer;
+import edu.hm.dako.chat.common.ChatPDU;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -84,17 +89,31 @@ public class LoggedInGuiController {
 	}
 
 	public void btnSubmit_OnAction() {
+		
+		ChatPDU chatPdu = new ChatPDU();
+		chatPdu.setUserName(appController.getModel().getUserName());
+		chatPdu.setMessage(txtChatMessage.getText());
+		
+		JmsProducer jms = new JmsProducer();
 		try {
-			// Eingegebene Chat-Nachricht an Server senden
-			appController.getCommunicator().tell(appController.getModel().getUserName(),
-					txtChatMessage.getText());
-		} catch (IOException e) {
-			// Senden funktioniert nicht, Server vermutlich nicht aktiv
-			log.error("Senden konnte nicht durchgefuehrt werden, Server aktiv?");
-			appController.setErrorMessage("Chat-Client",
-					"Die Nachricht konnte nicht gesendet werden, vermutlich ist der Server nicht aktiv",
-					6);
+			jms.sendMessage(chatPdu);
+		} catch (NamingException e) {
+			log.error(e.getStackTrace());
+		} catch (JMSException e) {
+			log.error(e.getStackTrace());
 		}
+		
+//		try {
+//			// Eingegebene Chat-Nachricht an Server senden
+//			appController.getCommunicator().tell(appController.getModel().getUserName(),
+//					txtChatMessage.getText());
+//		} catch (IOException e) {
+//			// Senden funktioniert nicht, Server vermutlich nicht aktiv
+//			log.error("Senden konnte nicht durchgefuehrt werden, Server aktiv?");
+//			appController.setErrorMessage("Chat-Client",
+//					"Die Nachricht konnte nicht gesendet werden, vermutlich ist der Server nicht aktiv",
+//					6);
+//		}
 		Platform.runLater(new Runnable() {
 			public void run() {
 				txtChatMessage.setText("");

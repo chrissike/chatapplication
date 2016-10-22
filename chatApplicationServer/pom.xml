@@ -50,6 +50,7 @@
 			<artifactId>ejb-api</artifactId>
 			<version>3.0</version>
 		</dependency>
+		
 
 		<!-- Testing -->
 		<dependency>
