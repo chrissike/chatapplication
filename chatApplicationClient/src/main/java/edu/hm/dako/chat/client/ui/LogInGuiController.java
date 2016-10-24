@@ -1,6 +1,5 @@
 package edu.hm.dako.chat.client.ui;
 
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
@@ -8,8 +7,6 @@ import java.util.regex.Pattern;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import edu.hm.dako.chat.client.communication.rest.MessagingHandler;
-import edu.hm.dako.chat.client.communication.rest.MessagingHandlerImpl;
 import edu.hm.dako.chat.common.SystemConstants;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

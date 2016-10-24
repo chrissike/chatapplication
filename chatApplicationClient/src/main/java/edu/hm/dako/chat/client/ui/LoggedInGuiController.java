@@ -25,6 +25,7 @@ import javafx.scene.input.KeyEvent;
  * @author Paul Mandl
  *
  */
+@SuppressWarnings("restriction")
 public class LoggedInGuiController {
 
 	private static Log log = LogFactory.getLog(LoggedInGuiController.class);
