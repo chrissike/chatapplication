@@ -8,7 +8,9 @@ import java.io.Serializable;
 @NamedQuery(name="TraceEntity.findAll", query="SELECT b FROM TraceEntity b")
 public class TraceEntity implements Serializable {
 
-    @Id
+	private static final long serialVersionUID = 1L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 

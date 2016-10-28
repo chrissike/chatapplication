@@ -8,7 +8,9 @@ import java.io.Serializable;
 @NamedQuery(name="CountEntity.findAll", query="SELECT b FROM CountEntity b")
 public class CountEntity implements Serializable {
 
-    @Id
+	private static final long serialVersionUID = 1L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 

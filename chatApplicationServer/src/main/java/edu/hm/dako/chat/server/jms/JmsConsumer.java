@@ -1,23 +1,20 @@
 package edu.hm.dako.chat.server.jms;
 
+import javax.annotation.Resource;
+import javax.ejb.ActivationConfigProperty;
+import javax.ejb.MessageDriven;
+import javax.ejb.MessageDrivenContext;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
+import javax.inject.Inject;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import javax.ejb.MessageDriven;
-import javax.ejb.MessageDrivenBean;
-import javax.ejb.MessageDrivenContext;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionManagement;
-import javax.inject.Inject;
-import javax.annotation.Resource;
-import javax.ejb.ActivationConfigProperty;
-import javax.ejb.EJBException;
-import javax.ejb.TransactionManagementType;
-import javax.ejb.TransactionAttributeType;
 
 import edu.hm.dako.chat.common.ChatPDU;
 import edu.hm.dako.chat.server.process.ProcessChatPDU;
@@ -47,6 +44,7 @@ public class JmsConsumer implements MessageListener { //, MessageDrivenBean {
 
 		try {
 			ChatPDU chatPDU = message.getBody(ChatPDU.class);
+			chatPDU.setServerTime(System.nanoTime());
 			processChatPDU.process(chatPDU);
 		} catch (JMSException e) {
 			log.error(e.toString());

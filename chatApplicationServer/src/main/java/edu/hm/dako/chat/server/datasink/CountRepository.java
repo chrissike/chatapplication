@@ -14,7 +14,7 @@ import java.util.List;
 public class CountRepository {
 	private static final String PERSISTENCE_UNIT_NAME = "countPersistence";
 	private EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME,
-			DBConfig.getPersistConfig(Database.countdb));
+			DBConfig.getPersistConfig(Database.countdb, 3318));
 	private EntityManager em = factory.createEntityManager();
 
 	public void addCount(CountEntity count) {
