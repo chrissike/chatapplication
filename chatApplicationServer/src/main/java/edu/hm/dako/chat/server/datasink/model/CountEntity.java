@@ -3,24 +3,29 @@ package edu.hm.dako.chat.server.datasink.model;
 import javax.persistence.*;
 import java.io.Serializable;
 
-
 @Entity
-@NamedQuery(name="CountEntity.findAll", query="SELECT b FROM CountEntity b")
+@NamedQueries({ @NamedQuery(name = "CountEntity.findAll", query = "SELECT b FROM CountEntity b"),
+		@NamedQuery(name = "CountEntity.findByName", query = "SELECT b FROM CountEntity b WHERE b.nameOfClients = :nameOfClients") })
 public class CountEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
 
-    private String nameOfClients;
+	private String nameOfClients;
 
-    private String messageCount;
+	private Integer messageCount;
 
-    public CountEntity() {
-    }
-    
+	public CountEntity() {
+	}
+
+	public CountEntity(String nameOfClients, Integer messageCount) {
+		this.nameOfClients = nameOfClients;
+		this.messageCount = messageCount;
+	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -37,11 +42,11 @@ public class CountEntity implements Serializable {
 		this.nameOfClients = nameOfClients;
 	}
 
-	public String getMessageCount() {
+	public Integer getMessageCount() {
 		return messageCount;
 	}
 
-	public void setMessageCount(String messageCount) {
+	public void setMessageCount(Integer messageCount) {
 		this.messageCount = messageCount;
 	}
 

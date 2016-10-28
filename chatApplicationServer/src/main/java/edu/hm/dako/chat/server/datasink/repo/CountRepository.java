@@ -1,9 +1,9 @@
-package edu.hm.dako.chat.server.datasink;
+package edu.hm.dako.chat.server.datasink.repo;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
 
 import edu.hm.dako.chat.server.datasink.model.CountEntity;
@@ -13,9 +13,13 @@ import java.util.List;
 @Stateless
 public class CountRepository {
 	private static final String PERSISTENCE_UNIT_NAME = "countPersistence";
-	private EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME,
-			DBConfig.getPersistConfig(Database.countdb, 3316));
-	private EntityManager em = factory.createEntityManager();
+//	private EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME,
+//			DBConfig.getPersistConfig(Database.countdb, 3316));
+	
+	@PersistenceContext(unitName = PERSISTENCE_UNIT_NAME, type = PersistenceContextType.EXTENDED)
+	EntityManager em;
+
+//	private EntityManager em = factory.createEntityManager();
 
 	public void addCount(CountEntity count) {
 		count.setId(null);
@@ -31,8 +35,13 @@ public class CountRepository {
 		em.getTransaction().commit();
 	}
 
-	public List<CountEntity> showCount() {
+	public List<CountEntity> getAllCount() {
 		TypedQuery<CountEntity> query = em.createNamedQuery("CountEntity.findAll", CountEntity.class);
+		return query.getResultList();
+	}
+	
+	public List<CountEntity> getCountByClientname() {
+		TypedQuery<CountEntity> query = em.createNamedQuery("CountEntity.findByName", CountEntity.class);
 		return query.getResultList();
 	}
 }

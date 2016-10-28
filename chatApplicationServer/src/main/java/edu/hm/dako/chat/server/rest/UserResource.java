@@ -17,9 +17,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import edu.hm.dako.chat.common.ChatPDU;
+import edu.hm.dako.chat.server.datasink.repo.CountRepository;
 import edu.hm.dako.chat.server.user.ClientListEntry;
 import edu.hm.dako.chat.common.PduType;
-import edu.hm.dako.chat.server.datasink.CountRepository;
 import edu.hm.dako.chat.server.user.SharedChatClientList;
 
 @Path("user")

@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>edu.hm.dako.chat</groupId>
 		<artifactId>chatApplication</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.0.2-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>chatApplicationServer</artifactId>
@@ -29,11 +29,21 @@
 			<artifactId>wildfly-jms-client-bom</artifactId>
 			<type>pom</type>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-entitymanager -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>4.3.11.Final</version>
+		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
-			<version>5.2.3.Final</version>
+			<version>4.3.11.Final</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>6.0.5</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -44,13 +54,12 @@
 			<artifactId>javaee-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/javax.ejb/ejb-api -->
 		<dependency>
-			<groupId>javax.ejb</groupId>
-			<artifactId>ejb-api</artifactId>
-			<version>3.0</version>
+			<groupId>org.jboss.spec.javax.ejb</groupId>
+			<artifactId>jboss-ejb-api_3.2_spec</artifactId>
+			<version>1.0.0.Final</version>
+			<scope>provided</scope>
 		</dependency>
-		
 
 		<!-- Testing -->
 		<dependency>
@@ -75,10 +84,8 @@
 				<groupId>org.wildfly.plugins</groupId>
 				<artifactId>wildfly-maven-plugin</artifactId>
 				<version>${wildfly-maven-plugin.version}</version>
-				<configuration>
-					<username>hmproject</username>
-					<password>hmproject2016</password>
-				</configuration>
+				<!-- <configuration> <username>hmproject</username> <password>hmproject2016</password> 
+					</configuration> -->
 				<executions>
 					<execution>
 						<phase>install</phase>

@@ -103,7 +103,7 @@ public class LoggedInGuiController {
 		} catch (JMSException e) {
 			log.error(e.getStackTrace());
 		}
-		
+
 //		try {
 //			// Eingegebene Chat-Nachricht an Server senden
 //			appController.getCommunicator().tell(appController.getModel().getUserName(),

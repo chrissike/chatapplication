@@ -27,7 +27,7 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 
 	public SimpleChatWorkerThreadImpl(Connection con, SharedChatClientList clients,
 			SharedServerCounter counter) {
-
+		
 		super(con, clients, counter);
 	}
 
