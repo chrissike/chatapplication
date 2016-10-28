@@ -14,42 +14,35 @@ public class CountEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String name;
+    private String nameOfClients;
 
-    private String description;
+    private String messageCount;
 
-    private String ip;
-
-    public Integer getId() {
-        return id;
+    public CountEntity() {
     }
+    
+	public Integer getId() {
+		return id;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getNameOfClients() {
+		return nameOfClients;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setNameOfClients(String nameOfClients) {
+		this.nameOfClients = nameOfClients;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public String getMessageCount() {
+		return messageCount;
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getIp() {
-        return ip;
-    }
-
-    public void setIp(String ip) {
-        this.ip = ip;
-    }
+	public void setMessageCount(String messageCount) {
+		this.messageCount = messageCount;
+	}
 
 }

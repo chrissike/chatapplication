@@ -14,42 +14,45 @@ public class TraceEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String name;
+    private String clientThreadName;
 
-    private String description;
+    private String serverThreadNamen;
 
-    private String ip;
-
-    public Integer getId() {
-        return id;
+    private String nachricht;
+    
+    public TraceEntity() {
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public String getClientThreadName() {
+		return clientThreadName;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public void setClientThreadName(String clientThreadName) {
+		this.clientThreadName = clientThreadName;
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	public String getServerThreadNamen() {
+		return serverThreadNamen;
+	}
 
-    public String getIp() {
-        return ip;
-    }
+	public void setServerThreadNamen(String serverThreadNamen) {
+		this.serverThreadNamen = serverThreadNamen;
+	}
 
-    public void setIp(String ip) {
-        this.ip = ip;
-    }
+	public String getNachricht() {
+		return nachricht;
+	}
+
+	public void setNachricht(String nachricht) {
+		this.nachricht = nachricht;
+	}
 
 }
