@@ -4,6 +4,8 @@
     1. Wildfly starten
     2. Maven-build auf dem Parent-Projekt ausführen (mvn install)
     -> Die Serverkomponente wird automatisch auf dem Wildfly deployed
+    3. MariaDB aufsetzen
+    -> 
 
 ## Architektur IST-Stand
 ![Component](./dokumentation/refactoredChatAppComponentModel4.png)

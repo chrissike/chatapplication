@@ -1,7 +1,5 @@
 package edu.hm.dako.chat.server;
 
-import java.util.concurrent.Executors;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 

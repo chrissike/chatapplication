@@ -8,7 +8,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import edu.hm.dako.chat.common.ChatPDU;
-import edu.hm.dako.chat.server.jms.JmsProducer;
 import edu.hm.dako.chat.server.jms.JmsProducer2;
 
 @Transactional
@@ -18,8 +17,12 @@ public class ProcessChatPDU {
 	
 	public void process(ChatPDU pdu) {
 		log.info("JMS-Nachricht ist angekommen: " + pdu.toString());
+		
 		pdu.setMessage("Hallo hier ist der Server!");
 //		new JmsProducer().spreadMessage(pdu);
+		
+		pdu.setServerTime((System.nanoTime() - pdu.getServerTime()));
+		
 		try {
 			new JmsProducer2().sendMessage(pdu);
 		} catch (NamingException e) {
