@@ -16,7 +16,7 @@ import java.util.List;
 public class TraceRepository {
 	private static final String PERSISTENCE_UNIT_NAME = "tracePersistence";
 	private EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME,
-			DBConfig.getPersistConfig(Database.tracedb, 3317));
+			DBConfig.getPersistConfig(Database.tracedb, 3316));
 	
 //	@PersistenceContext EntityManager em;
 	private EntityManager em = factory.createEntityManager();
