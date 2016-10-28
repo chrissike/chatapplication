@@ -9,7 +9,6 @@ import edu.hm.dako.chat.server.datasink.model.TraceEntity;
 import edu.hm.dako.chat.server.datasink.repo.CountRepository;
 import edu.hm.dako.chat.server.datasink.repo.TraceRepository;
 
-
 public class DataSinkImpl implements DataSink {
 
 	@Inject

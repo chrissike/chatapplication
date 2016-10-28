@@ -8,11 +8,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import edu.hm.dako.chat.common.ExceptionHandler;
-import edu.hm.dako.chat.connection.Connection;
 import edu.hm.dako.chat.server.tcp.ServerSocketInterface;
 import edu.hm.dako.chat.server.user.ClientListEntry;
-import edu.hm.dako.chat.server.user.SharedChatClientList;
-import javafx.concurrent.Task;
 
 /**
  * <p/>
@@ -20,7 +17,6 @@ import javafx.concurrent.Task;
  *
  * @author Peter Mandl
  */
-@SuppressWarnings("restriction")
 public class SimpleChatServerImpl extends AbstractChatServer {
 
 	private static Log log = LogFactory.getLog(SimpleChatServerImpl.class);
@@ -44,51 +40,51 @@ public class SimpleChatServerImpl extends AbstractChatServer {
 		log.debug("SimpleChatServerImpl konstruiert");
 		this.executorService = executorService;
 		this.socket = socket;
-//		this.serverGuiInterface = serverGuiInterface;
 		counter = new SharedServerCounter();
 		counter.logoutCounter = new AtomicInteger(0);
 		counter.eventCounter = new AtomicInteger(0);
 		counter.confirmCounter = new AtomicInteger(0);
 	}
 
+	
+	//TODO Max: das ist obsolet... kann eigentlich weg!
 	@Override
 	public void start() {
-		Task<Void> task = new Task<Void>() {
-			@Override
-			protected Void call() throws Exception {
-				// Clientliste erzeugen
-				clients = SharedChatClientList.getInstance();
-
-				while (!Thread.currentThread().isInterrupted() && !socket.isClosed()) {
-					try {
-						// Auf ankommende Verbindungsaufbauwuensche warten
-						System.out.println(
-								"SimpleChatServer wartet auf Verbindungsanfragen von Clients...");
-
-						Connection connection = socket.accept();
-						log.debug("Neuer Verbindungsaufbauwunsch empfangen");
-
-						// Neuen Workerthread starten
-						executorService.submit(new SimpleChatWorkerThreadImpl(connection, clients,
-								counter));
-					} catch (Exception e) {
-						if (socket.isClosed()) {
-							log.debug("Socket wurde geschlossen");
-						} else {
-							log.error(
-									"Exception beim Entgegennehmen von Verbindungsaufbauwuenschen: " + e);
-							ExceptionHandler.logException(e);
-						}
-					}
-				}
-				return null;
-			}
-		};
-
-		Thread th = new Thread(task);
-		th.setDaemon(true);
-		th.start();
-
+//		Task<Void> task = new Task<Void>() {
+//			
+//			protected Void call() throws Exception {
+//				// Clientliste erzeugen
+//				clients = SharedChatClientList.getInstance();
+//
+//				while (!Thread.currentThread().isInterrupted() && !socket.isClosed()) {
+//					try {
+//						// Auf ankommende Verbindungsaufbauwuensche warten
+//						System.out.println(
+//								"SimpleChatServer wartet auf Verbindungsanfragen von Clients...");
+//
+//						Connection connection = socket.accept();
+//						log.debug("Neuer Verbindungsaufbauwunsch empfangen");
+//
+//						// Neuen Workerthread starten
+//						executorService.submit(new SimpleChatWorkerThreadImpl(connection, clients,
+//								counter));
+//					} catch (Exception e) {
+//						if (socket.isClosed()) {
+//							log.debug("Socket wurde geschlossen");
+//						} else {
+//							log.error(
+//									"Exception beim Entgegennehmen von Verbindungsaufbauwuenschen: " + e);
+//							ExceptionHandler.logException(e);
+//						}
+//					}
+//				}
+//				return null;
+//			}
+//		};
+//
+//		Thread th = new Thread(task);
+//		th.setDaemon(true);
+//		th.start();
 	}
 
 	@Override

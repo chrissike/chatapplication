@@ -33,10 +33,8 @@ public class JmsProducer {
 	private static final String INITIAL_CONTEXT_FACTORY = "org.jboss.naming.remote.client.InitialContextFactory";
 	private static final String PROVIDER_URL = "http-remoting://127.0.0.1:8089";
 
-//TODO	public Boolean sendMessage(ChatPDU chatPdu) throws NamingException, JMSException {
+	public Boolean sendMessage(ChatPDU chatPdu) throws NamingException, JMSException {
 
-	
-	public static void main(String args[]) throws NamingException, JMSException {
 		ConnectionFactory connectionFactory = null;
 		Connection connection = null;
 		Session session = null;
@@ -74,15 +72,15 @@ public class JmsProducer {
 
 			// Send the specified number of messages
 			for (int i = 0; i < count; i++) {
-				message = session.createObjectMessage(new ChatPDU()); //TODO chatPdu);
+				message = session.createObjectMessage(chatPdu);
 				producer.send(message);
 			}
 			
-//TODO			return true;
+			return true;
 			
 		} catch (Exception e) {
 			log.error(e.getMessage());
-//TODO			return false;
+			return false;
 		} finally {
 			if (context != null) {
 				context.close();
