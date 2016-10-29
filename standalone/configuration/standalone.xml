@@ -149,12 +149,12 @@
                         <password>sa</password>
                     </security>
                 </datasource>
-                <xa-datasource jndi-name="java:/localhost:3316/tracedb" pool-name="tracedb" enabled="false" use-ccm="true">
-                    <xa-datasource-property name="url">
-                        jdbc:mysql://localhost:3316/tracedb
+                <xa-datasource jndi-name="java:/localhost:3316/tracedb" pool-name="tracedb" enabled="false">
+                    <xa-datasource-property name="URL">
+                        jdbc://mysql://localhost:3316/tracedb?characterEncoding=UTF-8
                     </xa-datasource-property>
                     <xa-datasource-class>com.mysql.jdbc.jdbc2.optional.MysqlXADataSource</xa-datasource-class>
-                    <driver>mysql-connector-java-5.1.33.jar_com.mysql.jdbc.Driver_5_1</driver>
+                    <driver>com.mysql</driver>
                     <xa-pool>
                         <is-same-rm-override>false</is-same-rm-override>
                         <interleaving>false</interleaving>
@@ -183,7 +183,7 @@
                         <share-prepared-statements>false</share-prepared-statements>
                     </statement>
                 </xa-datasource>
-                <xa-datasource jndi-name="java:/localhost:3316/countdb" pool-name="countdb" enabled="true">
+                <xa-datasource jndi-name="java:/localhost:3316/countdb" pool-name="countdb" enabled="false">
                     <xa-datasource-property name="URL">
                         jdbc://mysql://localhost:3316/countdb?characterEncoding=UTF-8
                     </xa-datasource-property>
@@ -221,9 +221,9 @@
                     <driver name="h2" module="com.h2database.h2">
                         <xa-datasource-class>org.h2.jdbcx.JdbcDataSource</xa-datasource-class>
                     </driver>
-            <driver name="com.mysql" module="com.mysql">
-                <xa-datasource-class>com.mysql.jdbc.jdbc2.optional.MysqlXADataSource</xa-datasource-class>
-            </driver>
+                    <driver name="com.mysql" module="com.mysql">
+                        <xa-datasource-class>com.mysql.jdbc.jdbc2.optional.MysqlXADataSource</xa-datasource-class>
+                    </driver>
                 </drivers>
             </datasources>
         </subsystem>
@@ -549,7 +549,7 @@
         <socket-binding name="management-http" interface="management" port="${jboss.management.http.port:9990}"/>
         <socket-binding name="management-https" interface="management" port="${jboss.management.https.port:9993}"/>
         <socket-binding name="ajp" port="${jboss.ajp.port:8009}"/>
-        <socket-binding name="http" port="${jboss.http.port:8080}"/>
+        <socket-binding name="http" port="${jboss.http.port:8089}"/>
         <socket-binding name="https" port="${jboss.https.port:8443}"/>
         <socket-binding name="jacorb" interface="unsecure" port="3528"/>
         <socket-binding name="jacorb-ssl" interface="unsecure" port="3529"/>
@@ -560,16 +560,4 @@
             <remote-destination host="localhost" port="25"/>
         </outbound-socket-binding>
     </socket-binding-group>
-
-    <deployments>
-        <deployment name="mariadb-java-client-1.5.4.jar" runtime-name="mariadb_connector">
-            <content sha1="bd0e2e8494245c2885a79fc92bc3693c88cbfab4"/>
-        </deployment>
-        <deployment name="chatApplicationServer-0.0.1-SNAPSHOT.war" runtime-name="chatApplicationServer-0.0.1-SNAPSHOT.war">
-            <content sha1="793befe19a09707b74a4da4bb02c9ac7ce11ad38"/>
-        </deployment>
-        <deployment name="mysql-connector" runtime-name="mysql-connector-java-5.1.33.jar">
-            <content sha1="8af455a9a3267e6664cafc87ace71a4e4ef02837"/>
-        </deployment>
-    </deployments>
 </server>

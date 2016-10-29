@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+This file needs to be placed in wildfly_dir/modules/system/layers/base/com/mysql/main.
+The mysql connector needs to go there as well.
+-->
+<module xmlns="urn:jboss:module:1.1" name="com.mysql">
+  <resources>
+    <resource-root path="mysql-connector-java-5.1.40.jar"/>
+  </resources>
+  <dependencies>
+    <module name="javax.api"/>
+    <module name="javax.transaction.api"/>
+  </dependencies>
+</module>
