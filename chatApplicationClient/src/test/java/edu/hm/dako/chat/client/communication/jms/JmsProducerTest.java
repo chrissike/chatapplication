@@ -10,33 +10,31 @@ import org.apache.commons.logging.LogFactory;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.hm.dako.chat.client.communication.SimpleMessageListenerThreadImpl;
 import edu.hm.dako.chat.common.ChatPDU;
 import edu.hm.dako.chat.common.PduType;
 
 public class JmsProducerTest {
 
 	private static Log log = LogFactory.getLog(JmsProducerTest.class);
-	
+
 	JmsProducer jmsProducer;
-	
+
 	ChatPDU chatPdu;
-	
+
 	@Before
-	public void prepareTest(){
-		
+	public void prepareTest() {
+
 		jmsProducer = new JmsProducer();
-		
+
 		chatPdu = new ChatPDU();
 		chatPdu.setMessage("Testnachricht");
 		chatPdu.setUserName("Hans Wurst");
 		chatPdu.setPduType(PduType.CHAT_MESSAGE_REQUEST);
-		
+
 	}
-	
-	
+
 	@Test
-	public void testSendMessage(){
+	public void testSendMessage() {
 		Boolean success = false;
 		try {
 			success = jmsProducer.sendMessage(chatPdu);

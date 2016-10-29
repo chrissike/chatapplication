@@ -12,13 +12,11 @@ import java.util.List;
 
 @Stateless
 public class TraceRepository {
+
 	private static final String PERSISTENCE_UNIT_NAME = "tracePersistence";
-//	private EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME,
-//			DBConfig.getPersistConfig(Database.tracedb, 3316));
-	
+
 	@PersistenceContext(unitName = PERSISTENCE_UNIT_NAME, type = PersistenceContextType.EXTENDED)
 	EntityManager em;
-//	private EntityManager em = factory.createEntityManager();
 
 	public void addTrace(TraceEntity trace) {
 		trace.setId(null);

@@ -7,7 +7,7 @@
 	version="2.1">
 	<persistence-unit name="tracePersistence" transaction-type="JTA">
 		
-		<!-- <jta-data-source>java:/mysqlxa</jta-data-source> -->
+		<jta-data-source>java:/mysqlxaTrace</jta-data-source>
 		<class>edu.hm.dako.chat.server.datasink.model.TraceEntity</class>
 
 		<properties>
@@ -26,7 +26,7 @@
 
 	<persistence-unit name="countPersistence" transaction-type="JTA">
 	
-		<!-- <jta-data-source>java:/mysqlxa</jta-data-source> -->
+		<jta-data-source>java:/mysqlxaCount</jta-data-source>
 		<class>edu.hm.dako.chat.server.datasink.model.CountEntity</class>
 
 		<properties>
@@ -38,10 +38,6 @@
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.hbm2ddl.auto" value="create-drop" />
-			<!-- <property name="javax.persistence.schema-generation.database.action" 
-				value="drop-and-create" /> <property name="javax.persistence.schema-generation.create-source" 
-				value="metadata" /> <property name="javax.persistence.schema-generation.drop-source" 
-				value="metadata" /> -->
 		</properties>
 
 	</persistence-unit>
