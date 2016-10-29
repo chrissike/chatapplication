@@ -149,11 +149,11 @@
                         <password>sa</password>
                     </security>
                 </datasource>
-                <xa-datasource jndi-name="java:/localhost:3316/tracedb" pool-name="tracedb" enabled="true" use-ccm="true">
+                <xa-datasource jndi-name="java:/localhost:3316/tracedb" pool-name="tracedb" enabled="false" use-ccm="true">
                     <xa-datasource-property name="url">
                         jdbc:mysql://localhost:3316/tracedb
                     </xa-datasource-property>
-                    <xa-datasource-class>javax.sql.XADataSource</xa-datasource-class>
+                    <xa-datasource-class>com.mysql.jdbc.jdbc2.optional.MysqlXADataSource</xa-datasource-class>
                     <driver>mysql-connector-java-5.1.33.jar_com.mysql.jdbc.Driver_5_1</driver>
                     <xa-pool>
                         <is-same-rm-override>false</is-same-rm-override>
@@ -183,12 +183,12 @@
                         <share-prepared-statements>false</share-prepared-statements>
                     </statement>
                 </xa-datasource>
-                <xa-datasource jndi-name="java:/localhost:3316/countdb" pool-name="countdb" enabled="true" use-ccm="true">
-                    <xa-datasource-property name="url">
-                        jdbc://mysql://localhost:3316/countdb
+                <xa-datasource jndi-name="java:/localhost:3316/countdb" pool-name="countdb" enabled="true">
+                    <xa-datasource-property name="URL">
+                        jdbc://mysql://localhost:3316/countdb?characterEncoding=UTF-8
                     </xa-datasource-property>
-                    <xa-datasource-class>javax.sql.XADataSource</xa-datasource-class>
-                    <driver>mysql-connector-java-5.1.33.jar_com.mysql.jdbc.Driver_5_1</driver>
+                    <xa-datasource-class>com.mysql.jdbc.jdbc2.optional.MysqlXADataSource</xa-datasource-class>
+                    <driver>com.mysql</driver>
                     <xa-pool>
                         <is-same-rm-override>false</is-same-rm-override>
                         <interleaving>false</interleaving>
@@ -221,6 +221,9 @@
                     <driver name="h2" module="com.h2database.h2">
                         <xa-datasource-class>org.h2.jdbcx.JdbcDataSource</xa-datasource-class>
                     </driver>
+            <driver name="com.mysql" module="com.mysql">
+                <xa-datasource-class>com.mysql.jdbc.jdbc2.optional.MysqlXADataSource</xa-datasource-class>
+            </driver>
                 </drivers>
             </datasources>
         </subsystem>
