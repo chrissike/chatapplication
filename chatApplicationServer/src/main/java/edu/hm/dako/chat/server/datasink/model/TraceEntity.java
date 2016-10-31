@@ -3,25 +3,30 @@ package edu.hm.dako.chat.server.datasink.model;
 import javax.persistence.*;
 import java.io.Serializable;
 
-
 @Entity
-@NamedQuery(name="TraceEntity.findAll", query="SELECT b FROM TraceEntity b")
+@NamedQuery(name = "TraceEntity.findAll", query = "SELECT b FROM TraceEntity b")
 public class TraceEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
 
-    private String clientThreadName;
+	private String clientThreadName;
 
-    private String serverThreadNamen;
+	private String serverThreadNamen;
 
-    private String nachricht;
-    
-    public TraceEntity() {
-    }
+	private String nachricht;
+
+	public TraceEntity() {
+	}
+
+	public TraceEntity(String clientThreadName, String serverThreadNamen, String nachricht) {
+		this.clientThreadName = clientThreadName;
+		this.serverThreadNamen = serverThreadNamen;
+		this.nachricht = nachricht;
+	}
 
 	public Integer getId() {
 		return id;

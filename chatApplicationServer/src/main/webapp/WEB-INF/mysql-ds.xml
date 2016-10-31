@@ -1,0 +1,24 @@
+<datasources xmlns="http://www.jboss.org/ironjacamar/schema">
+	<datasource jndi-name="java:/mysqlxaTrace" pool-name="MySQLPoolTrace">
+		<connection-url>jdbc:mysql://localhost:3316/tracedb</connection-url>
+		<driver>com.mysql</driver>
+		<pool>
+			<max-pool-size>30</max-pool-size>
+		</pool>
+		<security>
+			<user-name>root</user-name>
+			<password>50Ananas!</password>
+		</security>
+	</datasource>
+	<datasource jndi-name="java:/mysqlxaCount" pool-name="MySQLPoolCount">
+		<connection-url>jdbc:mysql://localhost:3316/countdb</connection-url>
+		<driver>com.mysql</driver>
+		<pool>
+			<max-pool-size>30</max-pool-size>
+		</pool>
+		<security>
+			<user-name>root</user-name>
+			<password>50Ananas!</password>
+		</security>
+	</datasource>
+</datasources>

@@ -3,6 +3,8 @@ package edu.hm.dako.chat.server.datasink;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import edu.hm.dako.chat.server.datasink.repo.CountRepository;
+
 public class CountRepositoryTest {
 
 	private static final Log LOG = LogFactory.getLog(CountRepositoryTest.class);

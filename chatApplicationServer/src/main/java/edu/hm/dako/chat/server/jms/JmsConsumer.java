@@ -44,7 +44,6 @@ public class JmsConsumer implements MessageListener { //, MessageDrivenBean {
 
 		try {
 			ChatPDU chatPDU = message.getBody(ChatPDU.class);
-			chatPDU.setServerTime(System.nanoTime());
 			processChatPDU.process(chatPDU);
 		} catch (JMSException e) {
 			log.error(e.toString());

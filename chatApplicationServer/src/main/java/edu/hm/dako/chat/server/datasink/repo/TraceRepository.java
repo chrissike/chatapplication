@@ -1,25 +1,22 @@
-package edu.hm.dako.chat.server.datasink;
+package edu.hm.dako.chat.server.datasink.repo;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
-import javax.transaction.Transactional;
 
 import edu.hm.dako.chat.server.datasink.model.TraceEntity;
 
 import java.util.List;
 
 @Stateless
-@Transactional
 public class TraceRepository {
+
 	private static final String PERSISTENCE_UNIT_NAME = "tracePersistence";
-	private EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME,
-			DBConfig.getPersistConfig(Database.tracedb, 3316));
-	
-//	@PersistenceContext EntityManager em;
-	private EntityManager em = factory.createEntityManager();
+
+	@PersistenceContext(unitName = PERSISTENCE_UNIT_NAME, type = PersistenceContextType.EXTENDED)
+	EntityManager em;
 
 	public void addTrace(TraceEntity trace) {
 		trace.setId(null);
