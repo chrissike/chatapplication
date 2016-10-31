@@ -26,6 +26,26 @@ public class AdminService {
     private UriInfo uriInfo;
 
     @GET
+    @Path("clients")
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    public String getClients() {
+        // TODO: Remove Mock
+        JsonBuilderFactory factory = Json.createBuilderFactory(null);
+        JsonArray value = factory.createArrayBuilder()
+                .add(factory.createObjectBuilder()
+                        .add("name", "Test01")
+                )
+                .add(factory.createObjectBuilder()
+                        .add("name", "Test02")
+                )
+                .build();
+        return value.toString();
+
+        //TODO: select on clientdb
+    }
+
+    @GET
     @Path("count/{clientId}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
