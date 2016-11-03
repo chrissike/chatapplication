@@ -1,80 +1,67 @@
-//package edu.hm.dako.chat.client.communication.jms;
-//
-//import javax.jms.Topic;
-//import javax.jms.TopicConnection;
-//import javax.jms.TopicConnectionFactory;
-//import javax.jms.TopicSession;
-//import javax.naming.Context;
-//
-//public class TopicSubscriber {
-//
-//	public static void main(String[] args) {
-//		final String topicName = "jms/MyJMSTopic";
-//		final String topicConnectionFactoryName = "jms/MyJMSTCF";
-//		final String oc4juser = "oc4jadmin";
-//		final String oc4juserpassword = "welcome1";
-//		final String urlProvider = "opmn:ormi://";
-//		final String jmsProviderHost = "sracanov-au.au.oracle.com";
-//		final String colon = ":";
-//		final String opmnPort = "6007";
-//		final String oc4jinstance = "OC4J_JMS";
-//		Context jndiContext = null;
-//		TopicConnectionFactory topicConnectionFactory = null;
-//		TopicConnection topicConnection = null;
-//		TopicSession topicSession = null;
-//		Topic topic = null;
-//		TopicSubscriber topicSubscriber = null;
-//		JMSTopicMapListener topicListener = null;
-//
-//		/*
-//		 * Set the environment for a connection to the OC4J instance
-//		 */
-//		Hashtable env = new Hashtable();
-//		env.put(Context.INITIAL_CONTEXT_FACTORY, "oracle.j2ee.rmi.RMIInitialContextFactory");
-//		env.put(Context.SECURITY_PRINCIPAL, oc4juser);
-//		env.put(Context.SECURITY_CREDENTIALS, oc4juserpassword);
-//		env.put(Context.PROVIDER_URL,
-//				urlProvider + jmsProviderHost + colon + opmnPort + colon + oc4jinstance + "/default");
-//
-//		/*
-//		 * Set the Context Object. Lookup the Topic Connection Factory. Lookup
-//		 * the JMS Destination.
-//		 */
-//		try {
-//			jndiContext = new InitialContext(env);
-//			topicConnectionFactory = (TopicConnectionFactory) jndiContext.lookup(topicConnectionFactoryName);
-//			topic = (Topic) jndiContext.lookup(topicName);
-//		} catch (NamingException e) {
-//			System.out.println("Lookup failed: " + e.toString());
-//			System.exit(1);
-//		}
-//
-//		/*
-//		 * Create connection. Create session from connection; false means
-//		 * session is not transacted. Create subscriber. Register message
-//		 * listener (TextListener). Receive text messages from topic. Close
-//		 * connection.
-//		 */
-//		try {
-//			topicConnection = topicConnectionFactory.createTopicConnection();
-//			topicSession = topicConnection.createTopicSession(false, Session.AUTO_ACKNOWLEDGE);
-//			topicSubscriber = topicSession.createSubscriber(topic);
-//			topicListener = new JMSTopicMapListener();
-//			topicSubscriber.setMessageListener(topicListener);
-//			topicConnection.start();
-//			System.out.println("Subscripted to topic: \"" + topicName + "\"");
-//			while (true) {
-//			}
-//		} catch (JMSException e) {
-//			System.out.println("Exception occurred: " + e.toString());
-//		} finally {
-//			if (topicConnection != null) {
-//				try {
-//					topicConnection.close();
-//				} catch (JMSException e) {
-//					System.out.println("Closing error: " + e.toString());
-//				}
-//			}
-//		}
+package edu.hm.dako.chat.client.communication.jms;
+
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.MessageListener;
+import javax.jms.TextMessage;
+import java.util.concurrent.atomic.AtomicLong;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import javax.ejb.MessageDrivenContext;
+import javax.annotation.Resource;
+
+
+import edu.hm.dako.chat.common.ChatPDU;
+
+
+/**
+ * JMS Nachrichtenempfänger
+ *
+ */
+
+public class TopicSubscriber implements MessageListener { // MessageDrivenBean
+
+	
+	AtomicLong count = new AtomicLong(0);
+	
+	public void onMessage(Message message) {
+		System.out.println("++++++++++++++++11+>>>> Nachricht erhalten: " + message.toString());
+		
+		long i;
+		try {
+			Thread.sleep(Integer.MAX_VALUE);
+			if (message instanceof ChatPDU){
+				
+				i=count.incrementAndGet();
+				System.out.println("Reading message:++++++++++++++++++++++++++++++++++ " + message.getBody(String.class));
+			}else {
+				 System.err.println("Message is not a TextMessage");
+			}
+			ChatPDU chatPDU = message.getBody(ChatPDU.class);
+			System.out.println("Topicnachricht erhalten: " + chatPDU.toString());
+		} catch (JMSException e) {
+		
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	public long getCount(){
+		 return count.get();
+	}
+
+//	@Override
+//	public void setMessageDrivenContext(MessageDrivenContext ctx) throws EJBException {
+//		log.info("setMessageDrivenContext() wird aufgerufen!!!"); 
+//		
 //	}
-//}
+//
+//	@Override
+//	public void ejbRemove() throws EJBException {
+//		log.info("ejbRemove() wird aufgerufen!!!"); 
+//		
+//	}
+}

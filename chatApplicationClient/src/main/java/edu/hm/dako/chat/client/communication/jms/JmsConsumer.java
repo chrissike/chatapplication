@@ -1,67 +1,48 @@
 package edu.hm.dako.chat.client.communication.jms;
-
-import javax.jms.JMSException;
-import javax.jms.Message;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import javax.jms.ConnectionFactory;
+import javax.jms.JMSConsumer;
+import javax.jms.JMSContext;
 import javax.jms.MessageListener;
+import javax.jms.JMSRuntimeException;
+import javax.jms.Topic;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.naming.Context;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import javax.ejb.MessageDriven;
-import javax.ejb.MessageDrivenBean;
-import javax.ejb.MessageDrivenContext;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionManagement;
-import javax.annotation.Resource;
-import javax.ejb.ActivationConfigProperty;
-import javax.ejb.EJBException;
-import javax.ejb.TransactionManagementType;
-import javax.ejb.TransactionAttributeType;
-
-import edu.hm.dako.chat.common.ChatPDU;
+public class JmsConsumer{
+	private static ConnectionFactory connectionFactory;
+	private static Topic topic;
+	
+public static void main(String[] args) throws NamingException { 
+Context ctx = new InitialContext();
+connectionFactory = (ConnectionFactory) ctx.lookup("java:comp/DefaultJMSConnectionFactory");
+topic = (Topic)ctx.lookup("topic/chatresp2");
 
 
-/**
- * JMS Nachrichtenempfänger
- *
- */
-@MessageDriven(name = "JmsConsumer", activationConfig = {
-			@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Topic"),
-			@ActivationConfigProperty(propertyName = "destination", propertyValue = "topic/chatresp2"), // destination's JNDI name
-			@ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge")
-		})
-@TransactionManagement(value = TransactionManagementType.CONTAINER)
-@TransactionAttribute(value = TransactionAttributeType.REQUIRED)
-public class JmsConsumer implements MessageListener { // MessageDrivenBean
-
-	private static Log log = LogFactory.getLog(JmsConsumer.class);
-
-	@Resource
-	private MessageDrivenContext mdc;
-
-	public void onMessage(Message message) {
-		System.out.println(">>>> Nachricht erhalten: " + message.toString());
-		log.info(">>>> onMessage()-Methode gestartet" + message.toString());
-
-		try {
-			ChatPDU chatPDU = message.getBody(ChatPDU.class);
-			System.out.println("Topicnachricht erhalten: " + chatPDU.toString());
-		} catch (JMSException e) {
-			log.error(e.toString());
-			mdc.setRollbackOnly();
-		}
-
-	}
-
-//	@Override
-//	public void setMessageDrivenContext(MessageDrivenContext ctx) throws EJBException {
-//		log.info("setMessageDrivenContext() wird aufgerufen!!!"); 
-//		
-//	}
-//
-//	@Override
-//	public void ejbRemove() throws EJBException {
-//		log.info("ejbRemove() wird aufgerufen!!!"); 
-//		
-//	}
+try (JMSContext context = connectionFactory.createContext();) {
+    JMSConsumer consumer = context.createSharedConsumer(topic, "SubName");
+    //JMSConsumer consumer=context.createSharedDurableConsumer(topic, "MakeItLast");
+    System.out.println("Waiting for messages on topic");
+    TopicSubscriber listener = new TopicSubscriber();
+    consumer.setMessageListener(listener);
+    System.out.println(
+            "To end program, enter Q or q, " + "then <return>");
+    InputStreamReader inputStreamReader = new InputStreamReader(System.in);
+    char answer = '\0';
+    while (!((answer == 'q') || (answer == 'Q'))) {
+        try {
+            answer = (char) inputStreamReader.read();
+        } catch (IOException e) {
+            System.err.println("I/O exception: " + e.toString());
+        }
+    }
+    System.out.println("Text messages received: " + listener.getCount());
+} catch (JMSRuntimeException e) {
+    System.err.println("Exception occurred: " + e.toString());
+    System.exit(1);
+}
+System.exit(0);
+}
 }
