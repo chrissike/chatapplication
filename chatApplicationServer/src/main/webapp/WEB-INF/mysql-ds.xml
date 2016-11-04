@@ -6,7 +6,7 @@
 			<max-pool-size>30</max-pool-size>
 		</pool>
 		<security>
-			<user-name>chatapp</user-name>
+			<user-name>root</user-name> <!-- chatapp -->
 			<password>50Ananas!</password>
 		</security>
 	</datasource>
@@ -17,7 +17,7 @@
 			<max-pool-size>30</max-pool-size>
 		</pool>
 		<security>
-			<user-name>chatapp</user-name>
+			<user-name>root</user-name>
 			<password>50Ananas!</password>
 		</security>
 	</datasource>

@@ -27,7 +27,7 @@ public class JmsProducer {
 
 	private static final String DEFAULT_CONNECTION_FACTORY = "jms/RemoteConnectionFactory";
 	private static final String DEFAULT_DESTINATION = "jms/queue/chatreq2";
-	private static final String DEFAULT_MESSAGE_COUNT = "1";
+	private static final String DEFAULT_MESSAGE_COUNT = "3";
 	private static final String DEFAULT_USERNAME = "guest";
 	private static final String DEFAULT_PASSWORD = "guest";
 	private static final String INITIAL_CONTEXT_FACTORY = "org.jboss.naming.remote.client.InitialContextFactory";
@@ -82,13 +82,10 @@ public class JmsProducer {
 			log.error(e.getMessage());
 			return false;
 		} finally {
-			if (context != null) {
-				context.close();
-			}
-
-			if (connection != null) {
-				connection.close();
-			}
-		}
+		      try { if( null != producer  ) producer.close();  } catch( Exception ex ) {/*ok*/}
+		      try { if( null != session ) session.close(); } catch( Exception ex ) {/*ok*/}
+		      try { if( null != connection ) connection.close(); } catch( Exception ex ) {/*ok*/}
+		      try { if( null != context ) context.close();     } catch( Exception ex ) {/*ok*/}
+		    }
 	}
 }

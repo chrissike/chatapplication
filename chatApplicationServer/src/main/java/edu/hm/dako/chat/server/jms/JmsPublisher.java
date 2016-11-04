@@ -9,6 +9,11 @@ import javax.jms.JMSException;
 import javax.jms.MessageProducer;
 import javax.jms.ObjectMessage;
 import javax.jms.Session;
+import javax.jms.Topic;
+import javax.jms.TopicConnection;
+import javax.jms.TopicConnectionFactory;
+import javax.jms.TopicPublisher;
+import javax.jms.TopicSession;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -25,9 +30,9 @@ import edu.hm.dako.chat.common.ChatPDU;
  * </p>
  *
  */
-public class JmsProducer2 {
+public class JmsPublisher {
 
-	private static final Log log = LogFactory.getLog(JmsProducer2.class.getName());
+	private static final Log log = LogFactory.getLog(JmsPublisher.class.getName());
 
 	private static final String DEFAULT_CONNECTION_FACTORY = "jms/RemoteConnectionFactory";
 	private static final String DEFAULT_DESTINATION = "jms/topic/chatresp2";
@@ -38,13 +43,13 @@ public class JmsProducer2 {
 	private static final String PROVIDER_URL = "http-remoting://127.0.0.1:8089";
 
 	public void sendMessage(ChatPDU pdu) throws NamingException, JMSException {
-
+		
 		log.info("sendMessage() gestartet");
 		
-		ConnectionFactory connectionFactory = null;
-		Connection connection = null;
-		Session session = null;
-		MessageProducer producer = null;
+		TopicConnectionFactory connectionFactory = null;
+		TopicConnection connection = null;
+		TopicSession session = null;
+		TopicPublisher publisher = null;
 		Destination destination = null;
 		ObjectMessage message = null;
 		Context context = null;
@@ -60,7 +65,7 @@ public class JmsProducer2 {
 
 			// Perform the JNDI lookups
 			String connectionFactoryString = System.getProperty("connection.factory", DEFAULT_CONNECTION_FACTORY);
-			connectionFactory = (ConnectionFactory) context.lookup(connectionFactoryString);
+			connectionFactory = (TopicConnectionFactory) context.lookup(connectionFactoryString);
 			log.info("Found connection factory \"" + connectionFactoryString + "\" in JNDI");
 
 			String destinationString = System.getProperty("destination", DEFAULT_DESTINATION);
@@ -70,10 +75,11 @@ public class JmsProducer2 {
 			log.info("Found destination \"" + destinationString + "\" in JNDI");
 			
 			// Create the JMS connection, session, producer, and consumer
-			connection = connectionFactory.createConnection(System.getProperty("username", DEFAULT_USERNAME),
+			connection = connectionFactory.createTopicConnection(System.getProperty("username", DEFAULT_USERNAME),
 					System.getProperty("password", DEFAULT_PASSWORD));
-			session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-			producer = session.createProducer(destination);
+					
+			session = connection.createTopicSession(false, Session.AUTO_ACKNOWLEDGE);
+			publisher = session.createPublisher(session.createTopic(destinationString));
 			connection.start();
 
 			int count = Integer.parseInt(System.getProperty("message.count", DEFAULT_MESSAGE_COUNT));
@@ -81,20 +87,17 @@ public class JmsProducer2 {
 			// Send the specified number of messages
 			for (int i = 0; i < count; i++) {
 				message = session.createObjectMessage(pdu);
-				producer.send(message);
+				publisher.send(message);
 			}
 
 		} catch (Exception e) {
 			log.info(e);
 			throw e;
 		} finally {
-			if (context != null) {
-				context.close();
-			}
-
-			if (connection != null) {
-				connection.close();
-			}
-		}
+		      try { if( null != publisher  ) publisher.close();  } catch( Exception ex ) {/*ok*/}
+		      try { if( null != session ) session.close(); } catch( Exception ex ) {/*ok*/}
+		      try { if( null != connection ) connection.close(); } catch( Exception ex ) {/*ok*/}
+		      try { if( null != context ) context.close();     } catch( Exception ex ) {/*ok*/}
+		    }
 	}
 }

@@ -7,7 +7,7 @@
                 <entry name="java:jboss/exported/jms/queue/chatreq2"/>
             </jms-queue>
             <jms-topic name="ChatResponseTopic2">
-                <entry name="/topic/chatresp2"/>
+                <entry name="jms/topic/chatresp2"/>
                 <entry name="java:jboss/exported/jms/topic/chatresp2"/>
             </jms-topic>
         </jms-destinations>

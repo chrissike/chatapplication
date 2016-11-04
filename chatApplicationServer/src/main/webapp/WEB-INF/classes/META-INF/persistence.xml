@@ -13,7 +13,7 @@
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3316/tracedb" />
-			<property name="javax.persistence.jdbc.user" value="chatapp" />
+			<property name="javax.persistence.jdbc.user" value="root" />
 			<property name="javax.persistence.jdbc.password" value="50Ananas!" />
 
 
@@ -32,7 +32,7 @@
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3316/countdb" />
-			<property name="javax.persistence.jdbc.user" value="chatapp" />
+			<property name="javax.persistence.jdbc.user" value="root" />
 			<property name="javax.persistence.jdbc.password" value="50Ananas!" />
 
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
