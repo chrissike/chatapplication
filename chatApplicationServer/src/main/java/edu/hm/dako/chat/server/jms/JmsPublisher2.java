@@ -4,6 +4,7 @@ import javax.annotation.Resource;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.jms.ConnectionFactory;
 import javax.jms.JMSConnectionFactory;
 import javax.jms.JMSContext;
 import javax.jms.JMSDestinationDefinition;
@@ -27,7 +28,7 @@ import edu.hm.dako.chat.common.ChatPDU;
  *
  */
 @JMSDestinationDefinitions({
-	@JMSDestinationDefinition(name = "java:global/jms/topic/chatresp2", interfaceName = "javax.jms.Topic") 
+	@JMSDestinationDefinition(name = "jms/topic/chatresp", interfaceName = "javax.jms.Topic") 
 })
 @Stateless
 public class JmsPublisher2 {
@@ -36,12 +37,13 @@ public class JmsPublisher2 {
 
 	@Resource
 	private SessionContext sc;
+	
 
-	@Resource(name = "ChatResponseTopic2") //lookup = "jms/topic/chatresp2") // "java:module/jms/topic/chatresp2")
+	@Resource(name = "ChatResponseTopic", lookup = "jms/topic/chatresp") // "java:module/jms/topic/chatresp2") //name = "ChatResponseTopic2") //
 	private Topic topic;
 
 	@Inject
-	@JMSConnectionFactory("java:jboss/exported/jms/RemoteConnectionFactory")
+	@JMSConnectionFactory("java:/ConnectionFactory") //"java:jboss/exported/jms/RemoteConnectionFactory")
 	@JMSPasswordCredential(userName = "guest", password = "guest")
 	private JMSContext context;
 

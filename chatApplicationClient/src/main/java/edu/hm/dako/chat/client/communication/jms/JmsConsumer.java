@@ -66,7 +66,7 @@ public class JmsConsumer {
 		Context ctx = new InitialContext(env);
 
 		connectionFactory = (ConnectionFactory) ctx.lookup("jms/RemoteConnectionFactory");
-		topic = (Topic) ctx.lookup("jms/topic/chatresp2");
+		topic = (Topic) ctx.lookup("jms/topic/chatresp");
 
 		try (JMSContext context = connectionFactory.createContext(System.getProperty("username", DEFAULT_USERNAME),
 				System.getProperty("password", DEFAULT_PASSWORD));) {

@@ -28,7 +28,7 @@ import edu.hm.dako.chat.server.process.ProcessChatPDU;
 		})
 @TransactionManagement(value = TransactionManagementType.CONTAINER)
 @TransactionAttribute(value = TransactionAttributeType.REQUIRED)
-public class JmsConsumer implements MessageListener { //, MessageDrivenBean {
+public class JmsConsumer implements MessageListener {
 
 	private static Log log = LogFactory.getLog(JmsConsumer.class);
 
