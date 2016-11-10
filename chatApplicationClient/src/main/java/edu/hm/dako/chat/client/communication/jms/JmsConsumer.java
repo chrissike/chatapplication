@@ -8,11 +8,16 @@ import java.util.Properties;
 import javax.jms.ConnectionFactory;
 import javax.jms.JMSConsumer;
 import javax.jms.JMSContext;
+import javax.jms.JMSException;
 import javax.jms.MessageListener;
 import javax.jms.JMSRuntimeException;
+import javax.jms.Message;
 import javax.jms.Topic;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+
+import edu.hm.dako.chat.common.ChatPDU;
+
 import javax.naming.Context;
 
 public class JmsConsumer {
@@ -49,6 +54,16 @@ public class JmsConsumer {
 //		System.exit(0);
 //	}
 	
+	public static void main(String args[]) {
+		JmsConsumer jc = new JmsConsumer();
+		try {
+			jc.initJmsConsumer();
+		} catch (NamingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	private static final String DEFAULT_CONNECTION_FACTORY = "jms/RemoteConnectionFactory";
 	private static final String DEFAULT_MESSAGE_COUNT = "1";
 	private static final String DEFAULT_USERNAME = "guest";
@@ -74,23 +89,22 @@ public class JmsConsumer {
 			// JMSConsumer consumer=context.createSharedDurableConsumer(topic,
 			// "MakeItLast");
 			System.out.println("Waiting for messages on topic");
-			TopicSubscriber listener = new TopicSubscriber();
-			consumer.setMessageListener(listener);
-			System.out.println("To end program, enter Q or q, " + "then <return>");
-			InputStreamReader inputStreamReader = new InputStreamReader(System.in);
-			char answer = '\0';
-			while (!((answer == 'q') || (answer == 'Q'))) {
-				try {
-					answer = (char) inputStreamReader.read();
-				} catch (IOException e) {
-					System.err.println("I/O exception: " + e.toString());
-				}
+//			TopicSubscriber listener = new TopicSubscriber();
+//			consumer.setMessageListener(listener);
+
+			Message msg = consumer.receive();
+			try {
+				msg.getBody(ChatPDU.class);
+				
+			} catch (JMSException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			System.out.println("Text messages received: " + listener.getCount());
+			
+			
 		} catch (JMSRuntimeException e) {
 			System.err.println("Exception occurred: " + e.toString());
 			System.exit(1);
 		}
-		System.exit(0);
 	}
 }

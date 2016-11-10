@@ -19,7 +19,7 @@ public class JmsProducerTest {
 
 	JmsProducer jmsProducer;
 	JmsConsumer jmsConsumer;
-	
+
 	ChatPDU chatPdu;
 
 	@Before
@@ -27,43 +27,45 @@ public class JmsProducerTest {
 
 		jmsProducer = new JmsProducer();
 		jmsConsumer = new JmsConsumer();
-		
+
 		chatPdu = new ChatPDU();
 		chatPdu.setMessage("Testnachricht");
 		chatPdu.setUserName("Hans Wurst");
 		chatPdu.setPduType(PduType.CHAT_MESSAGE_REQUEST);
 		chatPdu.setClientThreadName(Thread.currentThread().getName());
-		
-		Thread one = new Thread() {
-		    public void run() {
-				try {
-					jmsConsumer.initJmsConsumer();
-				} catch (NamingException e) {
-					e.printStackTrace();
-				}
-		    }  
-		};
 
-		one.start();
+		// Thread one = new Thread() {
+		// public void run() {
+		// try {
+		// jmsConsumer.initJmsConsumer();
+		// } catch (NamingException e) {
+		// e.printStackTrace();
+		// }
+		// }
+		// };
+		//
+		// one.start();
 	}
 
 	@Test
 	public void testJms() {
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		for (int i = 0; i < 10; i++) {
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			Boolean success = false;
+			try {
+				success = jmsProducer.sendMessage(chatPdu);
+			} catch (NamingException e) {
+				log.error(e.getMessage());
+				e.printStackTrace();
+			} catch (JMSException e) {
+				log.error(e.getMessage());
+				e.printStackTrace();
+			}
+			assertTrue(success);
 		}
-		Boolean success = false;
-		try {
-			success = jmsProducer.sendMessage(chatPdu);
-		} catch (NamingException e) {
-			log.error(e.getMessage());
-			e.printStackTrace();
-		} catch (JMSException e) {
-			log.error(e.getMessage());
-			e.printStackTrace();
-		}
-		assertTrue(success);
 	}
 }
