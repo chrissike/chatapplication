@@ -39,7 +39,6 @@ public class JmsConsumer implements MessageListener {
 	private MessageDrivenContext mdc;
 
 	public void onMessage(Message message) {
-		System.out.println(">>>> Nachricht erhalten: " + message.toString());
 		log.info(">>>> onMessage()-Methode gestartet" + message.toString());
 
 		try {

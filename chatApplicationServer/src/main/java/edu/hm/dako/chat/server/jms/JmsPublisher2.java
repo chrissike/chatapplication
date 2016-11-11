@@ -4,8 +4,8 @@ import javax.annotation.Resource;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.jms.ConnectionFactory;
 import javax.jms.JMSConnectionFactory;
+import javax.jms.JMSConsumer;
 import javax.jms.JMSContext;
 import javax.jms.JMSDestinationDefinition;
 import javax.jms.JMSDestinationDefinitions;
@@ -28,7 +28,7 @@ import edu.hm.dako.chat.common.ChatPDU;
  *
  */
 @JMSDestinationDefinitions({
-	@JMSDestinationDefinition(name = "jms/topic/chatresp", interfaceName = "javax.jms.Topic") 
+	@JMSDestinationDefinition(name = "jms/topic/chatresp2", interfaceName = "javax.jms.Topic") 
 })
 @Stateless
 public class JmsPublisher2 {
@@ -39,23 +39,24 @@ public class JmsPublisher2 {
 	private SessionContext sc;
 	
 
-	@Resource(name = "ChatResponseTopic", lookup = "jms/topic/chatresp") // "java:module/jms/topic/chatresp2") //name = "ChatResponseTopic2") //
+	@Resource(name = "ChatResponseTopic", lookup = "jms/topic/chatresp2")
 	private Topic topic;
 
 	@Inject
-	@JMSConnectionFactory("java:/ConnectionFactory") //"java:jboss/exported/jms/RemoteConnectionFactory")
+	@JMSConnectionFactory("java:jboss/exported/jms/HTTPConnectionFactory") //"java:jboss/exported/jms/RemoteConnectionFactory")
 	@JMSPasswordCredential(userName = "guest", password = "guest")
 	private JMSContext context;
 
-	// private static final String PROVIDER_URL =
-	// "http-remoting://127.0.0.1:8089";
-
 	public void sendMessage(ChatPDU pdu) throws NamingException, JMSException {
 		log.info("sendMessage() gestartet");
-
+		
+		JMSConsumer consumer = context.createConsumer(topic);
 		JMSProducer producer = context.createProducer();
+		
 		producer.send(topic, pdu);
+		
+		ChatPDU p = consumer.receiveBody(ChatPDU.class);
 
-		log.info("sendMessage() beendet");
+		log.info("sendMessage() beendet - consumer: " + p.toString());
 	}
 }

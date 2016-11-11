@@ -25,9 +25,9 @@ public class JmsProducer {
 
 	private static final Log log = LogFactory.getLog(JmsProducer.class.getName());
 
-	private static final String DEFAULT_CONNECTION_FACTORY = "jms/RemoteConnectionFactory";
+	private static final String DEFAULT_CONNECTION_FACTORY = "jms/HTTPConnectionFactory"; //"jms/RemoteConnectionFactory";
 	private static final String DEFAULT_DESTINATION = "jms/queue/chatreq2";
-	private static final String DEFAULT_MESSAGE_COUNT = "3";
+	private static final String DEFAULT_MESSAGE_COUNT = "1";
 	private static final String DEFAULT_USERNAME = "guest";
 	private static final String DEFAULT_PASSWORD = "guest";
 	private static final String INITIAL_CONTEXT_FACTORY = "org.jboss.naming.remote.client.InitialContextFactory";

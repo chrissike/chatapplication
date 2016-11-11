@@ -1,59 +1,24 @@
 package edu.hm.dako.chat.client.communication.jms;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Hashtable;
 import java.util.Properties;
 
 import javax.jms.ConnectionFactory;
+import javax.jms.JMSConnectionFactory;
 import javax.jms.JMSConsumer;
 import javax.jms.JMSContext;
 import javax.jms.JMSException;
-import javax.jms.MessageListener;
-import javax.jms.JMSRuntimeException;
+import javax.jms.JMSPasswordCredential;
+import javax.jms.JMSProducer;
 import javax.jms.Message;
 import javax.jms.Topic;
+import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import edu.hm.dako.chat.common.ChatPDU;
 
-import javax.naming.Context;
-
 public class JmsConsumer {
-	private static ConnectionFactory connectionFactory;
-	private static Topic topic;
 
-//	public void main(String[] args) throws NamingException {
-//		Context ctx = new InitialContext();
-//		connectionFactory = (ConnectionFactory) ctx.lookup("java:comp/DefaultJMSConnectionFactory");
-//		topic = (Topic) ctx.lookup("topic/chatresp2");
-//
-//		try (JMSContext context = connectionFactory.createContext();) {
-//			JMSConsumer consumer = context.createSharedConsumer(topic, "SubName");
-//			// JMSConsumer consumer=context.createSharedDurableConsumer(topic,
-//			// "MakeItLast");
-//			System.out.println("Waiting for messages on topic");
-//			TopicSubscriber listener = new TopicSubscriber();
-//			consumer.setMessageListener(listener);
-//			System.out.println("To end program, enter Q or q, " + "then <return>");
-//			InputStreamReader inputStreamReader = new InputStreamReader(System.in);
-//			char answer = '\0';
-//			while (!((answer == 'q') || (answer == 'Q'))) {
-//				try {
-//					answer = (char) inputStreamReader.read();
-//				} catch (IOException e) {
-//					System.err.println("I/O exception: " + e.toString());
-//				}
-//			}
-//			System.out.println("Text messages received: " + listener.getCount());
-//		} catch (JMSRuntimeException e) {
-//			System.err.println("Exception occurred: " + e.toString());
-//			System.exit(1);
-//		}
-//		System.exit(0);
-//	}
-	
 	public static void main(String args[]) {
 		JmsConsumer jc = new JmsConsumer();
 		try {
@@ -64,47 +29,63 @@ public class JmsConsumer {
 		}
 	}
 	
-	private static final String DEFAULT_CONNECTION_FACTORY = "jms/RemoteConnectionFactory";
-	private static final String DEFAULT_MESSAGE_COUNT = "1";
-	private static final String DEFAULT_USERNAME = "guest";
-	private static final String DEFAULT_PASSWORD = "guest";
+	@JMSConnectionFactory("java:jboss/exported/jms/RemoteConnectionFactory") //"java:/ConnectionFactory") //"java:jboss/exported/jms/RemoteConnectionFactory")
+	private ConnectionFactory confac;
+	
+	@JMSPasswordCredential(userName = "guest", password = "guest")
+	private JMSContext context;
+
+	private static final String DEFAULT_CONNECTION_FACTORY = "jms/HTTPConnectionFactory"; //"jms/RemoteConnectionFactory";
+	private static final String USERNAME = "guest";
+	private static final String PASSWORD = "guest";
 	private static final String INITIAL_CONTEXT_FACTORY = "org.jboss.naming.remote.client.InitialContextFactory";
 	private static final String PROVIDER_URL = "http-remoting://127.0.0.1:8089";
-	
+	private static final String TOPIC = "jms/topic/chatresp2";
+
 	public void initJmsConsumer() throws NamingException {
 		final Properties env = new Properties();
 		env.put(Context.INITIAL_CONTEXT_FACTORY, INITIAL_CONTEXT_FACTORY);
 		env.put(Context.PROVIDER_URL, System.getProperty(Context.PROVIDER_URL, PROVIDER_URL));
-		env.put(Context.SECURITY_PRINCIPAL, System.getProperty("username", DEFAULT_USERNAME));
-		env.put(Context.SECURITY_CREDENTIALS, System.getProperty("password", DEFAULT_PASSWORD));
-		
+		env.put(Context.SECURITY_PRINCIPAL, System.getProperty("username", USERNAME));
+		env.put(Context.SECURITY_CREDENTIALS, System.getProperty("password", PASSWORD));
+
 		Context ctx = new InitialContext(env);
+		System.out.println(ctx.getEnvironment().toString());
 
-		connectionFactory = (ConnectionFactory) ctx.lookup("jms/RemoteConnectionFactory");
-		topic = (Topic) ctx.lookup("jms/topic/chatresp");
+		confac = (ConnectionFactory) ctx.lookup(DEFAULT_CONNECTION_FACTORY);
+		Topic topic = (Topic) ctx.lookup(TOPIC);
+		System.out.println("Topic: " + topic.toString());
+		
+		context = confac.createContext(USERNAME, PASSWORD);
+//		context.setClientID(Thread.currentThread().getId() + Thread.currentThread().getName() + Math.random());
 
-		try (JMSContext context = connectionFactory.createContext(System.getProperty("username", DEFAULT_USERNAME),
-				System.getProperty("password", DEFAULT_PASSWORD));) {
-			JMSConsumer consumer = context.createSharedConsumer(topic, "SubName");
-			// JMSConsumer consumer=context.createSharedDurableConsumer(topic,
-			// "MakeItLast");
-			System.out.println("Waiting for messages on topic");
-//			TopicSubscriber listener = new TopicSubscriber();
-//			consumer.setMessageListener(listener);
+		JMSConsumer consumer = context.createConsumer(topic);
 
-			Message msg = consumer.receive();
-			try {
-				msg.getBody(ChatPDU.class);
-				
-			} catch (JMSException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			
-		} catch (JMSRuntimeException e) {
-			System.err.println("Exception occurred: " + e.toString());
-			System.exit(1);
-		}
+		TopicSubscriber sub = new TopicSubscriber();
+		consumer.setMessageListener(sub);
+		
+//		JMSProducer producer = context.createProducer();
+//		producer.send(topic, new ChatPDU());
+		
+//		Message msg = consumer.receiveNoWait();
+//		ChatPDU pdu = null;
+//		if(msg != null) {
+//			try {
+//				pdu = msg.getBody(ChatPDU.class);
+//			} catch (JMSException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//			
+//		}
+		
+//		System.out.println("Msg: " + pdu.toString());
+		
+//		System.out.println("Waiting for messages");
+//		ChatPDU pdu2 = consumer.receiveBody(ChatPDU.class);
+//		System.out.println(pdu2.toString());
+
+		consumer.close();
+		context.stop();
 	}
 }

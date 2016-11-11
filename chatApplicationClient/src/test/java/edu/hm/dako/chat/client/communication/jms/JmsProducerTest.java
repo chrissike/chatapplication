@@ -34,38 +34,45 @@ public class JmsProducerTest {
 		chatPdu.setPduType(PduType.CHAT_MESSAGE_REQUEST);
 		chatPdu.setClientThreadName(Thread.currentThread().getName());
 
-		// Thread one = new Thread() {
-		// public void run() {
-		// try {
-		// jmsConsumer.initJmsConsumer();
-		// } catch (NamingException e) {
-		// e.printStackTrace();
-		// }
-		// }
-		// };
-		//
-		// one.start();
+		Thread one = new Thread() {
+			public void run() {
+				System.out.println("JMS Consumer wird initialisiert!");
+				try {
+					jmsConsumer.initJmsConsumer();
+				} catch (NamingException e) {
+					e.printStackTrace();
+				}
+			}
+		};
+
+		one.start();
 	}
 
 	@Test
 	public void testJms() {
-		for (int i = 0; i < 10; i++) {
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			Boolean success = false;
-			try {
-				success = jmsProducer.sendMessage(chatPdu);
-			} catch (NamingException e) {
-				log.error(e.getMessage());
-				e.printStackTrace();
-			} catch (JMSException e) {
-				log.error(e.getMessage());
-				e.printStackTrace();
-			}
-			assertTrue(success);
+		// for (int i = 0; i < 10; i++) {
+		try {
+			Thread.sleep(4000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		Boolean success = false;
+		try {
+			System.out.println("JMS Producer wird initialisiert!");
+			success = jmsProducer.sendMessage(chatPdu);
+		} catch (NamingException e) {
+			log.error(e.getMessage());
+			e.printStackTrace();
+		} catch (JMSException e) {
+			log.error(e.getMessage());
+			e.printStackTrace();
+		}
+		assertTrue(success);
+		try {
+			Thread.sleep(50000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 }
