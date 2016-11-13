@@ -18,27 +18,45 @@ public class MessagingHandlerImpl implements MessagingHandler {
 
 	private static Log LOG = LogFactory.getLog(MessagingHandlerImpl.class);
 
+
+	private static final String USER_RESOURCE = "chatapp/resources/user";
 	private Client restClient;
+	private URI uri;
 
 	/**
 	 * Erzeugt eine neue Instanz des REST-Clients.
 	 *
 	 * @param uriToEndpoint
 	 *            String, URI zum Endpunkt.
-	 * @throws URISyntaxException 
+	 * @param serverPort
+	 * @throws URISyntaxException
 	 */
-	public MessagingHandlerImpl(final String uriToEndpoint) throws URISyntaxException {
-		URI uri = new URI(uriToEndpoint);
-		buildNewClient(uri);
-	}
-
-	private void buildNewClient(URI uri) {
+	public MessagingHandlerImpl(final String uriToEndpoint, Integer serverPort) throws URISyntaxException {
+		this.uri = new URI("http://" + uriToEndpoint + ":" + serverPort);
 		this.restClient = ClientBuilder.newClient();
-		this.restClient.target(uri);
 	}
 
+	public Boolean login(final String anmeldename) {
+		if (anmeldename == null) {
+			return false;
+		}
 
-	public Boolean login(final String anmeldename, String resource, String uri) {
+		Boolean result = false;
+		try {
+			final Response response = this.restClient.target(uri)
+					.path(USER_RESOURCE).path("login").path(anmeldename)
+					.request(MediaType.APPLICATION_JSON).get();
+			if (Status.NOT_FOUND.getStatusCode() == response.getStatus()) {
+				throw new Exception("Sie sind nicht eingeloggt.");
+			}
+			result = handleResponseContainingSingleExample(response, Status.OK);
+		} catch (final Throwable th) {
+			handleTechnicalException(th);
+		}
+		return result;
+	}
+
+	public Boolean logout(String anmeldename, String resource, String uri) {
 		if (anmeldename == null) {
 			return false;
 		}
@@ -46,18 +64,12 @@ public class MessagingHandlerImpl implements MessagingHandler {
 		Boolean result = false;
 		try {
 			final Response response = this.restClient.target(uri).path(resource).path(anmeldename)
-					.request(MediaType.APPLICATION_JSON).get();
-			result = handleResponseContainingSingleExample(response, Status.OK);
+					.request(MediaType.APPLICATION_JSON).delete();
+			result = handleResponseContainingSingleExample(response, Status.NO_CONTENT);
 		} catch (final Throwable th) {
 			handleTechnicalException(th);
 		}
 		return result;
-	}
-	
-
-	public Boolean logout(String anmeldename, String resource, String uri) {
-		// TODO Max: LOGOUT schreiben
-		return null;
 	}
 
 	private Boolean handleResponseContainingSingleExample(final Response response, final Status expectedStatus)
@@ -72,10 +84,7 @@ public class MessagingHandlerImpl implements MessagingHandler {
 			if (errorItem != null) {
 				handleResponseWithErrorItem(errorItem);
 			}
-		} else if (Status.NOT_FOUND.getStatusCode() == response.getStatus()) {
-			throw new Exception("Login war nicht möglich.");
 		}
-
 		throw new Exception();
 	}
 

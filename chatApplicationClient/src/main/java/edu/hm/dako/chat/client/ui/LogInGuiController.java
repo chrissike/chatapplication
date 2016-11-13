@@ -1,5 +1,6 @@
 package edu.hm.dako.chat.client.ui;
 
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
@@ -7,16 +8,14 @@ import java.util.regex.Pattern;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import edu.hm.dako.chat.common.SystemConstants;
+import edu.hm.dako.chat.client.communication.rest.MessagingHandler;
+import edu.hm.dako.chat.client.communication.rest.MessagingHandlerImpl;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.paint.Color;
 
 /**
  * Controller fuer Login-GUI
@@ -30,8 +29,6 @@ public class LogInGuiController implements Initializable {
 	private static Log log = LogFactory.getLog(LogInGuiController.class);
 
 	private String userName;
-	//TODO: Max: Adresse zentral in einer Config-Datei speichern.
-	private static final String URI = "http://127.0.0.1:8080";
 
 	@FXML
 	private TextField txtUsername;
@@ -40,29 +37,28 @@ public class LogInGuiController implements Initializable {
 	@FXML
 	private TextField txtServerPort;
 	@FXML
-	private ComboBox<String> comboServerType;
-	@FXML
 	private Button loginButton;
-	@FXML
-	private Label lblIP;
-	@FXML
-	private Label lblServerPort;
 
 	private ClientFxGUI appController;
 
-	private static final Pattern IPV6_PATTERN = Pattern
-			.compile("^(?:[0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$");
-	private static final Pattern IPV4_PATTERN = Pattern.compile(
-			"(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)");
+	private static final Pattern IPV6_PATTERN = Pattern.compile("^(?:[0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$");
+	private static final Pattern IPV4_PATTERN = Pattern
+			.compile("(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)");
 
 	public void setAppController(ClientFxGUI clientFxGUI) {
 		this.appController = clientFxGUI;
 	}
 
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+	}
+
 	@FXML
 	public void handleKeyPressed(KeyEvent event) {
 		if (event.getCode() == KeyCode.ENTER) {
-			performLogin();
+			if(!performLogin()) {
+				log.error("Login war leider nicht erfolgreich.");				
+			}
 		}
 	}
 
@@ -70,78 +66,60 @@ public class LogInGuiController implements Initializable {
 	 * Login-Eingaben entgegennehmen, pruefen und Anmeldung beim Server
 	 * durchfuehren
 	 */
-	public void performLogin() {
-
-		// Benutzernamen pruefen
-
-		userName = txtUsername.getText();
-		if (userName.isEmpty() == true) {
-			log.debug("Benutzername ist leer");
-			appController.setErrorMessage("Chat-Client", "Benutzername fehlt", 1);
-			return;
+	public Boolean performLogin() {
+		Boolean inputOk = false;
+		if (txtServerPort != null || txtUsername != null || txtUsername != null) {
+			inputOk = checkCredentials();
 		} else {
-			appController.getModel().setUserName(userName);
+			appController.setErrorMessage("Chat-Client", "Benutzername fehlt", 1);
 		}
 
-		// IP-Adresse pruefen
+		Integer serverPort = null;
+		Boolean success = false;
+		if (inputOk) {
+			appController.getModel().setUserName(this.userName);
+			serverPort = Integer.parseInt(txtServerPort.getText());
 
+			// Verbindung herstellen und beim Server anmelden
+			try {
+				MessagingHandler handler = new MessagingHandlerImpl(txtServername.getText(), serverPort);
+				success = handler.login(userName);
+			} catch (URISyntaxException e) {
+				appController.setErrorMessage("Chat-Client", "Die Uri ist falsch", 1001);
+			}
+		}
+		
+		if(success) {
+			new ClientFxGUI().loginComplete();
+		}
+		return success;
+	}
+
+	private Boolean checkCredentials() {
+		Boolean credentialsOk = true;
+		// Benutzername pruefen
+		this.userName = txtUsername.getText();
+		if (this.userName.isEmpty() == true) {
+			appController.setErrorMessage("Chat-Client", "Benutzername fehlt", 1);
+			credentialsOk = false;
+		}
+
+		// IP prüfen
 		if (ipCorrect() != true) {
-			appController.setErrorMessage("Chat-Client",
-					"IP-Adresse nicht korrekt, z.B. 127.0.0.1, 192.168.178.2 oder localhost!", 3);
-			lblIP.setTextFill(Color.web(SystemConstants.RED_COLOR));
-			return;
+			appController.setErrorMessage("Chat-Client", "IP-Adresse nicht korrekt, z.B. 127.0.0.1!", 3);
 		}
-		// IP-Adresse ist korrekt
-		lblIP.setTextFill(Color.web(SystemConstants.BLACK_COLOR));
 
 		// Serverport pruefen
-
-		int serverPort = 0;
-		String valueServerPort = txtServerPort.getText();
-		if (valueServerPort.matches("[0-9]+")) {
-			serverPort = Integer.parseInt(valueServerPort);
+		if (txtServerPort.getText().matches("[0-9]+")) {
+			Integer serverPort = Integer.parseInt(txtServerPort.getText());
 			if ((serverPort < 1) || (serverPort > 65535)) {
-				appController.setErrorMessage("Chat-Client",
-						"Serverport ist nicht im Wertebereich von 1 bis 65535!", 2);
-				log.debug("Serverport nicht im Wertebereich");
-				lblServerPort.setTextFill(Color.web(SystemConstants.RED_COLOR));
-				return;
-			} else {
-				// Serverport ist korrekt
-				lblServerPort.setTextFill(Color.web(SystemConstants.BLACK_COLOR));
+				appController.setErrorMessage("Chat-Client", "Serverport ist nicht im Wertebereich von 1 bis 65535!",
+						2);
 			}
 		} else {
 			appController.setErrorMessage("Chat-Client", "Serverport ist nicht numerisch!", 3);
-			lblServerPort.setTextFill(Color.web(SystemConstants.RED_COLOR));
-			return;
 		}
-
-		// Verbindung herstellen und beim Server anmelden
-
-//MAX: REST-Anfragen
-//		try {
-//			MessagingHandler handler = new MessagingHandlerImpl(URI);
-//			handler.login(userName, "login", URI);
-//		} catch (URISyntaxException e) {
-//			appController.setErrorMessage("Chat-Client", "Die Uri ist falsch", 1001);
-//		}
-		
-		
-//MAX:	Alter Code für den Login über Websockets! 
-		
-		appController.createCommunicator(comboServerType.getValue(), serverPort,
-				txtServername.getText());
-		try {
-			appController.getCommunicator().login(userName);
-		} catch (Exception e2) {
-
-			// Benutzer mit dem angegebenen Namen schon angemeldet
-			log.error("Login konnte nicht zum Server gesendet werden, Server aktiv?");
-			appController.setErrorMessage("Chat-Client",
-					"Login konnte nicht gesendet werden, vermutlich ist der Server nicht aktiv", 4);
-			// Verbindung zum Server wird wieder abgebaut
-			appController.getCommunicator().cancelConnection();
-		}
+		return credentialsOk;
 	}
 
 	public String getUserName() {
@@ -158,20 +136,15 @@ public class LogInGuiController implements Initializable {
 	 * @return true - korrekt, false - nicht korrekt
 	 */
 	private Boolean ipCorrect() {
-		String testString = txtServername.getText();
-		if (testString.equals("localhost")) {
+		String ip = txtServername.getText();
+		if (ip.equals("localhost")) {
 			return true;
-		} else if (IPV6_PATTERN.matcher(testString).matches()) {
+		} else if (IPV6_PATTERN.matcher(ip).matches()) {
 			return true;
-		} else if (IPV4_PATTERN.matcher(testString).matches()) {
+		} else if (IPV4_PATTERN.matcher(ip).matches()) {
 			return true;
 		} else {
 			return false;
 		}
-	}
-
-	public void initialize(URL location, ResourceBundle resources) {
-		comboServerType.getItems().addAll(SystemConstants.IMPL_TCP_SIMPLE,
-				SystemConstants.IMPL_TCP_ADVANCED);
 	}
 }

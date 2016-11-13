@@ -33,32 +33,13 @@ public class JmsProducerTest {
 		chatPdu.setUserName("Hans Wurst");
 		chatPdu.setPduType(PduType.CHAT_MESSAGE_REQUEST);
 		chatPdu.setClientThreadName(Thread.currentThread().getName());
-
-		Thread one = new Thread() {
-			public void run() {
-				System.out.println("JMS Consumer wird initialisiert!");
-				try {
-					jmsConsumer.initJmsConsumer();
-				} catch (NamingException e) {
-					e.printStackTrace();
-				}
-			}
-		};
-
-		one.start();
 	}
 
 	@Test
 	public void testJms() {
-		// for (int i = 0; i < 10; i++) {
-		try {
-			Thread.sleep(4000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 		Boolean success = false;
 		try {
-			System.out.println("JMS Producer wird initialisiert!");
+			jmsConsumer.initJmsConsumer();
 			success = jmsProducer.sendMessage(chatPdu);
 		} catch (NamingException e) {
 			log.error(e.getMessage());
@@ -69,9 +50,8 @@ public class JmsProducerTest {
 		}
 		assertTrue(success);
 		try {
-			Thread.sleep(50000);
+			Thread.sleep(10000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

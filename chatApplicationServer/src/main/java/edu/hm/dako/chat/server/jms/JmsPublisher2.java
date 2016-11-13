@@ -28,35 +28,34 @@ import edu.hm.dako.chat.common.ChatPDU;
  *
  */
 @JMSDestinationDefinitions({
-	@JMSDestinationDefinition(name = "jms/topic/chatresp2", interfaceName = "javax.jms.Topic") 
+	@JMSDestinationDefinition(name = "jms/topic/chatresp2", interfaceName = "javax.jms.Topic")
 })
 @Stateless
+@JMSConnectionFactory("java:jboss/exported/jms/HTTPConnectionFactory") //"java:jboss/exported/jms/RemoteConnectionFactory")
 public class JmsPublisher2 {
 
 	private static final Log log = LogFactory.getLog(JmsPublisher2.class.getName());
 
 	@Resource
 	private SessionContext sc;
-	
 
 	@Resource(name = "ChatResponseTopic", lookup = "jms/topic/chatresp2")
 	private Topic topic;
 
 	@Inject
-	@JMSConnectionFactory("java:jboss/exported/jms/HTTPConnectionFactory") //"java:jboss/exported/jms/RemoteConnectionFactory")
 	@JMSPasswordCredential(userName = "guest", password = "guest")
 	private JMSContext context;
 
 	public void sendMessage(ChatPDU pdu) throws NamingException, JMSException {
 		log.info("sendMessage() gestartet");
 		
-		JMSConsumer consumer = context.createConsumer(topic);
+//		JMSConsumer consumer = context.createConsumer(topic);
 		JMSProducer producer = context.createProducer();
 		
 		producer.send(topic, pdu);
-		
-		ChatPDU p = consumer.receiveBody(ChatPDU.class);
+				
+//		ChatPDU p = consumer.receiveBody(ChatPDU.class);
 
-		log.info("sendMessage() beendet - consumer: " + p.toString());
+//		log.info("sendMessage() beendet - consumer: " + p.toString());
 	}
 }

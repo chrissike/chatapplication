@@ -9,7 +9,7 @@ public interface MessagingHandler {
 	 * @param uri
 	 * @return
 	 */
-	public Boolean login(final String anmeldename, String resource, String uri);
+	public Boolean login(final String anmeldename);
 	
 	/**
 	 * Logout von der Chat-Anwendung

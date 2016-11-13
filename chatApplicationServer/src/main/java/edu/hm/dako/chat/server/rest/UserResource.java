@@ -53,11 +53,16 @@ public class UserResource {
 //		awt.loginRequestAction(requestPdu);
 		
 		SharedChatClientList clientList = SharedChatClientList.getInstance();
+		
+		if(clientList.existsClient(username)){
+			return Response.status(Status.CONFLICT).entity(Status.CONFLICT.getReasonPhrase()).build();
+		}
+		
 		clientList.createClient(username, new ClientListEntry(username, null));
 		final Boolean success = true; //new AbstractWorkerThread().loginRequestAction(requestPdu); //exampleService.getById(username);
 		Validate.notNull(success);
 		if (success) {
-			return Response.status(Status.OK).build();
+			return Response.status(Status.OK).entity(Status.OK.getReasonPhrase()).build();
 		} else {
 			return Response.status(Status.NOT_FOUND).entity(Status.NOT_FOUND.getReasonPhrase()).build();
 		}

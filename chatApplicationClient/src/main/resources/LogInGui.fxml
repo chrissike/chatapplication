@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox alignment="CENTER_LEFT" padding="$x2" prefHeight="340.0" prefWidth="290.0" spacing="10.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.hm.dako.chat.client.ui.LogInGuiController">
+  <children>
+      <Label alignment="CENTER" prefHeight="56.0" prefWidth="280.0" text="Chatapp" textAlignment="CENTER" textFill="#7c7b7b" textOverrun="CENTER_WORD_ELLIPSIS">
+         <font>
+            <Font name="Calibri Bold" size="40.0" />
+         </font>
+      </Label>
+    <TextField fx:id="txtUsername" onKeyPressed="#handleKeyPressed" prefHeight="49.0" prefWidth="280.0" promptText="Benutzername">
+         <font>
+            <Font size="20.0" />
+         </font></TextField>
+      <Separator layoutX="15.0" layoutY="147.0" prefWidth="200.0" />
+      <Label fx:id="lblIP" prefHeight="17.0" prefWidth="200.0" text="Server: " />
+      <HBox prefHeight="53.0" prefWidth="280.0">
+         <children>
+          <TextField fx:id="txtServername" onKeyPressed="#handleKeyPressed" prefHeight="50.0" prefWidth="182.0" promptText="IP-Adresse">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </TextField>
+          <TextField fx:id="txtServerPort" onKeyPressed="#handleKeyPressed" prefHeight="50.0" prefWidth="105.0" promptText="Port">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </TextField>
+         </children>
+      </HBox>
+    <Separator prefWidth="200.0" />
+    <HBox alignment="CENTER" prefHeight="74.0" prefWidth="280.0" spacing="10.0">
+      <children>
+        <Button fx:id="loginButton" mnemonicParsing="false" onAction="#performLogin" prefHeight="69.0" prefWidth="155.0" text="Anmelden" HBox.hgrow="ALWAYS">
+          <font>
+            <Font name="System Bold" size="12.0" fx:id="x1" />
+          </font>
+        </Button>
+      </children>
+      <padding>
+        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" fx:id="x2" />
+      </padding>
+    </HBox>
+      <ProgressBar prefHeight="18.0" prefWidth="286.0" progress="0.0" />
+  </children>
+</VBox>

@@ -7,7 +7,6 @@ import java.util.Vector;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-//import org.apache.log4.log4j.PropertyConfigurator;
 
 import edu.hm.dako.chat.client.communication.ClientImpl;
 import edu.hm.dako.chat.client.data.ClientModel;
@@ -73,13 +72,15 @@ public class ClientFxGUI extends Application implements ClientUserInterface {
 	 * aufgerufen
 	 */
 	public void start(Stage primaryStage) throws Exception {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("LogInGui.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/LogInGui.fxml"));
 		Parent root = loader.load();
+		Scene scene = new Scene(root, 280, 320);
+		scene.getStylesheets().add(getClass().getResource("/application.css").toExternalForm());
 		LogInGuiController lc = (LogInGuiController) loader.getController();
 		lc.setAppController(this);
+		primaryStage.setScene(scene);
 		primaryStage.setTitle("Anmelden");
-		primaryStage.setScene(new Scene(root, 280, 320));
-		root.setStyle("-fx-background-color: cornsilk");
+		primaryStage.setResizable(false);
 		stage = primaryStage;
 		primaryStage.show();
 	}
@@ -89,7 +90,7 @@ public class ClientFxGUI extends Application implements ClientUserInterface {
 	 */
 	public void createNextGui() {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("LoggedInGui.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/LoggedInGui.fxml"));
 			final Parent root = loader.load();
 			lc2 = loader.getController();
 			lc2.setAppController(this);

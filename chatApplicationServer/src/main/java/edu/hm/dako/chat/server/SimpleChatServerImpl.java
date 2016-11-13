@@ -8,7 +8,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import edu.hm.dako.chat.common.ExceptionHandler;
-import edu.hm.dako.chat.server.tcp.ServerSocketInterface;
+//import edu.hm.dako.chat.server.tcp.ServerSocketInterface;
 import edu.hm.dako.chat.server.user.ClientListEntry;
 
 /**
@@ -22,11 +22,11 @@ public class SimpleChatServerImpl extends AbstractChatServer {
 	private static Log log = LogFactory.getLog(SimpleChatServerImpl.class);
 
 	// Threadpool fuer Worker-Threads
-	private final ExecutorService executorService;
+//	private final ExecutorService executorService;
 
 	// Socket fuer den Listener, der alle Verbindungsaufbauwuensche der Clients
 	// entgegennimmt
-	private ServerSocketInterface socket;
+//	private ServerSocketInterface socket;
 
 	/**
 	 * Konstruktor
@@ -35,16 +35,16 @@ public class SimpleChatServerImpl extends AbstractChatServer {
 	 * @param socket
 	 * @param serverGuiInterface
 	 */
-	public SimpleChatServerImpl(ExecutorService executorService,
-			ServerSocketInterface socket) {
-		log.debug("SimpleChatServerImpl konstruiert");
-		this.executorService = executorService;
-		this.socket = socket;
-		counter = new SharedServerCounter();
-		counter.logoutCounter = new AtomicInteger(0);
-		counter.eventCounter = new AtomicInteger(0);
-		counter.confirmCounter = new AtomicInteger(0);
-	}
+//	public SimpleChatServerImpl(ExecutorService executorService,
+//			ServerSocketInterface socket) {
+//		log.debug("SimpleChatServerImpl konstruiert");
+//		this.executorService = executorService;
+//		this.socket = socket;
+//		counter = new SharedServerCounter();
+//		counter.logoutCounter = new AtomicInteger(0);
+//		counter.eventCounter = new AtomicInteger(0);
+//		counter.confirmCounter = new AtomicInteger(0);
+//	}
 
 	
 	//TODO Max: das ist obsolet... kann eigentlich weg!
@@ -109,9 +109,9 @@ public class SimpleChatServerImpl extends AbstractChatServer {
 		// Loeschen der Userliste
 		clients.deleteAll();
 		Thread.currentThread().interrupt();
-		socket.close();
+//		socket.close();
 		log.debug("Listen-Socket geschlossen");
-		executorService.shutdown();
+//		executorService.shutdown();
 		log.debug("Threadpool freigegeben");
 
 		System.out.println("SimpleChatServer beendet sich");
