@@ -85,7 +85,7 @@
     <profile>
         <subsystem xmlns="urn:jboss:domain:logging:2.0">
             <console-handler name="CONSOLE">
-                <level name="DEBUG"/>
+                <level name="INFO"/>
                 <formatter>
                     <named-formatter name="COLOR-PATTERN"/>
                 </formatter>
@@ -99,7 +99,7 @@
                 <append value="true"/>
             </periodic-rotating-file-handler>
             <logger category="com.arjuna">
-                <level name="TRACE"/>
+                <level name="INFO"/>
             </logger>
             <logger category="org.apache.tomcat.util.modeler">
                 <level name="WARN"/>
@@ -428,6 +428,17 @@
                             <entry name="java:jboss/exported/jms/RemoteConnectionFactory"/>
                         </entries>
                     </connection-factory>
+                    <connection-factory name="RemoteConnectionFactory2">
+                        <connectors>
+                            <connector-ref connector-name="http-connector"/>
+                        </connectors>
+                        <entries>
+                            <entry name="java:jboss/exported/jms/RemoteConnectionFactory2"/>
+                        </entries>
+                        <compress-large-messages>false</compress-large-messages>
+                        <failover-on-initial-connection>false</failover-on-initial-connection>
+                        <use-global-pools>true</use-global-pools>
+                    </connection-factory>
                     <connection-factory name="HTTPConnectionFactory">
                         <connectors>
                             <connector-ref connector-name="http-connector"/>
@@ -582,8 +593,8 @@
     </socket-binding-group>
 
     <deployments>
-        <deployment name="chatApplicationServer-0.0.2-SNAPSHOT.war" runtime-name="chatApplicationServer-0.0.2-SNAPSHOT.war">
-            <content sha1="e49a2c7994b4a60720e6dd71fa5c6e1567ecd9b5"/>
+        <deployment name="chatapp.war" runtime-name="chatapp.war">
+            <content sha1="8423732353b9b0c05fcc0a23b8f64e780adc4f1e"/>
         </deployment>
     </deployments>
 </server>
