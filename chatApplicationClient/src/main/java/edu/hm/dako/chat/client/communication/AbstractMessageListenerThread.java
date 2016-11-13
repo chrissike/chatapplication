@@ -7,7 +7,6 @@ import edu.hm.dako.chat.client.data.SharedClientData;
 import edu.hm.dako.chat.client.ui.ClientUserInterface;
 import edu.hm.dako.chat.common.ChatPDU;
 import edu.hm.dako.chat.common.ExceptionHandler;
-import edu.hm.dako.chat.connection.Connection;
 
 /**
  * Abstrakte Klasse mit Basisfunktionalitaet fuer clientseitige Message-Processing-Threads
@@ -23,20 +22,14 @@ public abstract class AbstractMessageListenerThread extends Thread {
   // Kennzeichen zum Beenden der Bearbeitung
   protected boolean finished = false;
 
-  // Verbindung zum Server
-  protected Connection connection;
-
   // Schnittstelle zum User-Interface
   protected ClientUserInterface userInterface;
 
   // Gemeinsame Daten zwischen Client-Thread und Message-Processing-Thread
   protected SharedClientData sharedClientData;
 
-  public AbstractMessageListenerThread(ClientUserInterface userInterface,
-	Connection con, SharedClientData sharedData) {
-
+  public AbstractMessageListenerThread(ClientUserInterface userInterface, SharedClientData sharedData) {
     this.userInterface = userInterface;
-    this.connection = con;
     this.sharedClientData = sharedData;
   }
 
@@ -64,8 +57,8 @@ public abstract class AbstractMessageListenerThread extends Thread {
    */
   protected ChatPDU receive() throws Exception {
     try {
-	ChatPDU receivedPdu = (ChatPDU) connection.receive();
-	return receivedPdu;
+//	ChatPDU receivedPdu = (ChatPDU) connection.receive();
+//	return receivedPdu;
     } catch (Exception e) {
 	ExceptionHandler.logException(e);
     }

@@ -3,9 +3,6 @@ package edu.hm.dako.chat.benchmarking;
 import edu.hm.dako.chat.benchmarking.data.UserInterfaceInputParameters;
 import edu.hm.dako.chat.benchmarking.service.impl.SharedClientStatistics;
 import edu.hm.dako.chat.client.ui.ClientUserInterface;
-import edu.hm.dako.chat.connection.factory.ConnectionFactory;
-import edu.hm.dako.chat.connection.factory.DecoratingConnectionFactory;
-import edu.hm.dako.chat.connection.factory.TcpConnectionFactory;
 
 /**
  * Uebernimmt die Konfiguration und die Erzeugung bestimmter Client-Typen fuer
@@ -29,13 +26,13 @@ public final class BenchmarkingClientFactory {
 			case TCPSimpleImplementation:
 			case TCPAdvancedImplementation:
 
-				BenchmarkingClientImpl impl = new BenchmarkingClientImpl(userInterface,
-						param.getImplementationType(), param.getRemoteServerPort(),
-						param.getRemoteServerAddress(), numberOfClient, param.getMessageLength(),
-						param.getNumberOfMessages(), param.getClientThinkTime(),
-						param.getNumberOfRetries(), param.getResponseTimeout(), sharedData,
-						getDecoratedFactory(new TcpConnectionFactory()));
-				return impl;
+//				BenchmarkingClientImpl impl = new BenchmarkingClientImpl(userInterface,
+//						param.getImplementationType(), param.getRemoteServerPort(),
+//						param.getRemoteServerAddress(), numberOfClient, param.getMessageLength(),
+//						param.getNumberOfMessages(), param.getClientThinkTime(),
+//						param.getNumberOfRetries(), param.getResponseTimeout(), sharedData,
+//						getDecoratedFactory(new TcpConnectionFactory()));
+//				return impl;
 
 			case UDPAdvancedImplementation:
 
@@ -50,8 +47,8 @@ public final class BenchmarkingClientFactory {
 		}
 	}
 
-	public static ConnectionFactory getDecoratedFactory(
-			ConnectionFactory connectionFactory) {
-		return new DecoratingConnectionFactory(connectionFactory);
-	}
+//	public static ConnectionFactory getDecoratedFactory(
+//			ConnectionFactory connectionFactory) {
+//		return new DecoratingConnectionFactory(connectionFactory);
+//	}
 }

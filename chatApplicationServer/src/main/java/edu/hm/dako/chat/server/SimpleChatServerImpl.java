@@ -96,7 +96,7 @@ public class SimpleChatServerImpl extends AbstractChatServer {
 			ClientListEntry client = clients.getClient(s);
 			try {
 				if (client != null) {
-					client.getConnection().close();
+//					client.getConnection().close();
 					log.error("Verbindung zu Client " + client.getUserName() + " geschlossen");
 				}
 			} catch (Exception e) {

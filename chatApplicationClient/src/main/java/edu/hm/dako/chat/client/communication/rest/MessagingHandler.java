@@ -18,6 +18,6 @@ public interface MessagingHandler {
 	 * @param uri
 	 * @return
 	 */
-	public Boolean logout(final String anmeldename, String resource, String uri);
+	public Boolean logout(final String anmeldename);
 	
 }

@@ -168,7 +168,6 @@ public class SharedChatClientList {
 	 *          Client-Daten
 	 */
 	public synchronized void createClient(String userName, ClientListEntry client) {
-
 		clients.put(userName, client);
 	}
 

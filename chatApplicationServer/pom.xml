@@ -91,8 +91,6 @@
 				<groupId>org.wildfly.plugins</groupId>
 				<artifactId>wildfly-maven-plugin</artifactId>
 				<version>${wildfly-maven-plugin.version}</version>
-				<!-- <configuration> <username>hmproject</username> <password>hmproject2016</password> 
-					</configuration> -->
 				<executions>
 					<execution>
 						<phase>install</phase>

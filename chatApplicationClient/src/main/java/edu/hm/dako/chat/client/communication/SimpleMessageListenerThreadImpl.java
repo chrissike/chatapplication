@@ -8,7 +8,6 @@ import edu.hm.dako.chat.client.ui.ClientUserInterface;
 import edu.hm.dako.chat.common.ChatPDU;
 import edu.hm.dako.chat.common.ClientConversationStatus;
 import edu.hm.dako.chat.common.ExceptionHandler;
-import edu.hm.dako.chat.connection.Connection;
 
 /**
  * Thread wartet auf ankommende Nachrichten vom Server und bearbeitet diese.
@@ -20,10 +19,8 @@ public class SimpleMessageListenerThreadImpl extends AbstractMessageListenerThre
 
 	private static Log log = LogFactory.getLog(SimpleMessageListenerThreadImpl.class);
 
-	public SimpleMessageListenerThreadImpl(ClientUserInterface userInterface,
-			Connection con, SharedClientData sharedData) {
-
-		super(userInterface, con, sharedData);
+	public SimpleMessageListenerThreadImpl(ClientUserInterface userInterface, SharedClientData sharedData) {
+		super(userInterface, sharedData);
 	}
 
 	@Override
@@ -42,7 +39,7 @@ public class SimpleMessageListenerThreadImpl extends AbstractMessageListenerThre
 
 			// Verbindung wird gleich geschlossen
 			try {
-				connection.close();
+//				connection.close();
 			} catch (Exception e) {
 			}
 
@@ -292,7 +289,7 @@ public class SimpleMessageListenerThreadImpl extends AbstractMessageListenerThre
 
 		// Verbindung noch schliessen
 		try {
-			connection.close();
+//			connection.close();
 		} catch (Exception e) {
 			ExceptionHandler.logException(e);
 		}

@@ -56,15 +56,16 @@ public class MessagingHandlerImpl implements MessagingHandler {
 		return result;
 	}
 
-	public Boolean logout(String anmeldename, String resource, String uri) {
+	public Boolean logout(String anmeldename) {
 		if (anmeldename == null) {
 			return false;
 		}
 
 		Boolean result = false;
 		try {
-			final Response response = this.restClient.target(uri).path(resource).path(anmeldename)
-					.request(MediaType.APPLICATION_JSON).delete();
+			final Response response = this.restClient.target(uri).path(USER_RESOURCE)
+					.path("logout").path(anmeldename)
+					.request(MediaType.APPLICATION_JSON).get();
 			result = handleResponseContainingSingleExample(response, Status.NO_CONTENT);
 		} catch (final Throwable th) {
 			handleTechnicalException(th);
@@ -78,12 +79,14 @@ public class MessagingHandlerImpl implements MessagingHandler {
 		Validate.notNull(expectedStatus);
 
 		if (expectedStatus.getStatusCode() == response.getStatus()) {
-			return response.hasEntity() ? true : null;
+			return true;
 		} else if (Status.BAD_REQUEST.getStatusCode() == response.getStatus()) {
 			final ErrorItem errorItem = errorItem(response);
 			if (errorItem != null) {
 				handleResponseWithErrorItem(errorItem);
 			}
+		} else {
+			
 		}
 		throw new Exception();
 	}

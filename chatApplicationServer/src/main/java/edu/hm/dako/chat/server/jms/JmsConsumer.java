@@ -33,7 +33,7 @@ public class JmsConsumer implements MessageListener {
 	private static Log log = LogFactory.getLog(JmsConsumer.class);
 
 	@Inject
-	ProcessChatPDU processChatPDU;
+	ProcessChatPDU process;
 
 	@Resource
 	private MessageDrivenContext mdc;
@@ -43,7 +43,7 @@ public class JmsConsumer implements MessageListener {
 
 		try {
 			ChatPDU chatPDU = message.getBody(ChatPDU.class);
-			processChatPDU.process(chatPDU);
+			process.processMessage(chatPDU);
 		} catch (JMSException e) {
 			log.error(e.toString());
 			mdc.setRollbackOnly();

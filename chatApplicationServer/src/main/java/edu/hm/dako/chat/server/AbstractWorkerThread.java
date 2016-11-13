@@ -3,7 +3,6 @@ package edu.hm.dako.chat.server;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import edu.hm.dako.chat.common.ChatPDU;
-import edu.hm.dako.chat.connection.Connection;
 import edu.hm.dako.chat.server.user.SharedChatClientList;
 
 /**
@@ -13,9 +12,6 @@ import edu.hm.dako.chat.server.user.SharedChatClientList;
  *
  */
 public abstract class AbstractWorkerThread extends Thread {
-
-	// Verbindungs-Handle
-	protected Connection connection;
 
 	// Kennzeichen zum Beenden des Worker-Threads
 	protected boolean finished = false;
@@ -38,9 +34,8 @@ public abstract class AbstractWorkerThread extends Thread {
 	protected AtomicInteger eventCounter;
 	protected AtomicInteger confirmCounter;
 
-	public AbstractWorkerThread(Connection con, SharedChatClientList clients,
+	public AbstractWorkerThread(SharedChatClientList clients,
 			SharedServerCounter counter) {
-		this.connection = con;
 		this.clients = clients;
 		this.logoutCounter = counter.logoutCounter;
 		this.eventCounter = counter.eventCounter;

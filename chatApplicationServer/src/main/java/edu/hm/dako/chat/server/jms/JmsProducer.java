@@ -48,8 +48,8 @@ public class JmsProducer {
 		}
 	}
 
-	public void sendMessage() throws NamingException {
+	public void sendMessage(ChatPDU pdu) throws NamingException {
 		JMSProducer producer = context.createProducer();
-		producer.send(topic, new ChatPDU());
+		producer.send(topic, pdu);
 	}
 }

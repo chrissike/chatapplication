@@ -4,10 +4,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import edu.hm.dako.chat.common.ImplementationType;
-import edu.hm.dako.chat.connection.Connection;
-import edu.hm.dako.chat.connection.LoggingConnectionDecorator;
-//import edu.hm.dako.chat.server.tcp.ServerSocketInterface;
-//import edu.hm.dako.chat.server.tcp.TcpServerSocket;
 
 /**
  * Uebernimmt die Konfiguration und Erzeugung bestimmter Server-Typen. Siehe

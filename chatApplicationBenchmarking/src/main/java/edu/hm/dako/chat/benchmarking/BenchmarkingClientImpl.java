@@ -22,7 +22,6 @@ import edu.hm.dako.chat.common.ClientConversationStatus;
 import edu.hm.dako.chat.common.ExceptionHandler;
 import edu.hm.dako.chat.common.ImplementationType;
 import edu.hm.dako.chat.benchmarking.service.impl.SharedClientStatistics;
-import edu.hm.dako.chat.connection.factory.ConnectionFactory;
 
 public class BenchmarkingClientImpl extends AbstractChatClient
 		implements Runnable, ClientUserInterface {
@@ -92,8 +91,7 @@ public class BenchmarkingClientImpl extends AbstractChatClient
 	public BenchmarkingClientImpl(ClientUserInterface userInterface,
 			ImplementationType implementationType, int serverPort, String remoteServerAddress,
 			int numberOfClient, int messageLength, int numberOfMessages, int clientThinkTime,
-			int numberOfRetries, int responseTimeout, SharedClientStatistics sharedStatistics,
-			ConnectionFactory connectionFactory) {
+			int numberOfRetries, int responseTimeout, SharedClientStatistics sharedStatistics) {
 
 		super(userInterface, serverPort, remoteServerAddress);
 
@@ -118,8 +116,7 @@ public class BenchmarkingClientImpl extends AbstractChatClient
 
 		case TCPSimpleImplementation:
 			try {
-				messageListenerThread = new SimpleMessageListenerThreadImpl(this, connection,
-						sharedClientData);
+				messageListenerThread = new SimpleMessageListenerThreadImpl(this, sharedClientData);
 				messageListenerThread.start();
 			} catch (Exception e) {
 				ExceptionHandler.logException(e);
@@ -223,7 +220,7 @@ public class BenchmarkingClientImpl extends AbstractChatClient
 			log.debug("User " + userName + " beim Server abgemeldet");
 
 			// Transportverbindung zum Server abbauen
-			connection.close();
+//			connection.close();
 
 		} catch (Exception e) {
 			ExceptionHandler.logException(e);

@@ -12,10 +12,6 @@ import edu.hm.dako.chat.common.ChatPDU;
 import edu.hm.dako.chat.common.ClientConversationStatus;
 import edu.hm.dako.chat.common.ExceptionHandler;
 import edu.hm.dako.chat.common.PduType;
-import edu.hm.dako.chat.connection.Connection;
-import edu.hm.dako.chat.connection.factory.ConnectionFactory;
-import edu.hm.dako.chat.connection.factory.DecoratingConnectionFactory;
-import edu.hm.dako.chat.connection.factory.TcpConnectionFactory;
 
 /**
  * Gemeinsame Funktionalitaet fuer alle Client-Implementierungen.
@@ -39,9 +35,6 @@ public abstract class AbstractChatClient implements ClientCommunication {
 
 	protected ClientUserInterface userInterface;
 
-	// Connection Factory und Verbindung zum Server
-	protected ConnectionFactory connectionFactory;
-	protected Connection connection;
 
 	// Gemeinsame Daten des Clientthreads und dem Message-Listener-Threads
 	protected SharedClientData sharedClientData;
@@ -68,13 +61,13 @@ public abstract class AbstractChatClient implements ClientCommunication {
 		/*
 		 * Verbindung zum Server aufbauen
 		 */
-		try {
-			connectionFactory = getDecoratedFactory(new TcpConnectionFactory());
-			connection = connectionFactory.connectToServer(remoteServerAddress, serverPort,
-					localPort, 20000, 20000);
-		} catch (Exception e) {
-			ExceptionHandler.logException(e);
-		}
+//		try {
+//			connectionFactory = getDecoratedFactory(new TcpConnectionFactory());
+//			connection = connectionFactory.connectToServer(remoteServerAddress, serverPort,
+//					localPort, 20000, 20000);
+//		} catch (Exception e) {
+//			ExceptionHandler.logException(e);
+//		}
 
 		log.debug("Verbindung zum Server steht");
 
@@ -96,10 +89,10 @@ public abstract class AbstractChatClient implements ClientCommunication {
 	 *          ConnectionFactory
 	 * @return Dekorierte ConnectionFactory
 	 */
-	public static ConnectionFactory getDecoratedFactory(
-			ConnectionFactory connectionFactory) {
-		return new DecoratingConnectionFactory(connectionFactory);
-	}
+//	public static ConnectionFactory getDecoratedFactory(
+//			ConnectionFactory connectionFactory) {
+//		return new DecoratingConnectionFactory(connectionFactory);
+//	}
 
 	public void login(String name) throws IOException {
 
@@ -113,7 +106,7 @@ public abstract class AbstractChatClient implements ClientCommunication {
 		requestPdu.setClientThreadName(Thread.currentThread().getName());
 		requestPdu.setUserName(userName);
 		try {
-			connection.send(requestPdu);
+//			connection.send(requestPdu);
 			log.debug("Login-Request-PDU fuer Client " + userName + " an Server gesendet");
 		} catch (Exception e) {
 			throw new IOException();
@@ -129,7 +122,7 @@ public abstract class AbstractChatClient implements ClientCommunication {
 		requestPdu.setClientThreadName(Thread.currentThread().getName());
 		requestPdu.setUserName(userName);
 		try {
-			connection.send(requestPdu);
+//			connection.send(requestPdu);
 			sharedClientData.logoutCounter.getAndIncrement();
 			log.debug("Logout-Request von " + requestPdu.getUserName()
 					+ " gesendet, LogoutCount = " + sharedClientData.logoutCounter.get());
@@ -151,7 +144,7 @@ public abstract class AbstractChatClient implements ClientCommunication {
 		sharedClientData.messageCounter.getAndIncrement();
 		requestPdu.setSequenceNumber(sharedClientData.messageCounter.get());
 		try {
-			connection.send(requestPdu);
+//			connection.send(requestPdu);
 			log.debug("Chat-Message-Request-PDU fuer Client " + name
 					+ " an Server gesendet, Inhalt: " + text);
 			log.debug("MessageCounter: " + sharedClientData.messageCounter.get()
@@ -164,7 +157,7 @@ public abstract class AbstractChatClient implements ClientCommunication {
 
 	public void cancelConnection() {
 		try {
-			connection.close();
+//			connection.close();
 		} catch (Exception e) {
 			ExceptionHandler.logException(e);
 		}

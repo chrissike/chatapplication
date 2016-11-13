@@ -6,7 +6,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import edu.hm.dako.chat.common.ClientConversationStatus;
-import edu.hm.dako.chat.connection.Connection;
 
 /**
  * Eintrag in der serverseitigen Clientliste zur Verwaltung der angemeldeten
@@ -20,9 +19,6 @@ public class ClientListEntry {
 
 	// Login-Name des Clients
 	private String userName;
-
-	// Verbindungs-Handle fuer Transportverbindung zum Client
-	private Connection con;
 
 	// Kennzeichen zum Beenden des Worker-Threads
 	boolean finished;
@@ -60,9 +56,8 @@ public class ClientListEntry {
 	// konkret laufenden Request gesendet haben
 	private Vector<String> waitList;
 
-	public ClientListEntry(String userName, Connection con) {
+	public ClientListEntry(String userName) {
 		this.userName = userName;
-		this.con = con;
 		this.finished = false;
 		this.loginTime = 0;
 		this.startTime = 0;
@@ -83,8 +78,6 @@ public class ClientListEntry {
 				.append("ChatClientListEntry+++++++++++++++++++++++++++++++++++++++++++++");
 		stringBuilder.append("UserName: " + this.userName);
 		stringBuilder.append("\n");
-		stringBuilder.append("Connection: " + this.con);
-		stringBuilder.append("\n");
 		stringBuilder.append("Status: " + this.status);
 		stringBuilder.append("\n");
 		stringBuilder
@@ -99,14 +92,6 @@ public class ClientListEntry {
 
 	public synchronized String getUserName() {
 		return userName;
-	}
-
-	public synchronized void setConnection(Connection con) {
-		this.con = con;
-	}
-
-	public synchronized Connection getConnection() {
-		return (con);
 	}
 
 	public synchronized void setLoginTime(long time) {

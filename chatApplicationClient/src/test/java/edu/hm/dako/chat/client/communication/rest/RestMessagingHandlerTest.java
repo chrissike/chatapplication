@@ -13,6 +13,8 @@ public class RestMessagingHandlerTest {
 	@Test
 	public void testRestLogin() throws Exception {
 		MessagingHandler handler = new MessagingHandlerImpl(ADDRESS, PORT);
-		assertTrue(handler.login("Hans Wurst"));
+		String testUser = "HansWurst"+Math.random();
+		assertTrue(handler.login(testUser));
+		assertTrue(handler.logout(testUser));
 	}
 }
