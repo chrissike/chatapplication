@@ -1,14 +1,15 @@
 package edu.hm.dako.chat.client.ui;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import javax.inject.Inject;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import edu.hm.dako.chat.client.communication.ClientImpl;
+import edu.hm.dako.chat.client.communication.rest.MessagingHandler;
 import edu.hm.dako.chat.client.data.ClientModel;
 import edu.hm.dako.chat.common.ExceptionHandler;
 import javafx.application.Application;
@@ -33,45 +34,26 @@ public class ClientFxGUI extends Application implements ClientUserInterface {
 	private static Log log = LogFactory.getLog(ClientFxGUI.class);
 
 	private Stage stage;
-	private static LoggedInGuiController lc2;
-	private ClientImpl communicator;
 	private ClientModel model = new ClientModel();
+	protected static ClientFxGUI instance;
 
+	@Inject
+	private MessagingHandler handler;
+
+	
+	
 	public static void main(String[] args) {
 		launch(args);
 	}
 
-	/**
-	 * Kommunikationsschnittstelle zur Kommunikation mit dem Chat-Server
-	 * aktivieren
-	 * 
-	 * @param String
-	 *            serverType Servertyp
-	 * @param port
-	 *            Serverport
-	 * @param host
-	 *            Hostname oder IP-Adresse des Servers
-	 * @return Referenz auf Kommunikationsobjekt
-	 */
-	public ClientImpl createCommunicator(String serverType, int port, String host) {
-		communicator = new ClientImpl(this, port, host, serverType);
-		return communicator;
-	}
-
-	public ClientImpl getCommunicator() {
-		return communicator;
-	}
-
-	public ClientModel getModel() {
-		return model;
-	}
-
+	
 	
 	/**
 	 * Diese Methode wird von Java FX bei Aufruf der launch-Methode implizit
 	 * aufgerufen
 	 */
 	public void start(Stage primaryStage) throws Exception {
+		ClientFxGUI.instance = this;
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/LogInGui.fxml"));
 		Parent root = loader.load();
 		Scene scene = new Scene(root, 280, 320);
@@ -92,14 +74,16 @@ public class ClientFxGUI extends Application implements ClientUserInterface {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/LoggedInGui.fxml"));
 			final Parent root = loader.load();
-			lc2 = loader.getController();
-			lc2.setAppController(this);
+			LoggedInGuiController lc = (LoggedInGuiController) loader.getController();
+			lc.setAppController(this);
 			Platform.runLater(new Runnable() {
 
 				public void run() {
-					stage.setTitle("Angemeldet");
-					stage.setScene(new Scene(root, 600, 400));
-					root.setStyle("-fx-background-color: cornsilk");
+					Scene scene = new Scene(root, 490, 542);
+					scene.getStylesheets().add(getClass().getResource("/application.css").toExternalForm());
+					stage.setScene(scene);
+					stage.setTitle("Chatapp");
+					stage.setResizable(false);
 				}
 			});
 		} catch (Exception e) {
@@ -108,11 +92,7 @@ public class ClientFxGUI extends Application implements ClientUserInterface {
 		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 
 			public void handle(WindowEvent event) {
-				try {
-					getCommunicator().logout(getModel().getUserName());
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+				handler.logout(getModel().getUserName());
 			}
 		});
 	}
@@ -149,6 +129,12 @@ public class ClientFxGUI extends Application implements ClientUserInterface {
 			}
 		});
 	}
+	
+
+	public ClientModel getModel() {
+		return model;
+	}
+
 
 	public void setLock(boolean lock) {
 		getModel().block.set(lock);
@@ -181,7 +167,6 @@ public class ClientFxGUI extends Application implements ClientUserInterface {
 
 	public void setSessionStatisticsCounter(long numberOfSentEvents, long numberOfReceivedConfirms,
 			long numberOfLostConfirms, long numberOfRetries, long numberOfReceivedChatMessages) {
-
 	}
 
 	public long getNumberOfSentEvents() {

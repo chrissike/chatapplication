@@ -90,7 +90,7 @@ public class LogInGuiController implements Initializable {
 		}
 		
 		if(success) {
-			new ClientFxGUI().loginComplete();
+			ClientFxGUI.instance.loginComplete();
 		}
 		return success;
 	}
@@ -98,7 +98,7 @@ public class LogInGuiController implements Initializable {
 	private Boolean checkCredentials() {
 		Boolean credentialsOk = true;
 		// Benutzername pruefen
-		this.userName = txtUsername.getText();
+		this.userName = txtUsername.getText	();
 		if (this.userName.isEmpty() == true) {
 			appController.setErrorMessage("Chat-Client", "Benutzername fehlt", 1);
 			credentialsOk = false;

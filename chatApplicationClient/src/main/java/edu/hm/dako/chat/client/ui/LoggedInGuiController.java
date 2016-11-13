@@ -2,6 +2,7 @@ package edu.hm.dako.chat.client.ui;
 
 import java.io.IOException;
 
+import javax.inject.Inject;
 import javax.jms.JMSException;
 import javax.naming.NamingException;
 
@@ -9,10 +10,13 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import edu.hm.dako.chat.client.communication.jms.JmsProducer;
+import edu.hm.dako.chat.client.communication.rest.MessagingHandler;
 import edu.hm.dako.chat.common.ChatPDU;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -30,6 +34,9 @@ public class LoggedInGuiController {
 
 	private static Log log = LogFactory.getLog(LoggedInGuiController.class);
 
+	@Inject
+	private MessagingHandler handler;
+	
 	@FXML
 	private Button btnSubmit;
 	@FXML
@@ -42,7 +49,9 @@ public class LoggedInGuiController {
 	private ScrollPane scrollPane;
 	@FXML
 	private ScrollPane chatPane;
-
+	@FXML
+	private ComboBox<String> teilnehmerListe;
+	
 	private ClientFxGUI appController;
 
 	@FXML
@@ -55,37 +64,25 @@ public class LoggedInGuiController {
 	public void setAppController(ClientFxGUI appController) {
 
 		this.appController = appController;
+		ObservableList<String> userlist = this.appController.getModel().users;
+//		if(userlist == null) {
+//			teilnehmerListe.setPromptText("Hallo" + this.appController.getModel().getUserName() + 
+//					" (aktuelle Teilnehmerzahl: " + 0 + " )");
+//		} else {
+//			teilnehmerListe.setPromptText("Hallo" + this.appController.getModel().getUserName() + 
+//					" (aktuelle Teilnehmerzahl: " + this.appController.getModel().users.size() + " )");			
+//		}
 
-		usersList.maxWidthProperty().bind(scrollPane.widthProperty().subtract(2));
-		usersList.minWidthProperty().bind(scrollPane.widthProperty().subtract(2));
-		usersList.maxHeightProperty().bind(scrollPane.heightProperty().subtract(2));
-		usersList.minHeightProperty().bind(scrollPane.heightProperty().subtract(2));
+		//TODO Teilnehmerliste einfügen 
+//		this.teilnehmerListe.setItems();
 
-		usersList.setItems(appController.getModel().users);
-
-		chatList.maxWidthProperty().bind(chatPane.widthProperty().subtract(2));
-		chatList.minWidthProperty().bind(chatPane.widthProperty().subtract(2));
-		chatList.maxHeightProperty().bind(chatPane.heightProperty().subtract(2));
-		chatList.minHeightProperty().bind(chatPane.heightProperty().subtract(2));
-
-		chatList.setItems(appController.getModel().chats);
-
+		//TODO chatList.setItems(appController.getModel().chats);
 		btnSubmit.disableProperty().bind(appController.getModel().block);
 	}
 
 	public void btnLogOut_OnAction() {
-		try {
-			appController.getCommunicator().logout(appController.getModel().getUserName());
-		} catch (IOException e) {
-			log.error("Logout konnte nicht durchgefuehrt werden, Server aktiv?");
-			appController.setErrorMessage("Chat-Client",
-					"Abmelden beim Server nicht erfolgreich, vermutlich ist der Server nicht aktiv",
-					5);
-		}
-
-		// Verbindung zum Server wird sicherheitshalber rnochmals abgebaut
-		appController.getCommunicator().cancelConnection();
-
+		handler.logout(appController.getModel().getUserName());
+		//TODO: Kein exit, sondern Scene-Welchsel auf Login-Maske!!!!!!!!!!!!!!!!!!
 		System.exit(0);
 	}
 
