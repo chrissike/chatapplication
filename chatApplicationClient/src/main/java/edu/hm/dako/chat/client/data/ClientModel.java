@@ -18,6 +18,8 @@ public class ClientModel {
 
 	private StringProperty userName = new SimpleStringProperty();
 	private StringProperty password = new SimpleStringProperty();
+	private StringProperty address = new SimpleStringProperty();
+	private StringProperty port = new SimpleStringProperty();
 	
 	public StringProperty userNameProperty() {
 		return userName;
@@ -39,9 +41,25 @@ public class ClientModel {
 		this.password.set(password);
 	}
 	
+	public StringProperty getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address.set(address);
+	}
+
+	public StringProperty getPort() {
+		return port;
+	}
+
+	public void setPort(String port) {
+		this.port.set(port);
+	}
+
+
 	public ObservableList<String> users = FXCollections.observableArrayList();
 	public ObservableList<String> chats = FXCollections.observableArrayList();
 
 	public BooleanProperty block = new SimpleBooleanProperty();
-
 }

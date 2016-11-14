@@ -9,7 +9,7 @@
    <children>
       <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
-            <ComboBox prefHeight="45.0" prefWidth="389.0" promptText="Chatapp (aktuelle Teilnehmerzahl: 0)" />
+            <ComboBox fx:id="teilnehmerListe" prefHeight="45.0" prefWidth="389.0" promptText="Chatapp (aktuelle Teilnehmerzahl: 0)" />
             <Button fx:id="btnLogOut" mnemonicParsing="false" onAction="#btnLogOut_OnAction" prefHeight="45.0" prefWidth="107.0" text="Abmelden" />
          </children>
       </HBox>

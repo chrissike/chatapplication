@@ -22,12 +22,12 @@
       <Label fx:id="lblIP" prefHeight="17.0" prefWidth="200.0" text="Server: " />
       <HBox prefHeight="53.0" prefWidth="280.0">
          <children>
-          <TextField fx:id="txtServername" onKeyPressed="#handleKeyPressed" prefHeight="50.0" prefWidth="182.0" promptText="IP-Adresse">
+          <TextField fx:id="txtServername" onKeyPressed="#handleKeyPressed" prefHeight="50.0" prefWidth="182.0" promptText="IP-Adresse" text="127.0.0.1">
                <font>
                   <Font size="15.0" />
                </font>
             </TextField>
-          <TextField fx:id="txtServerPort" onKeyPressed="#handleKeyPressed" prefHeight="50.0" prefWidth="105.0" promptText="Port">
+          <TextField fx:id="txtServerPort" onKeyPressed="#handleKeyPressed" prefHeight="50.0" prefWidth="105.0" promptText="Port" text="8089">
                <font>
                   <Font size="15.0" />
                </font>

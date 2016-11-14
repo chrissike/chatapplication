@@ -33,7 +33,7 @@ public class ClientFxGUI extends Application implements ClientUserInterface {
 
 	private static Log log = LogFactory.getLog(ClientFxGUI.class);
 
-	private Stage stage;
+	protected Stage stage;
 	private ClientModel model = new ClientModel();
 	protected static ClientFxGUI instance;
 
