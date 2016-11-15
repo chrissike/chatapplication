@@ -35,18 +35,16 @@ public class ClientFxGUI extends Application implements ClientUserInterface {
 
 	protected Stage stage;
 	private ClientModel model = new ClientModel();
-	protected static ClientFxGUI instance;
+	public static ClientFxGUI instance;
 
 	@Inject
 	private MessagingHandler handler;
 
 	
-	
 	public static void main(String[] args) {
 		launch(args);
 	}
 
-	
 	
 	/**
 	 * Diese Methode wird von Java FX bei Aufruf der launch-Methode implizit
@@ -98,24 +96,23 @@ public class ClientFxGUI extends Application implements ClientUserInterface {
 	}
 
 	public void setUserList(Vector<String> userList) {
+		log.info("Update der Teilnehmerliste gestartet.");
 		final List<String> users = new ArrayList<String>();
-		for (String anUserList : userList) {
-			if (anUserList.equals(getModel().getUserName())) {
-				users.add("*" + anUserList + "*");
-			} else {
-				users.add(anUserList);
+		for (String user : userList) {
+			if (!user.equals(getModel().getUserName())) {
+				users.add(user);
 			}
 			Platform.runLater(new Runnable() {
-
 				public void run() {
 					getModel().users.setAll(users);
-					log.debug(users);
+					log.info(users);
 				}
 			});
 		}
 	}
 
 	public void setMessageLine(String sender, String message) {
+		log.info("Update der Nachrichtenliste gestartet.");
 		final String messageText;
 		if (sender.equals(getModel().getUserName())) {
 			messageText = "*" + sender + "*: " + message;
@@ -123,7 +120,6 @@ public class ClientFxGUI extends Application implements ClientUserInterface {
 			messageText = sender + ": " + message;
 		}
 		Platform.runLater(new Runnable() {
-
 			public void run() {
 				getModel().chats.add(messageText);
 			}

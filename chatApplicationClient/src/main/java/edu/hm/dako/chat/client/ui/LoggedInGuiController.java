@@ -8,6 +8,7 @@ import javax.naming.NamingException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import edu.hm.dako.chat.client.communication.jms.JmsConsumer;
 import edu.hm.dako.chat.client.communication.jms.JmsProducer;
 import edu.hm.dako.chat.client.communication.rest.MessagingHandler;
 import edu.hm.dako.chat.client.communication.rest.MessagingHandlerImpl;
@@ -40,8 +41,6 @@ public class LoggedInGuiController {
 	@FXML
 	private TextField txtChatMessage;
 	@FXML
-	private ListView<String> usersList;
-	@FXML
 	private ListView<String> chatList;
 	@FXML
 	private ScrollPane scrollPane;
@@ -64,11 +63,16 @@ public class LoggedInGuiController {
 		this.appController = appController;
 		updateTeilnehmerListe();
 
-		//TODO Teilnehmerliste einfügen 
 		this.teilnehmerListe.setItems(this.appController.getModel().users);
 
-		//TODO chatList.setItems(appController.getModel().chats);
+		chatList.setItems(this.appController.getModel().chats);
 		btnSubmit.disableProperty().bind(appController.getModel().block);
+		
+		try {
+			new JmsConsumer().initJmsConsumer();
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
 	}
 
 	
@@ -98,14 +102,12 @@ public class LoggedInGuiController {
 			e1.printStackTrace();
 		}
 		handler.logout(appController.getModel().getUserName());
-		//TODO: Kein exit, sondern Scene-Welchsel auf Login-Maske!!!!!!!!!!!!!!!!!!
 		try {
 			ClientFxGUI.instance.stage.close();
 			ClientFxGUI.instance.start(new Stage());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-//		System.exit(0);
 	}
 
 	

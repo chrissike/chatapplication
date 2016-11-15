@@ -44,12 +44,6 @@ public class JmsConsumer {
 
 		TopicSubscriber sub = new TopicSubscriber();
 		consumer.setMessageListener(sub);
-
-		// RECEIVE geht nur, wenn kein MessageListener verwendet wird.
-//		 System.out.println("Waiting for messages");
-//		 ChatPDU pdu2 = consumer.receiveBody(ChatPDU.class);
-//		 System.out.println(pdu2.toString());
-
 	}
 	
 	public void closeJmsConsumer() throws NamingException {
