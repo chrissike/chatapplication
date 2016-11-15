@@ -6,7 +6,6 @@ import javax.jms.MessageListener;
 
 import edu.hm.dako.chat.client.ui.ClientFxGUI;
 import edu.hm.dako.chat.common.ChatPDU;
-import edu.hm.dako.chat.common.PduType;
 
 /**
  * JMS Nachrichtenempfänger
