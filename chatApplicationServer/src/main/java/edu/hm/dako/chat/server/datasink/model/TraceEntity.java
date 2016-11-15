@@ -13,6 +13,7 @@ public class TraceEntity implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	//TODO raus nehmen? Serverseitig ist doch vollkommen egal, wie der Name des clientThreads ist!?
 	private String clientThreadName;
 
 	private String serverThreadNamen;

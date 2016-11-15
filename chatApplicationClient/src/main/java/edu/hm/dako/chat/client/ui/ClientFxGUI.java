@@ -4,12 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-import javax.inject.Inject;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import edu.hm.dako.chat.client.communication.rest.MessagingHandler;
 import edu.hm.dako.chat.client.data.ClientModel;
 import edu.hm.dako.chat.common.ExceptionHandler;
 import javafx.application.Application;
@@ -36,9 +33,7 @@ public class ClientFxGUI extends Application implements ClientUserInterface {
 	protected Stage stage;
 	private ClientModel model = new ClientModel();
 	public static ClientFxGUI instance;
-
-	@Inject
-	private MessagingHandler handler;
+	private LoggedInGuiController lc;
 
 	
 	public static void main(String[] args) {
@@ -65,6 +60,7 @@ public class ClientFxGUI extends Application implements ClientUserInterface {
 		primaryStage.show();
 	}
 
+	
 	/**
 	 * Benutzeroberflaeche fuer Chat erzeugen
 	 */
@@ -72,7 +68,7 @@ public class ClientFxGUI extends Application implements ClientUserInterface {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/LoggedInGui.fxml"));
 			final Parent root = loader.load();
-			LoggedInGuiController lc = (LoggedInGuiController) loader.getController();
+			lc = (LoggedInGuiController) loader.getController();
 			lc.setAppController(this);
 			Platform.runLater(new Runnable() {
 
@@ -90,7 +86,7 @@ public class ClientFxGUI extends Application implements ClientUserInterface {
 		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 
 			public void handle(WindowEvent event) {
-				handler.logout(getModel().getUserName());
+				lc.btnLogOut_OnAction();
 			}
 		});
 	}
@@ -115,7 +111,7 @@ public class ClientFxGUI extends Application implements ClientUserInterface {
 		log.info("Update der Nachrichtenliste gestartet.");
 		final String messageText;
 		if (sender.equals(getModel().getUserName())) {
-			messageText = "*" + sender + "*: " + message;
+			messageText = " ich: " + message; //StringUtils.leftPad("", 30, ' ')
 		} else {
 			messageText = sender + ": " + message;
 		}

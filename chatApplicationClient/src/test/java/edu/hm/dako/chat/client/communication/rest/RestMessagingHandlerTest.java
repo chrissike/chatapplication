@@ -11,7 +11,7 @@ public class RestMessagingHandlerTest {
 
 
 	@Test
-	public void testRestLogin() throws Exception {
+	public void testRestLoginAndLogout() throws Exception {
 		MessagingHandler handler = new MessagingHandlerImpl(ADDRESS, PORT);
 		String testUser = "HansWurst"+Math.random();
 		assertTrue(handler.login(testUser));
