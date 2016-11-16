@@ -591,10 +591,4 @@
             <remote-destination host="localhost" port="25"/>
         </outbound-socket-binding>
     </socket-binding-group>
-
-    <deployments>
-        <deployment name="chatapp.war" runtime-name="chatapp.war">
-            <content sha1="8423732353b9b0c05fcc0a23b8f64e780adc4f1e"/>
-        </deployment>
-    </deployments>
 </server>
