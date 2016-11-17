@@ -34,12 +34,8 @@ public abstract class AbstractWorkerThread extends Thread {
 	protected AtomicInteger eventCounter;
 	protected AtomicInteger confirmCounter;
 
-	public AbstractWorkerThread(SharedChatClientList clients,
-			SharedServerCounter counter) {
+	public AbstractWorkerThread(SharedChatClientList clients) {
 		this.clients = clients;
-		this.logoutCounter = counter.logoutCounter;
-		this.eventCounter = counter.eventCounter;
-		this.confirmCounter = counter.confirmCounter;
 	}
 
 	/**

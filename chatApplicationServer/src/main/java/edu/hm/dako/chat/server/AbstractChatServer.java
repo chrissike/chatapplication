@@ -15,7 +15,7 @@ public abstract class AbstractChatServer implements ChatServerInterface {
 	protected SharedChatClientList clients;
 
 	// Zaehler fuer Test
-	protected SharedServerCounter counter;
+//	protected SharedServerCounter counter;
 
 
 }

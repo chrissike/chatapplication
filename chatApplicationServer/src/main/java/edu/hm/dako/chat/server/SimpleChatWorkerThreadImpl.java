@@ -8,8 +8,6 @@ import org.apache.commons.logging.LogFactory;
 import edu.hm.dako.chat.common.ChatPDU;
 import edu.hm.dako.chat.common.ClientConversationStatus;
 import edu.hm.dako.chat.common.ExceptionHandler;
-import edu.hm.dako.chat.connection.exception.ConnectionTimeoutException;
-import edu.hm.dako.chat.connection.exception.EndOfFileException;
 import edu.hm.dako.chat.server.user.ClientListEntry;
 import edu.hm.dako.chat.server.user.SharedChatClientList;
 
@@ -24,10 +22,8 @@ public class SimpleChatWorkerThreadImpl extends AbstractWorkerThread {
 
 	private static Log log = LogFactory.getLog(SimpleChatWorkerThreadImpl.class);
 
-	public SimpleChatWorkerThreadImpl(SharedChatClientList clients,
-			SharedServerCounter counter) {
-		
-		super(clients, counter);
+	public SimpleChatWorkerThreadImpl(SharedChatClientList clients) {
+		super(clients);
 	}
 
 	@Override
