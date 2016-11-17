@@ -12,6 +12,7 @@ import edu.hm.dako.chat.client.communication.jms.JmsConsumer;
 import edu.hm.dako.chat.client.communication.jms.JmsProducer;
 import edu.hm.dako.chat.client.communication.rest.MessagingHandler;
 import edu.hm.dako.chat.client.communication.rest.MessagingHandlerImpl;
+import edu.hm.dako.chat.client.communication.rest.TechnicalException;
 import edu.hm.dako.chat.common.ChatPDU;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -101,7 +102,13 @@ public class LoggedInGuiController {
 		} catch (URISyntaxException e1) {
 			e1.printStackTrace();
 		}
+		
+		try {
 		handler.logout(appController.getModel().getUserName());
+		} catch (TechnicalException e) {
+			System.exit(0);
+		}
+		
 		try {
 			ClientFxGUI.instance.stage.close();
 			ClientFxGUI.instance.start(new Stage());

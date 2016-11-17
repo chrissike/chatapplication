@@ -31,7 +31,7 @@ public class MessagingHandlerImpl implements MessagingHandler {
 	 * @param serverPort
 	 * @throws URISyntaxException
 	 */
-	public MessagingHandlerImpl(final String uriToEndpoint, Integer serverPort) throws URISyntaxException {
+	public MessagingHandlerImpl(final String uriToEndpoint, Integer serverPort) throws URISyntaxException, TechnicalException {
 		this.uri = new URI("http://" + uriToEndpoint + ":" + serverPort);
 		this.restClient = ClientBuilder.newClient();
 	}
@@ -56,7 +56,7 @@ public class MessagingHandlerImpl implements MessagingHandler {
 		return result;
 	}
 
-	public Boolean logout(String anmeldename) {
+	public Boolean logout(String anmeldename) throws TechnicalException {
 		if (anmeldename == null) {
 			return false;
 		}
@@ -109,7 +109,7 @@ public class MessagingHandlerImpl implements MessagingHandler {
 		return StringUtils.join(errorItem.getErrorMessages(), ", ");
 	}
 
-	private void handleTechnicalException(final Throwable th) {
+	private void handleTechnicalException(final Throwable th) throws TechnicalException {
 		LOG.error("Es ist ein technischer Fehler aufgetreten", th);
 		throw new TechnicalException(th.getMessage());
 	}
