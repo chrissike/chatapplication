@@ -22,25 +22,26 @@ public class TopicSubscriber implements MessageListener {
 		} catch (JMSException e) {
 			e.printStackTrace();
 		}
-		if (chatPDU != null) {
+		
+		if (chatPDU != null && ClientFxGUI.instance != null) {
 			System.out.println("Topicnachricht erhalten: " + chatPDU.toString());
 
 			switch (chatPDU.getPduType()) {
-				case CHAT_MESSAGE_EVENT:
-					ClientFxGUI.instance.setMessageLine(chatPDU.getUserName(), chatPDU.getMessage());
-					break;
-				case LOGIN_EVENT:
-					ClientFxGUI.instance.setUserList(chatPDU.getClients());
-					break;
-				case LOGOUT_EVENT:
-					ClientFxGUI.instance.setUserList(chatPDU.getClients());
-					break;
-				case UNDEFINED:
-					// TODO was tun??
-					break;
-				default:
-					// TODO was tun??
-					break;
+			case CHAT_MESSAGE_EVENT:
+				ClientFxGUI.instance.setMessageLine(chatPDU.getUserName(), chatPDU.getMessage());
+				break;
+			case LOGIN_EVENT:
+				ClientFxGUI.instance.setUserList(chatPDU.getClients());
+				break;
+			case LOGOUT_EVENT:
+				ClientFxGUI.instance.setUserList(chatPDU.getClients());
+				break;
+			case UNDEFINED:
+				// TODO was tun??
+				break;
+			default:
+				// TODO was tun??
+				break;
 			}
 		}
 	}
