@@ -88,8 +88,8 @@ public class ProcessChatPDUImpl implements ProcessChatPDU {
 	}
 
 	private void persistChatData(ChatPDU pdu) {
-		TraceEntity trace = new TraceEntity(pdu.getClientThreadName(), pdu.getServerThreadName(), pdu.getMessage());
-		CountEntity count = new CountEntity(pdu.getClientThreadName(), 1);
+		TraceEntity trace = new TraceEntity(pdu.getUserName(), pdu.getServerThreadName(), pdu.getMessage());
+		CountEntity count = new CountEntity(pdu.getUserName(), 1);
 
 		dataSink.persistTrace(trace);
 		dataSink.createOrUpdateCount(count);

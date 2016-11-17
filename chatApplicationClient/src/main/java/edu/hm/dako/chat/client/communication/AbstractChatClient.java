@@ -103,7 +103,6 @@ public abstract class AbstractChatClient implements ClientCommunication {
 		requestPdu.setPduType(PduType.LOGIN_REQUEST);
 		requestPdu.setClientStatus(sharedClientData.status);
 		Thread.currentThread().setName("Client-" + userName);
-		requestPdu.setClientThreadName(Thread.currentThread().getName());
 		requestPdu.setUserName(userName);
 		try {
 //			connection.send(requestPdu);
@@ -119,7 +118,6 @@ public abstract class AbstractChatClient implements ClientCommunication {
 		ChatPDU requestPdu = new ChatPDU();
 		requestPdu.setPduType(PduType.LOGOUT_REQUEST);
 		requestPdu.setClientStatus(sharedClientData.status);
-		requestPdu.setClientThreadName(Thread.currentThread().getName());
 		requestPdu.setUserName(userName);
 		try {
 //			connection.send(requestPdu);
@@ -138,17 +136,13 @@ public abstract class AbstractChatClient implements ClientCommunication {
 		ChatPDU requestPdu = new ChatPDU();
 		requestPdu.setPduType(PduType.CHAT_MESSAGE_REQUEST);
 		requestPdu.setClientStatus(sharedClientData.status);
-		requestPdu.setClientThreadName(Thread.currentThread().getName());
 		requestPdu.setUserName(userName);
 		requestPdu.setMessage(text);
 		sharedClientData.messageCounter.getAndIncrement();
-		requestPdu.setSequenceNumber(sharedClientData.messageCounter.get());
 		try {
 //			connection.send(requestPdu);
 			log.debug("Chat-Message-Request-PDU fuer Client " + name
 					+ " an Server gesendet, Inhalt: " + text);
-			log.debug("MessageCounter: " + sharedClientData.messageCounter.get()
-					+ ", SequenceNumber: " + requestPdu.getSequenceNumber());
 		} catch (Exception e) {
 			log.debug("Senden der Chat-Nachricht nicht moeglich");
 			throw new IOException();

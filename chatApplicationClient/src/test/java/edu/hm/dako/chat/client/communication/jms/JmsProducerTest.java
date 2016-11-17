@@ -32,7 +32,6 @@ public class JmsProducerTest {
 		chatPdu.setMessage("Testnachricht");
 		chatPdu.setUserName("Hans Wurst");
 		chatPdu.setPduType(PduType.CHAT_MESSAGE_REQUEST);
-		chatPdu.setClientThreadName(Thread.currentThread().getName());
 	}
 
 	@Test
