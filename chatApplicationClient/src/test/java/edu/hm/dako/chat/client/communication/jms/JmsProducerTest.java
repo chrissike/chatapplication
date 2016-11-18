@@ -38,7 +38,7 @@ public class JmsProducerTest {
 	public void testJms() {
 		Boolean success = false;
 		try {
-			jmsConsumer.initJmsConsumer();
+			jmsConsumer.initJmsConsumer(new TopicSubscriber());
 			success = jmsProducer.sendMessage(chatPdu);
 		} catch (NamingException e) {
 			log.error(e.getMessage());

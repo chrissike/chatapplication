@@ -32,7 +32,7 @@ public class ProcessChatPDUImpl implements ProcessChatPDU {
 	public void processMessage(ChatPDU pdu) {
 		log.info("JMS-Nachricht ist angekommen: " + pdu.toString());
 
-		pdu.setServerTime(System.nanoTime());
+		pdu.setServerTime(Long.valueOf(System.nanoTime()));
 		pdu.setServerThreadName(Thread.currentThread().getName());
 		pdu.setPduType(PduType.CHAT_MESSAGE_EVENT);
 
@@ -44,7 +44,7 @@ public class ProcessChatPDUImpl implements ProcessChatPDU {
 
 	public boolean processClientListChange(ChatPDU pdu, long startTime) {
 		log.info("JMS-Login/Logout-Request ist mit der folgenden Userliste angekommen: " + pdu.getClients());
-
+		pdu.setServerTime(Long.valueOf(System.nanoTime()));
 		boolean success = updateServersideClientList(pdu);
 
 		if(success) {
@@ -59,7 +59,6 @@ public class ProcessChatPDUImpl implements ProcessChatPDU {
 	
 	public boolean updateServersideClientList(ChatPDU pdu) {
 		log.info("updateServersideClientList() mit PDU-Username aufgerufen: " + pdu.getUserName());
-		
 		boolean success = false;
 		
 		if (pdu.getPduType().equals(PduType.LOGIN_EVENT)) {
@@ -78,7 +77,9 @@ public class ProcessChatPDUImpl implements ProcessChatPDU {
 	}
 
 	private void sendPDU(ChatPDU pdu) {
-		pdu.setServerTime((System.nanoTime() - pdu.getServerTime()));
+		log.info("pdu servertime: " + pdu.getServerTime() + ", nowtime: " + Long.valueOf((System.nanoTime())));
+		Long serverTime = Long.valueOf((System.nanoTime())) - pdu.getServerTime();
+		pdu.setServerTime(serverTime);
 		log.info("Die Verarbeitungszeit für die Nachricht beträgt: " + pdu.getServerTime() + " ms");
 		try {
 			publisher.sendMessage(pdu);

@@ -25,6 +25,7 @@
 		<module>chatApplicationCommons</module>
 		<module>chatApplicationClient</module>
 		<module>chatApplicationBenchmarking</module>
+		<module>chatApplicationClientBenchmark</module>
 	</modules>
 
 	<dependencyManagement>

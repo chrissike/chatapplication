@@ -26,7 +26,7 @@ import javafx.stage.WindowEvent;
  *
  */
 @SuppressWarnings("restriction")
-public class ClientFxGUI extends Application implements ClientUserInterface {
+public class ClientFxGUI extends Application {
 
 	private static Log log = LogFactory.getLog(ClientFxGUI.class);
 
@@ -140,45 +140,8 @@ public class ClientFxGUI extends Application implements ClientUserInterface {
 		return false;
 	}
 
-	public void abortTest() {
-	}
-
-	public void releaseTest() {
-	}
-
-	public boolean isRunning() {
-		return false;
-	}
-
-	public void setLastServerTime(long lastServerTime) {
-	}
-
-	public long getLastServerTime() {
-		return 0;
-	}
-
 	public void setSessionStatisticsCounter(long numberOfSentEvents, long numberOfReceivedConfirms,
 			long numberOfLostConfirms, long numberOfRetries, long numberOfReceivedChatMessages) {
-	}
-
-	public long getNumberOfSentEvents() {
-		return 0;
-	}
-
-	public long getNumberOfReceivedConfirms() {
-		return 0;
-	}
-
-	public long getNumberOfLostConfirms() {
-		return 0;
-	}
-
-	public long getNumberOfRetries() {
-		return 0;
-	}
-
-	public long getNumberOfReceivedChatMessages() {
-		return 0;
 	}
 
 	public void setErrorMessage(final String sender, final String errorMessage, final long errorCode) {

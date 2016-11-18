@@ -12,7 +12,7 @@ import java.util.Vector;
  */
 public class ChatPDU implements Serializable {
 
-	private static final long serialVersionUID = -6172619032079227585L;
+	private static final long serialVersionUID = -6149488654340429875L;
 
 	// Kommandos bzw. PDU-Typen
 	private PduType pduType;
@@ -32,17 +32,23 @@ public class ChatPDU implements Serializable {
 	// Liste aller angemeldeten User
 	private Vector<String> clients;
 
-	// Zeit in Nanosekunden, die der Server fuer die komplette Bearbeitung einer
-	// Chat-Nachricht benoetigt (inkl. kompletter Verteilung an alle
-	// angemeldeten User).
-	private long serverTime;
+	/* Zeit in Nanosekunden, die der Server fuer die komplette Bearbeitung einer
+	 * Chat-Nachricht benoetigt (inkl. kompletter Verteilung an alle
+	 * angemeldeten User).
+	 */
+	private Long serverTime;
+	
+	/*
+	 * StarttimeOfClient 
+	 */
+	private Long clientStartTime;
 
 	// Conversation-Status aus Sicht des Servers
 	private ClientConversationStatus clientStatus;
 
 	// Anzahl der Wiederholungen von Nachrichten (nur bei verbindungslosen
 	// Transportsystemen)
-	private long numberOfRetries;
+	private Long numberOfRetries;
 
 	public ChatPDU() {
 		pduType = PduType.UNDEFINED;
@@ -91,7 +97,7 @@ public class ChatPDU implements Serializable {
 		this.message = msg;
 	}
 
-	public void setServerTime(long time) {
+	public void setServerTime(Long time) {
 		this.serverTime = time;
 	}
 
@@ -119,7 +125,7 @@ public class ChatPDU implements Serializable {
 		return (message);
 	}
 
-	public long getServerTime() {
+	public Long getServerTime() {
 		return (serverTime);
 	}
 
@@ -131,12 +137,20 @@ public class ChatPDU implements Serializable {
 		this.clientStatus = clientStatus;
 	}
 
-	public long getNumberOfRetries() {
+	public Long getNumberOfRetries() {
 		return (numberOfRetries);
 	}
 
-	public void setNumberOfRetries(long nr) {
+	public void setNumberOfRetries(Long nr) {
 		this.numberOfRetries = nr;
+	}
+
+	public Long getClientStartTime() {
+		return clientStartTime;
+	}
+
+	public void setClientStartTime(Long clientStartTime) {
+		this.clientStartTime = clientStartTime;
 	}
 	
 }

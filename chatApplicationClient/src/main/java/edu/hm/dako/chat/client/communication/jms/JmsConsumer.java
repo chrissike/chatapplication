@@ -6,6 +6,8 @@ import javax.jms.ConnectionFactory;
 import javax.jms.JMSConnectionFactory;
 import javax.jms.JMSConsumer;
 import javax.jms.JMSContext;
+import javax.jms.Message;
+import javax.jms.MessageListener;
 import javax.jms.Topic;
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -26,7 +28,7 @@ public class JmsConsumer {
 	private static final String PROVIDER_URL = "http-remoting://127.0.0.1:8089";
 	private static final String TOPIC = "jms/topic/chatresp2";
 
-	public void initJmsConsumer() throws NamingException {
+	public Message initJmsConsumer(MessageListener listener) throws NamingException {
 		final Properties env = new Properties();
 		env.put(Context.INITIAL_CONTEXT_FACTORY, INITIAL_CONTEXT_FACTORY);
 		env.put(Context.PROVIDER_URL, System.getProperty(Context.PROVIDER_URL, PROVIDER_URL));
@@ -41,9 +43,14 @@ public class JmsConsumer {
 		context.setClientID(Thread.currentThread().getId() + Thread.currentThread().getName() + Math.random());
 
 		consumer = context.createConsumer(topic);
-
-		TopicSubscriber sub = new TopicSubscriber();
-		consumer.setMessageListener(sub);
+		
+		if(listener != null) {
+			consumer.setMessageListener(listener);
+		} else {
+			return consumer.receive();
+		}
+		
+		return null;
 	}
 	
 	public void closeJmsConsumer() throws NamingException {

@@ -10,6 +10,7 @@ import org.apache.commons.logging.LogFactory;
 
 import edu.hm.dako.chat.client.communication.jms.JmsConsumer;
 import edu.hm.dako.chat.client.communication.jms.JmsProducer;
+import edu.hm.dako.chat.client.communication.jms.TopicSubscriber;
 import edu.hm.dako.chat.client.communication.rest.MessagingHandler;
 import edu.hm.dako.chat.client.communication.rest.MessagingHandlerImpl;
 import edu.hm.dako.chat.client.communication.rest.TechnicalException;
@@ -70,7 +71,7 @@ public class LoggedInGuiController {
 		btnSubmit.disableProperty().bind(appController.getModel().block);
 		
 		try {
-			new JmsConsumer().initJmsConsumer();
+			new JmsConsumer().initJmsConsumer(new TopicSubscriber());
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
