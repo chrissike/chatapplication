@@ -14,10 +14,12 @@
 		<java.version>1.8</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
+		<hibernate.version>5.1.0.Final</hibernate.version>
 		<wildfly-jms-client-bom.version>8.2.0.Final</wildfly-jms-client-bom.version>
 
 		<!-- plugin versions -->
 		<maven-compiler.version>3.1</maven-compiler.version>
+
 	</properties>
 
 	<modules>
@@ -107,6 +109,12 @@
 				<groupId>org.apache.commons</groupId>
 				<artifactId>commons-lang3</artifactId>
 				<version>3.4</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-core</artifactId>
+				<version>5.2.3.Final</version>
 			</dependency>
 
 			<!-- Tests -->

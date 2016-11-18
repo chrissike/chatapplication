@@ -1,5 +1,6 @@
 package edu.hm.dako.chat.server.datasink.repo;
 
+import javax.ejb.Stateful;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,21 +16,19 @@ public class TraceRepository {
 
 	private static final String PERSISTENCE_UNIT_NAME = "tracePersistence";
 
-	@PersistenceContext(unitName = PERSISTENCE_UNIT_NAME, type = PersistenceContextType.EXTENDED)
+	@PersistenceContext(unitName = PERSISTENCE_UNIT_NAME, type = PersistenceContextType.TRANSACTION)
 	EntityManager em;
 
 	public void addTrace(TraceEntity trace) {
 		trace.setId(null);
-		em.getTransaction().begin();
 		em.persist(trace);
-		em.getTransaction().commit();
+		em.flush();
 	}
 
 	public void removeTrace(Integer id) {
 		TraceEntity trace = em.find(TraceEntity.class, id);
-		em.getTransaction().begin();
 		em.remove(trace);
-		em.getTransaction().commit();
+		em.flush();
 	}
 
 	public List<TraceEntity> showTrace() {

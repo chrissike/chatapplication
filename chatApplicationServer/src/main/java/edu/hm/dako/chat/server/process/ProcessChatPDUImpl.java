@@ -37,7 +37,7 @@ public class ProcessChatPDUImpl implements ProcessChatPDU {
 		pdu.setPduType(PduType.CHAT_MESSAGE_EVENT);
 
 //		TODO: Datenbank einbinden
-//		persistChatData(pdu);
+		persistChatData(pdu);
 
 		sendPDU(pdu);
 	}
