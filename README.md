@@ -1,11 +1,12 @@
-# Chatapplication Jboss 7.1 / Wildlfy 10
+# Chatapplication Jboss 7.1 / Wildfly 10
 
 ## Getting started
-    1. Wildfly starten
-    2. Maven-build auf dem Parent-Projekt ausführen (mvn install)
+    1. Wildfly 10 herunterladen
+    2. standalone.xml durch standalone-full.xml ersetzen oder Wildfly mit der -full.xml starten.
+    3. Maven-build auf dem Parent-Projekt ausführen (mvn clean install)
     -> Die Serverkomponente wird automatisch auf dem Wildfly deployed
     3. MariaDB aufsetzen
-    -> 
+    -> localhost:3316 - Datenbanken: tracedb und countdb - Credentials: root 50Ananas!
 
 ## Architektur IST-Stand
 ![Component](./dokumentation/refactoredChatAppComponentModel4.png)
