@@ -14,8 +14,6 @@ import edu.hm.dako.chat.common.ChatPDU;
 public class TopicSubscriber implements MessageListener {
 
 	public void onMessage(Message message) {
-		System.out.println("+++++++++++++++++++>>>> Nachricht erhalten: " + message.toString());
-
 		ChatPDU chatPDU = null;
 		try {
 			chatPDU = message.getBody(ChatPDU.class);
@@ -24,8 +22,6 @@ public class TopicSubscriber implements MessageListener {
 		}
 		
 		if (chatPDU != null && ClientFxGUI.instance != null) {
-			System.out.println("Topicnachricht erhalten: " + chatPDU.toString());
-
 			switch (chatPDU.getPduType()) {
 			case CHAT_MESSAGE_EVENT:
 				ClientFxGUI.instance.setMessageLine(chatPDU.getUserName(), chatPDU.getMessage());

@@ -4,10 +4,6 @@ import javax.annotation.Resource;
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.MessageDriven;
 import javax.ejb.MessageDrivenContext;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
-import javax.ejb.TransactionManagement;
-import javax.ejb.TransactionManagementType;
 import javax.inject.Inject;
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -23,11 +19,9 @@ import edu.hm.dako.chat.server.process.ProcessChatPDU;
 
 @MessageDriven(name = "JmsConsumer", activationConfig = {
 			@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
-			@ActivationConfigProperty(propertyName = "destination", propertyValue = "queue/chatreq2"), // destination's JNDI name
+			@ActivationConfigProperty(propertyName = "destination", propertyValue = "jms/queue/chatreq2"),
 			@ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge")
 		})
-@TransactionManagement(value = TransactionManagementType.CONTAINER)
-@TransactionAttribute(value = TransactionAttributeType.REQUIRED)
 public class JmsConsumer implements MessageListener {
 
 	private static Log log = LogFactory.getLog(JmsConsumer.class);
@@ -50,14 +44,4 @@ public class JmsConsumer implements MessageListener {
 		}
 
 	}
-
-//	@Override
-//	public void setMessageDrivenContext(MessageDrivenContext ctx) throws EJBException {
-//		log.info("setMessageDrivenContext() wird aufgerufen!!!"); 
-//	}
-//
-//	@Override
-//	public void ejbRemove() throws EJBException {
-//		log.info("ejbRemove() wird aufgerufen!!!"); 
-//	}
 }

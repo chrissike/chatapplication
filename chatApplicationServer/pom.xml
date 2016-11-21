@@ -16,6 +16,14 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<version.exec.plugin>1.2.1</version.exec.plugin>
+		<version.war.plugin>3.0.0</version.war.plugin>
+
+		<!-- maven-compiler-plugin -->
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>1.8</maven.compiler.source>
+
 		<wildfly-maven-plugin.version>1.0.2.Final</wildfly-maven-plugin.version>
 	</properties>
 
@@ -24,48 +32,60 @@
 			<groupId>edu.hm.dako.chat</groupId>
 			<artifactId>chatApplicationCommons</artifactId>
 		</dependency>
+		<!-- <dependency> <groupId>org.hibernate</groupId> <artifactId>hibernate-core</artifactId> 
+			<scope>provided</scope> <exclusions> <exclusion> <groupId>dom4j</groupId> 
+			<artifactId>dom4j</artifactId> </exclusion> </exclusions> </dependency> -->
+
 		<dependency>
-			<groupId>org.wildfly</groupId>
-			<artifactId>wildfly-jms-client-bom</artifactId>
-			<type>pom</type>
+			<groupId>javax.enterprise</groupId>
+			<artifactId>cdi-api</artifactId>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
+			<groupId>org.jboss.spec.javax.annotation</groupId>
+			<artifactId>jboss-annotations-api_1.2_spec</artifactId>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.18</version>
+			<groupId>org.jboss.spec.javax.ws.rs</groupId>
+			<artifactId>jboss-jaxrs-api_2.0_spec</artifactId>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>javax</groupId>
-			<artifactId>javaee-api</artifactId>
+			<groupId>org.hibernate.javax.persistence</groupId>
+			<artifactId>hibernate-jpa-2.1-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.spec.javax.ejb</groupId>
 			<artifactId>jboss-ejb-api_3.2_spec</artifactId>
-			<version>1.0.0.Final</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.spec.javax.jms</groupId>
+			<artifactId>jboss-jms-api_2.0_spec</artifactId>
 			<scope>provided</scope>
 		</dependency>
 
-		<!-- Testing -->
+		<!-- https://mvnrepository.com/artifact/javax.transaction/javax.transaction-api -->
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
+			<groupId>javax.transaction</groupId>
+			<artifactId>javax.transaction-api</artifactId>
+			<version>1.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.18</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.hamcrest</groupId>
-			<artifactId>hamcrest-all</artifactId>
-			<version>1.3</version>
-			<scope>test</scope>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
 		</dependency>
+		<!-- <dependency> <groupId>org.jboss.spec.javax.ejb</groupId> <artifactId>jboss-ejb-api_3.2_spec</artifactId> 
+			<version>1.0.0.Final</version> <scope>provided</scope> </dependency> -->
 	</dependencies>
 
 	<build>

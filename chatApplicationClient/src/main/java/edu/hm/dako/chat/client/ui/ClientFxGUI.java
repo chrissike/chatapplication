@@ -92,7 +92,7 @@ public class ClientFxGUI extends Application {
 	}
 
 	public void setUserList(Vector<String> userList) {
-		log.info("Update der Teilnehmerliste gestartet.");
+		System.out.println("Update der Teilnehmerliste gestartet.");
 		final List<String> users = new ArrayList<String>();
 		for (String user : userList) {
 			if (!user.equals(getModel().getUserName())) {
@@ -100,7 +100,7 @@ public class ClientFxGUI extends Application {
 			}
 			Platform.runLater(new Runnable() {
 				public void run() {
-					getModel().users.setAll(users);
+					getModel().users.addAll(users);
 					log.info(users);
 				}
 			});
@@ -165,5 +165,10 @@ public class ClientFxGUI extends Application {
 
 	public void logoutComplete() {
 		log.debug("Abnmeldung durchgefuehrt");
+	}
+
+
+	public void setModel(ClientModel model) {
+		this.model = model;
 	}
 }

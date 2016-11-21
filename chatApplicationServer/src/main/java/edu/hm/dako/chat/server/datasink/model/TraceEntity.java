@@ -3,8 +3,9 @@ package edu.hm.dako.chat.server.datasink.model;
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity
+
 @NamedQuery(name = "TraceEntity.findAll", query = "SELECT b FROM TraceEntity b")
+@Entity
 public class TraceEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;

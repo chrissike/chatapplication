@@ -15,31 +15,35 @@ import javax.naming.NamingException;
 
 public class JmsConsumer {
 
-	@JMSConnectionFactory("java:jboss/exported/jms/RemoteConnectionFactory")
+//	@JMSConnectionFactory("jms/RemoteConnectionFactory") //java:jboss/exported/jms/RemoteConnectionFactory
 	private ConnectionFactory confac;
+	
 	private JMSContext context;
 	private JMSConsumer consumer;
+	
+//	@Resource(mappedName = "jms/topic/chatresp2")
 	private Topic topic;
 	
 	private static final String DEFAULT_CONNECTION_FACTORY = "jms/HTTPConnectionFactory";
-	private static final String USERNAME = "guest";
-	private static final String PASSWORD = "guest";
-	private static final String INITIAL_CONTEXT_FACTORY = "org.jboss.naming.remote.client.InitialContextFactory";
-	private static final String PROVIDER_URL = "http-remoting://127.0.0.1:8089";
 	private static final String TOPIC = "jms/topic/chatresp2";
 
 	public Message initJmsConsumer(MessageListener listener) throws NamingException {
-		final Properties env = new Properties();
-		env.put(Context.INITIAL_CONTEXT_FACTORY, INITIAL_CONTEXT_FACTORY);
-		env.put(Context.PROVIDER_URL, System.getProperty(Context.PROVIDER_URL, PROVIDER_URL));
-		env.put(Context.SECURITY_PRINCIPAL, System.getProperty("username", USERNAME));
-		env.put(Context.SECURITY_CREDENTIALS, System.getProperty("password", PASSWORD));
-
-		Context ctx = new InitialContext(env);
-
+		Properties jndiProps = new Properties();
+	    jndiProps.put(Context.INITIAL_CONTEXT_FACTORY, "org.jboss.naming.remote.client.InitialContextFactory");
+	    jndiProps.put(Context.URL_PKG_PREFIXES, "org.jnp.interfaces");
+	    jndiProps.put(Context.PROVIDER_URL, "http-remoting://127.0.0.1:8089");//"remote://localhost:4447");
+	    jndiProps.put(Context.SECURITY_PRINCIPAL, "guest");
+	    jndiProps.put(Context.SECURITY_CREDENTIALS, "guest");
+	    jndiProps.put("jboss.naming.client.ejb.context", true);
+	    Context ctx = new InitialContext(jndiProps);	
+	    
+//		Context ctx = new InitialContext(env);
+//		topic = (Topic) ctx.lookup(TOPIC);
 		confac = (ConnectionFactory) ctx.lookup(DEFAULT_CONNECTION_FACTORY);
 		topic = (Topic) ctx.lookup(TOPIC);
-		context = confac.createContext(USERNAME, PASSWORD);
+				 
+		context = confac.createContext("guest", "guest");
+		
 		context.setClientID(Thread.currentThread().getId() + Thread.currentThread().getName() + Math.random());
 
 		consumer = context.createConsumer(topic);
@@ -53,8 +57,8 @@ public class JmsConsumer {
 		return null;
 	}
 	
-	public void closeJmsConsumer() throws NamingException {
-		consumer.close();
-		context.stop();
-	}
+//	public void closeJmsConsumer() throws NamingException {
+//		consumer.close();
+//		context.stop();
+//	}
 }

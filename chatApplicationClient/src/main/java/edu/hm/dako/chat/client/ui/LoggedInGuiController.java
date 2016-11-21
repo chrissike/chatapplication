@@ -14,6 +14,7 @@ import edu.hm.dako.chat.client.communication.jms.TopicSubscriber;
 import edu.hm.dako.chat.client.communication.rest.MessagingHandler;
 import edu.hm.dako.chat.client.communication.rest.MessagingHandlerImpl;
 import edu.hm.dako.chat.client.communication.rest.TechnicalException;
+import edu.hm.dako.chat.client.data.ClientModel;
 import edu.hm.dako.chat.common.ChatPDU;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -109,6 +110,8 @@ public class LoggedInGuiController {
 		} catch (TechnicalException e) {
 			System.exit(0);
 		}
+		
+		ClientFxGUI.instance.setModel(new ClientModel());
 		
 		try {
 			ClientFxGUI.instance.stage.close();

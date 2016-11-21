@@ -15,7 +15,10 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 		<hibernate.version>5.1.0.Final</hibernate.version>
-		<wildfly-jms-client-bom.version>8.2.0.Final</wildfly-jms-client-bom.version>
+		<version.jboss.bom>10.1.0.Final</version.jboss.bom>
+		<version.jboss.spec.javaee.7.0>1.0.3.Final</version.jboss.spec.javaee.7.0>
+		<version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
+
 
 		<!-- plugin versions -->
 		<maven-compiler.version>3.1</maven-compiler.version>
@@ -32,6 +35,40 @@
 
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>org.wildfly.bom</groupId>
+				<artifactId>wildfly-javaee7-with-tools</artifactId>
+				<version>${version.jboss.bom}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jboss.spec</groupId>
+				<artifactId>jboss-javaee-7.0</artifactId>
+				<version>1.0.3.Final</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.wildfly</groupId>
+				<artifactId>wildfly-ejb-client-bom</artifactId>
+				<version>10.0.0.Final</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.spec</groupId>
+				<artifactId>jboss-javaee-all-7.0</artifactId>
+				<version>1.0.3.Final</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<!-- <dependency> <groupId>org.jboss.client</groupId> <artifactId>jbossall-client</artifactId> 
+				<version>5.0.0.GA</version> </dependency> https://mvnrepository.com/artifact/org.jboss.spec/jboss-javaee-7.0 
+				<dependency> <groupId>org.jboss.spec</groupId> <artifactId>jboss-javaee-7.0</artifactId> 
+				<version>1.0.3.Final</version> </dependency> -->
 			<dependency>
 				<groupId>edu.hm.dako.chat</groupId>
 				<artifactId>chatApplicationCommons</artifactId>
@@ -60,13 +97,6 @@
 				<groupId>org.apache.commons</groupId>
 				<artifactId>commons-math3</artifactId>
 				<version>3.6</version>
-			</dependency>
-			<!-- https://mvnrepository.com/artifact/javax/javaee-api -->
-			<dependency>
-				<groupId>javax</groupId>
-				<artifactId>javaee-api</artifactId>
-				<version>7.0</version>
-				<scope>provided</scope>
 			</dependency>
 			<!-- https://mvnrepository.com/artifact/com.jgoodies/jgoodies-common -->
 			<dependency>
@@ -97,24 +127,20 @@
 				<artifactId>wildfly-jms-client-bom</artifactId>
 				<version>${wildfly-jms-client-bom.version}</version>
 				<type>pom</type>
+				<scope>provided</scope>
 			</dependency>
 			<!-- https://mvnrepository.com/artifact/javax.ws.rs/javax.ws.rs-api -->
 			<dependency>
 				<groupId>javax.ws.rs</groupId>
 				<artifactId>javax.ws.rs-api</artifactId>
 				<version>2.0.1</version>
+				<scope>provided</scope>
 			</dependency>
 			<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
 			<dependency>
 				<groupId>org.apache.commons</groupId>
 				<artifactId>commons-lang3</artifactId>
-				<version>3.4</version>
-			</dependency>
-			<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
-			<dependency>
-				<groupId>org.hibernate</groupId>
-				<artifactId>hibernate-core</artifactId>
-				<version>5.2.3.Final</version>
+				<version>3.5</version>
 			</dependency>
 
 			<!-- Tests -->
@@ -126,6 +152,21 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+
+	<repositories>
+		<repository>
+			<id>java.net</id>
+			<url>http://search.maven.org/</url>
+		</repository>
+		<repository>
+			<id>maven</id>
+			<url>http://repo1.maven.org/maven2/</url>
+		</repository>
+		<repository>
+			<id>jboss.org</id>
+			<url>https://repository.jboss.org/nexus/content/repositories/releases/</url>
+		</repository>
+	</repositories>
 
 	<build>
 		<plugins>

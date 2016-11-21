@@ -3,6 +3,7 @@ package edu.hm.dako.chat.server.process;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.naming.NamingException;
+import javax.transaction.Transactional;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -29,6 +30,7 @@ public class ProcessChatPDUImpl implements ProcessChatPDU {
 	
 	private SharedChatClientList clientList = SharedChatClientList.getInstance();
 
+	@Transactional
 	public void processMessage(ChatPDU pdu) {
 		log.info("JMS-Nachricht ist angekommen: " + pdu.toString());
 
