@@ -1,4 +1,4 @@
-# chatapplication
+# Chatapplication Jboss 7.1 / Wildlfy 10
 
 ## Getting started
     1. Wildfly starten
@@ -11,8 +11,7 @@
 ![Component](./dokumentation/refactoredChatAppComponentModel4.png)
 
 ## Architektur Stand zum Anfang
-![Component](./dokumentation/refactoredChatAppComponentModelOld
-.png)
+![Component](./dokumentation/refactoredChatAppComponentModelOld.png)
 
 
 
