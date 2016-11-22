@@ -37,9 +37,9 @@ public class ProcessBenchmarking {
 					jms.sendMessage(chatPdu);
 					log.info("Nachricht an Queue gesendet.");
 				} catch (NamingException e) {
-					log.error(e.getStackTrace());
+					log.error(e.getMessage() + ", " + e.getCause());
 				} catch (JMSException e) {
-					log.error(e.getStackTrace());
+					log.error(e.getMessage() + ", " + e.getCause());
 				}
 			}
 		};

@@ -15,10 +15,10 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 		<hibernate.version>5.1.0.Final</hibernate.version>
+		<version.wildfly>10.0.0.Final</version.wildfly>
 		<version.jboss.bom>10.1.0.Final</version.jboss.bom>
 		<version.jboss.spec.javaee.7.0>1.0.3.Final</version.jboss.spec.javaee.7.0>
 		<version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
-
 
 		<!-- plugin versions -->
 		<maven-compiler.version>3.1</maven-compiler.version>
@@ -29,12 +29,34 @@
 		<module>chatApplicationServer</module>
 		<module>chatApplicationCommons</module>
 		<module>chatApplicationClient</module>
-		<module>chatApplicationBenchmarking</module>
 		<module>chatApplicationClientBenchmark</module>
 	</modules>
 
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>edu.hm.dako.chat</groupId>
+				<artifactId>chatApplicationCommons</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>edu.hm.dako.chat</groupId>
+				<artifactId>chatApplicationClient</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>edu.hm.dako.chat</groupId>
+				<artifactId>chatApplicationServer</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>edu.hm.dako.chat</groupId>
+				<artifactId>chatApplicationClientBenchmark</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<!-- 3rd party Libs -->
+			<!-- https://mvnrepository.com/artifact/commons-logging/commons-logging -->
 			<dependency>
 				<groupId>org.wildfly.bom</groupId>
 				<artifactId>wildfly-javaee7-with-tools</artifactId>
@@ -42,7 +64,12 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
-
+			<dependency>
+				<groupId>org.wildfly</groupId>
+				<artifactId>wildfly-jms-client-bom</artifactId>
+				<version>${version.wildfly}</version>
+				<type>pom</type>
+			</dependency>
 			<dependency>
 				<groupId>org.jboss.spec</groupId>
 				<artifactId>jboss-javaee-7.0</artifactId>
@@ -65,28 +92,6 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
-			<!-- <dependency> <groupId>org.jboss.client</groupId> <artifactId>jbossall-client</artifactId> 
-				<version>5.0.0.GA</version> </dependency> https://mvnrepository.com/artifact/org.jboss.spec/jboss-javaee-7.0 
-				<dependency> <groupId>org.jboss.spec</groupId> <artifactId>jboss-javaee-7.0</artifactId> 
-				<version>1.0.3.Final</version> </dependency> -->
-			<dependency>
-				<groupId>edu.hm.dako.chat</groupId>
-				<artifactId>chatApplicationCommons</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>edu.hm.dako.chat</groupId>
-				<artifactId>chatApplicationClient</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>edu.hm.dako.chat</groupId>
-				<artifactId>chatApplicationServer</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-
-			<!-- 3rd party Libs -->
-			<!-- https://mvnrepository.com/artifact/commons-logging/commons-logging -->
 			<dependency>
 				<groupId>commons-logging</groupId>
 				<artifactId>commons-logging</artifactId>

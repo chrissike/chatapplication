@@ -2,9 +2,7 @@ package edu.hm.dako.chat.client.communication.jms;
 
 import java.util.Properties;
 
-import javax.annotation.Resource;
 import javax.jms.ConnectionFactory;
-import javax.jms.JMSConnectionFactory;
 import javax.jms.JMSContext;
 import javax.jms.JMSException;
 import javax.jms.JMSProducer;
@@ -25,7 +23,6 @@ public class JmsProducer {
 
 	private static final Log log = LogFactory.getLog(JmsProducer.class.getName());
 
-//	@JMSConnectionFactory("jms/RemoteConnectionFactory")
 	private ConnectionFactory confac;
 
 	private JMSContext context;
@@ -37,35 +34,36 @@ public class JmsProducer {
 	
 	public Boolean sendMessage(ChatPDU chatPdu) throws NamingException, JMSException {
 
-		System.out.println("Send ChatPDU: " + chatPdu.toString());
-		
+		Context ctx = new InitialContext(createProperties());
+
+		confac = (ConnectionFactory) ctx.lookup(DEFAULT_CONNECTION_FACTORY);
+
 		try {
-			Properties jndiProps = new Properties();
-			jndiProps.put(Context.INITIAL_CONTEXT_FACTORY, "org.jboss.naming.remote.client.InitialContextFactory");
-			jndiProps.put(Context.PROVIDER_URL, "http-remoting://127.0.0.1:8089");
-			jndiProps.put(Context.SECURITY_PRINCIPAL, "guest");
-			jndiProps.put(Context.SECURITY_CREDENTIALS, "guest");
-			jndiProps.put("jboss.naming.client.ejb.context", true);
-			Context ctx = new InitialContext(jndiProps);
-
-			confac = (ConnectionFactory) ctx.lookup(DEFAULT_CONNECTION_FACTORY);
 			context = confac.createContext("guest", "guest");
-
 			queue = (Queue) ctx.lookup(QUEUE);
 			
 			// Perform the JNDI lookups
 			producer = context.createProducer();
 			producer.send(queue, chatPdu);
-
-			return true;
-
 		} catch (Exception e) {
-			log.error(e.getMessage());
+			log.error(e.getMessage() + ", " + e.getCause());
 			return false;
 		} finally {
-			if (null != context) {
+			if (context != null) {
 				context.close();
 			}
 		}
+
+		return true;
+	}
+
+	private Properties createProperties() {
+		Properties jndiProps = new Properties();
+		jndiProps.put(Context.INITIAL_CONTEXT_FACTORY, "org.jboss.naming.remote.client.InitialContextFactory");
+		jndiProps.put(Context.PROVIDER_URL, "http-remoting://127.0.0.1:8089");
+		jndiProps.put(Context.SECURITY_PRINCIPAL, "guest");
+		jndiProps.put(Context.SECURITY_CREDENTIALS, "guest");
+		jndiProps.put("jboss.naming.client.ejb.context", true);
+		return jndiProps;
 	}
 }

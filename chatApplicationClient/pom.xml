@@ -16,7 +16,6 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<version.wildfly>10.0.0.Final</version.wildfly>
 	</properties>
 
 	<dependencies>
@@ -24,7 +23,6 @@
 			<groupId>edu.hm.dako.chat</groupId>
 			<artifactId>chatApplicationCommons</artifactId>
 		</dependency>
-		
 		
 		<dependency>
             <groupId>org.jboss.spec.javax.transaction</groupId>
@@ -34,39 +32,32 @@
         <dependency>
             <groupId>org.jboss.spec.javax.jms</groupId>
             <artifactId>jboss-jms-api_2.0_spec</artifactId>
-            <version>1.0.0.Final</version>
-        </dependency>     
-        <dependency>
+        </dependency>
+<!--         <dependency>
             <groupId>org.jboss.spec.javax.ejb</groupId>
             <artifactId>jboss-ejb-api_3.2_spec</artifactId>
             <scope>runtime</scope>
-        </dependency>
-        <!-- JBoss EJB client API jar. We use runtime scope because the EJB client API
-        isn't directly used in this example. We just need it in our runtime classpath -->
+        </dependency> -->
         <dependency>
             <groupId>org.jboss</groupId>
             <artifactId>jboss-ejb-client</artifactId>
-            <version>2.1.5.Final</version>
-            <!--<scope>runtime</scope>-->
+            <!-- <version>2.1.5.Final</version> -->
         </dependency>
-
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jboss-remote-naming</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        
         <!-- client communications with the server use XNIO -->
         <dependency>
             <groupId>org.jboss.xnio</groupId>
             <artifactId>xnio-api</artifactId>
             <scope>runtime</scope>
         </dependency>
-
         <dependency>
             <groupId>org.jboss.xnio</groupId>
             <artifactId>xnio-nio</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-    
-        <dependency>
-            <groupId>org.jboss</groupId>
-            <artifactId>jboss-remote-naming</artifactId>
-            <version>2.0.4.Final</version>
             <scope>runtime</scope>
         </dependency>
 
@@ -87,42 +78,9 @@
         <dependency>
             <groupId>org.wildfly</groupId>
             <artifactId>wildfly-jms-client-bom</artifactId>
-            <version>${version.wildfly}</version>
             <type>pom</type>
         </dependency>
 		
-		<!-- <dependency>
-			<groupId>org.jboss.client</groupId>
-			<artifactId>jbossall-client</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.activemq</groupId>
-			<artifactId>artemis-jms-client</artifactId>
-			<version>1.5.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss</groupId>
-			<artifactId>jboss-remote-naming</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.as</groupId>
-			<artifactId>jboss-as-jms-client-bom</artifactId>
-			<version>7.1.1.Final</version>
-			<type>pom</type>
-		</dependency>-->
-
-		<!--<dependency> <groupId>org.jboss.client</groupId> <artifactId>jbossall-client</artifactId> 
-			</dependency> <dependency> <groupId>jboss</groupId> <artifactId>jboss-client</artifactId> 
-			<version>4.0.2</version> </dependency>
-		<dependency>
-			<groupId>org.jboss</groupId>
-			<artifactId>jboss-remote-naming</artifactId>
-			<version>2.0.4.Final</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.spec.javax.jms</groupId>
-			<artifactId>jboss-jms-api_2.0_spec</artifactId>
-		</dependency> -->
 		<dependency>
 			<groupId>javax.ws.rs</groupId>
 			<artifactId>javax.ws.rs-api</artifactId>
@@ -135,29 +93,23 @@
 			<groupId>javax.enterprise</groupId>
 			<artifactId>cdi-api</artifactId>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.glassfish.jersey.core/jersey-client -->
 		<dependency>
 			<groupId>org.glassfish.jersey.core</groupId>
 			<artifactId>jersey-client</artifactId>
 			<version>2.24</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>
 			<version>2.7</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.jboss.xnio/xnio-nio -->
 		<dependency>
 			<groupId>org.jboss.xnio</groupId>
 			<artifactId>xnio-nio</artifactId>
-			<version>3.4.1.Final</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.jboss.xnio/xnio-api -->
 		<dependency>
 			<groupId>org.jboss.xnio</groupId>
 			<artifactId>xnio-api</artifactId>
-			<version>3.4.1.Final</version>
 		</dependency>
 
 
