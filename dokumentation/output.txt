@@ -1,0 +1,142 @@
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running edu.hm.dako.chat.client.communication.jms.JmsProducerTest
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+Nov 22, 2016 10:28:32 AM org.xnio.Xnio <clinit>
+INFO: XNIO version 3.4.1.Final
+Nov 22, 2016 10:28:32 AM org.xnio.nio.NioXnio <clinit>
+INFO: XNIO NIO Implementation Version 3.4.1.Final
+Nov 22, 2016 10:28:32 AM org.jboss.remoting3.EndpointImpl <clinit>
+INFO: JBoss Remoting version 4.0.18.Final
+Nov 22, 2016 10:28:33 AM org.jboss.ejb.client.remoting.VersionReceiver handleMessage
+INFO: EJBCLIENT000017: Received server version 2 and marshalling strategies [river]
+Nov 22, 2016 10:28:33 AM org.jboss.ejb.client.remoting.RemotingConnectionEJBReceiver associate
+INFO: EJBCLIENT000013: Successful version handshake completed for receiver context EJBReceiverContext{clientContext=org.jboss.ejb.client.EJBClientContext@20d3d15a, receiver=Remoting connection EJB receiver [connection=Remoting connection <142588e7>,channel=jboss.ejb,nodename=chrissi-pc]} on channel Channel ID caef0f3d (outbound) of Remoting connection 143640d5 to /127.0.0.1:8089
+javax.naming.NameNotFoundException: jms/HTTPConnectionFactory -- service jboss.naming.context.java.jboss.exported.jms.HTTPConnectionFactory
+	at org.jboss.as.naming.ServiceBasedNamingStore.lookup(ServiceBasedNamingStore.java:106)
+	at org.jboss.as.naming.NamingContext.lookup(NamingContext.java:207)
+	at org.jboss.as.naming.NamingContext.lookup(NamingContext.java:184)
+	at org.jboss.naming.remote.protocol.v1.Protocol$1.handleServerMessage(Protocol.java:127)
+	at org.jboss.naming.remote.protocol.v1.RemoteNamingServerV1$MessageReciever$1.run(RemoteNamingServerV1.java:73)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.lang.Thread.run(Unknown Source)
+Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 2.972 sec <<< FAILURE!
+testJms(edu.hm.dako.chat.client.communication.jms.JmsProducerTest)  Time elapsed: 2.872 sec  <<< FAILURE!
+java.lang.AssertionError: 
+	at org.junit.Assert.fail(Assert.java:91)
+	at org.junit.Assert.assertTrue(Assert.java:43)
+	at org.junit.Assert.assertTrue(Assert.java:54)
+	at edu.hm.dako.chat.client.communication.jms.JmsProducerTest.testJms(JmsProducerTest.java:50)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:44)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:15)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:41)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:20)
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:28)
+	at org.junit.runners.BlockJUnit4ClassRunner.runNotIgnored(BlockJUnit4ClassRunner.java:79)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:71)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:49)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:193)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:52)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:191)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:42)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:184)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:236)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:252)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:141)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:112)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
+	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
+
+Running edu.hm.dako.chat.client.communication.rest.RestMessagingHandlerTest
+Nov 22, 2016 10:28:35 AM org.jboss.ejb.client.remoting.ChannelAssociation$ResponseReceiver handleEnd
+INFO: EJBCLIENT000016: Channel Channel ID caef0f3d (outbound) of Remoting connection 143640d5 to /127.0.0.1:8089 can no longer process messages
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 2.104 sec <<< FAILURE!
+testRestLoginAndLogout(edu.hm.dako.chat.client.communication.rest.RestMessagingHandlerTest)  Time elapsed: 2.104 sec  <<< ERROR!
+edu.hm.dako.chat.client.communication.rest.TechnicalException
+	at edu.hm.dako.chat.client.communication.rest.MessagingHandlerImpl.handleTechnicalException(MessagingHandlerImpl.java:114)
+	at edu.hm.dako.chat.client.communication.rest.MessagingHandlerImpl.login(MessagingHandlerImpl.java:54)
+	at edu.hm.dako.chat.client.communication.rest.RestMessagingHandlerTest.testRestLoginAndLogout(RestMessagingHandlerTest.java:17)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:44)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:15)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:41)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:20)
+	at org.junit.runners.BlockJUnit4ClassRunner.runNotIgnored(BlockJUnit4ClassRunner.java:79)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:71)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:49)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:193)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:52)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:191)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:42)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:184)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:236)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:252)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:141)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:112)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
+	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
+
+
+Results :
+
+Failed tests:   testJms(edu.hm.dako.chat.client.communication.jms.JmsProducerTest)
+
+Tests in error: 
+  testRestLoginAndLogout(edu.hm.dako.chat.client.communication.rest.RestMessagingHandlerTest)
+
+Tests run: 2, Failures: 1, Errors: 1, Skipped: 0
+
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary:
+[INFO] 
+[INFO] chatApplication .................................... SUCCESS [  1.163 s]
+[INFO] chatApplicationCommons ............................. SUCCESS [  5.375 s]
+[INFO] chatApplicationServer .............................. SUCCESS [ 17.307 s]
+[INFO] chatApplicationClient .............................. FAILURE [ 10.730 s]
+[INFO] chatApplicationBenchmarking ........................ SKIPPED
+[INFO] chatApplicationClientBenchmark ..................... SKIPPED
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 37.499 s
+[INFO] Finished at: 2016-11-22T10:28:37+01:00
+[INFO] Final Memory: 42M/258M
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:2.12.4:test (default-test) on project chatApplicationClient: There are test failures.
+[ERROR] 
+[ERROR] Please refer to C:\Users\Chrissi\git\chatapplication\chatApplicationClient\target\surefire-reports for the individual test results.
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+[ERROR] 
+[ERROR] After correcting the problems, you can resume the build with the command
+[ERROR]   mvn <goals> -rf :chatApplicationClient
