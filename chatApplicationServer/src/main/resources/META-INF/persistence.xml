@@ -10,6 +10,7 @@
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		<jta-data-source>java:jboss/datasources/traceDS</jta-data-source>
 		<class>edu.hm.dako.chat.server.datasink.model.TraceEntity</class>
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
@@ -27,6 +28,7 @@
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		<jta-data-source>java:jboss/datasources/countDS</jta-data-source>
 		<class>edu.hm.dako.chat.server.datasink.model.CountEntity</class>
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
