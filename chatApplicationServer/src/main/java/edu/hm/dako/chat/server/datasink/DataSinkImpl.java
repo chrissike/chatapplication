@@ -22,7 +22,7 @@ public class DataSinkImpl implements DataSink {
 	public Boolean createOrUpdateCount(CountEntity count) {
 
 		Boolean success = false;
-		List<CountEntity> entityList = countRepo.getCountByClientname();
+		List<CountEntity> entityList = countRepo.getCountByClientname(count.getNameOfClients());
 
 		if (entityList == null) {
 			countRepo.addCount(count);
@@ -33,7 +33,9 @@ public class DataSinkImpl implements DataSink {
 			success = true;
 		}
 		if (entityList.size() == 1) {
-			countRepo.addCount(count);
+			CountEntity existingCount = entityList.get(0);
+			existingCount.setMessageCount(existingCount.getMessageCount() + 1);
+			countRepo.updateCount(existingCount);
 			success = true;
 		}
 		

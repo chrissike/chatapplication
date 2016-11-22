@@ -22,6 +22,10 @@ public class CountRepository {
 		em.persist(count);
 	}
 
+	public void updateCount(CountEntity count) {
+		em.persist(count);
+	}
+	
 	public void removeCount(Integer id) {
 		CountEntity count = em.find(CountEntity.class, id);
 		em.remove(count);
@@ -32,8 +36,9 @@ public class CountRepository {
 		return query.getResultList();
 	}
 
-	public List<CountEntity> getCountByClientname() {
+	public List<CountEntity> getCountByClientname(String nameOfClients) {
 		TypedQuery<CountEntity> query = em.createNamedQuery("CountEntity.findByName", CountEntity.class);
+		query.setParameter("nameOfClients", nameOfClients);
 		return query.getResultList();
 	}
 }
