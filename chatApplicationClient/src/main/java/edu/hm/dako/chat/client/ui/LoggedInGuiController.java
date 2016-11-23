@@ -75,8 +75,7 @@ public class LoggedInGuiController {
 			public void onChanged(javafx.collections.ListChangeListener.Change<? extends String> c) {
 				teilnehmerListe.setPromptText("Hallo " + username + 
 						", weitere Teilnehmer: " + c.getList().size());
-				teilnehmerListe.setDisable(false);	
-				log.debug(c.getList());
+				teilnehmerListe.setDisable(false);
 			}
 		});
 		
