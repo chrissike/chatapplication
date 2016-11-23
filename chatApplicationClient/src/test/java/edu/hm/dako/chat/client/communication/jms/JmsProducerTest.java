@@ -47,7 +47,7 @@ public class JmsProducerTest {
 		}
 		assertTrue(success);
 		try {
-			Thread.sleep(10000);
+			Thread.sleep(7000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
