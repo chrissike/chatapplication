@@ -98,13 +98,14 @@ public class ClientFxGUI extends Application {
 			if (!user.equals(getModel().getUserName())) {
 				users.add(user);
 			}
-			Platform.runLater(new Runnable() {
-				public void run() {
-					getModel().users.addAll(users);
-					log.info(users);
-				}
-			});
 		}
+		Platform.runLater(new Runnable() {
+			public void run() {
+				getModel().users.clear();
+				getModel().users.addAll(users);
+				log.info(users);
+			}
+		});
 	}
 
 	public void setMessageLine(String sender, String message) {

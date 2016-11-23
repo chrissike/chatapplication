@@ -17,6 +17,7 @@ import edu.hm.dako.chat.client.communication.rest.TechnicalException;
 import edu.hm.dako.chat.client.data.ClientModel;
 import edu.hm.dako.chat.common.ChatPDU;
 import javafx.application.Platform;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -63,8 +64,22 @@ public class LoggedInGuiController {
 	public void setAppController(ClientFxGUI appController) {
 
 		this.appController = appController;
-		updateTeilnehmerListe();
+		initTeilnehmerListe();
 
+		
+
+		final String username = this.appController.getModel().getUserName();
+		
+		appController.getModel().users.addListener(new ListChangeListener<String>() {
+			@Override
+			public void onChanged(javafx.collections.ListChangeListener.Change<? extends String> c) {
+				teilnehmerListe.setPromptText("Hallo " + username + 
+						", weitere Teilnehmer: " + c.getList().size());
+				teilnehmerListe.setDisable(false);	
+				log.debug(c.getList());
+			}
+		});
+		
 		this.teilnehmerListe.setItems(this.appController.getModel().users);
 
 		chatList.setItems(this.appController.getModel().chats);
@@ -78,21 +93,18 @@ public class LoggedInGuiController {
 		}
 	}
 
-	
-	public void updateTeilnehmerListe() {
-		ObservableList<String> userlist = this.appController.getModel().users;
-		if(userlist == null) {
-			teilnehmerListe.setPromptText("Hallo " + this.appController.getModel().getUserName() + 
-					" (aktuelle Teilnehmerzahl: " + 1 + " )");
-		} else {
-			teilnehmerListe.setPromptText("Hallo " + this.appController.getModel().getUserName() + 
-					" (aktuelle Teilnehmerzahl: " + userlist.size() + " )");			
-		}
-		
-		if(userlist.size() <= 1) {
+	public void initTeilnehmerListe() {
+		ObservableList<String> userlist = this.appController.getModel().chats;
+		teilnehmerListe.setPromptText("Hallo " + this.appController.getModel().getUserName() + 
+				", weitere Teilnehmer: " + userlist.size());
+		if(userlist.size() == 0) {
 			teilnehmerListe.setDisable(true);
 			teilnehmerListe.setStyle("-fx-opacity: 1;");
 		}
+	}
+	
+	public void updateTeilnehmerListe() {
+		//is this method needed if the listener can handle everything?
 	}
 
 	
