@@ -31,7 +31,7 @@ public class JmsProducerTest {
 		chatPdu = new ChatPDU();
 		chatPdu.setMessage("Testnachricht");
 		chatPdu.setUserName("Hans Wurst");
-		chatPdu.setPduType(PduType.CHAT_MESSAGE_REQUEST);
+		chatPdu.setPduType(PduType.MESSAGE);
 	}
 
 	@Test
@@ -42,10 +42,8 @@ public class JmsProducerTest {
 			success = jmsProducer.sendMessage(chatPdu);
 		} catch (NamingException e) {
 			log.error(e.getMessage());
-			e.printStackTrace();
 		} catch (JMSException e) {
 			log.error(e.getMessage());
-			e.printStackTrace();
 		}
 		assertTrue(success);
 		try {

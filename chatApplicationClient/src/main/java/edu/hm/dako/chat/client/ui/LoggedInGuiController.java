@@ -29,15 +29,14 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 /**
- * Controller fuer Chat-GUI
- * 
- * @author Paul Mandl
- *
+ * Controller Chatclient-UI
  */
 @SuppressWarnings("restriction")
 public class LoggedInGuiController {
 
 	private static Log log = LogFactory.getLog(LoggedInGuiController.class);
+	
+	private JmsConsumer jmsConsumer;
 	
 	@FXML
 	private Button btnSubmit;
@@ -72,9 +71,10 @@ public class LoggedInGuiController {
 		btnSubmit.disableProperty().bind(appController.getModel().block);
 		
 		try {
-			new JmsConsumer().initJmsConsumer(new TopicSubscriber());
+			jmsConsumer = new JmsConsumer();
+			jmsConsumer.initJmsConsumer(new TopicSubscriber());
 		} catch (NamingException e) {
-			e.printStackTrace();
+			log.error(e.getMessage() + ", " + e.getCause());
 		}
 	}
 
@@ -101,8 +101,8 @@ public class LoggedInGuiController {
 		Integer port = Integer.valueOf(this.appController.getModel().getPort().getValue());
 		try {
 			handler = new MessagingHandlerImpl(this.appController.getModel().getAddress().getValue(), port);
-		} catch (URISyntaxException e1) {
-			e1.printStackTrace();
+		} catch (URISyntaxException e) {
+			log.error(e.getMessage() + ", " + e.getCause());
 		}
 		
 		try {
@@ -114,10 +114,16 @@ public class LoggedInGuiController {
 		ClientFxGUI.instance.setModel(new ClientModel());
 		
 		try {
+			jmsConsumer.closeJmsConsumer();
+		} catch (NamingException e) {
+			log.error(e.getMessage() + ", " + e.getCause());
+		}
+		
+		try {
 			ClientFxGUI.instance.stage.close();
 			ClientFxGUI.instance.start(new Stage());
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error(e.getMessage() + ", " + e.getCause());
 		}
 	}
 
@@ -132,9 +138,9 @@ public class LoggedInGuiController {
 		try {
 			jms.sendMessage(chatPdu);
 		} catch (NamingException e) {
-			log.error(e.getStackTrace());
+			log.error(e.getMessage() + ", " + e.getCause());
 		} catch (JMSException e) {
-			log.error(e.getStackTrace());
+			log.error(e.getMessage() + ", " + e.getCause());
 		}
 
 		Platform.runLater(new Runnable() {

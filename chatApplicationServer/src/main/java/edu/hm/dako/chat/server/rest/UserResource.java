@@ -36,7 +36,7 @@ public class UserResource {
 		long startTime = System.nanoTime();
 		Validate.notNull(username);
 
-		PduType requestType = PduType.LOGIN_EVENT;
+		PduType requestType = PduType.LOGIN;
 		ChatPDU pdu = process.createPDU(username, requestType);
 				
 		if(!process.processClientListChange(pdu, startTime)) {
@@ -56,7 +56,7 @@ public class UserResource {
 		long startTime = System.nanoTime();
 		Validate.notNull(username);
 
-		PduType requestType = PduType.LOGOUT_EVENT;
+		PduType requestType = PduType.LOGOUT;
 		ChatPDU pdu = process.createPDU(username, requestType);
 		
 		process.processClientListChange(pdu, startTime);

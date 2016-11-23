@@ -23,13 +23,13 @@ public class TopicSubscriber implements MessageListener {
 		
 		if (chatPDU != null && ClientFxGUI.instance != null) {
 			switch (chatPDU.getPduType()) {
-			case CHAT_MESSAGE_EVENT:
+			case MESSAGE:
 				ClientFxGUI.instance.setMessageLine(chatPDU.getUserName(), chatPDU.getMessage());
 				break;
-			case LOGIN_EVENT:
+			case LOGIN:
 				ClientFxGUI.instance.setUserList(chatPDU.getClients());
 				break;
-			case LOGOUT_EVENT:
+			case LOGOUT:
 				ClientFxGUI.instance.setUserList(chatPDU.getClients());
 				break;
 			case UNDEFINED:

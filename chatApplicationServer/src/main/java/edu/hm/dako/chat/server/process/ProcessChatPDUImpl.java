@@ -36,7 +36,7 @@ public class ProcessChatPDUImpl implements ProcessChatPDU {
 
 		pdu.setServerTime(Long.valueOf(System.nanoTime()));
 		pdu.setServerThreadName(Thread.currentThread().getName());
-		pdu.setPduType(PduType.CHAT_MESSAGE_EVENT);
+		pdu.setPduType(PduType.MESSAGE);
 
 //		TODO: Datenbank einbinden
 		persistChatData(pdu);
@@ -63,13 +63,13 @@ public class ProcessChatPDUImpl implements ProcessChatPDU {
 		log.info("updateServersideClientList() mit PDU-Username aufgerufen: " + pdu.getUserName());
 		boolean success = false;
 		
-		if (pdu.getPduType().equals(PduType.LOGIN_EVENT)) {
+		if (pdu.getPduType().equals(PduType.LOGIN)) {
 			if(!clientList.existsClient(pdu.getUserName())) {
 				clientList.createClient(pdu.getUserName(), new ClientListEntry(pdu.getUserName()));
 				success = true;
 			}
 		}
-		if (pdu.getPduType().equals(PduType.LOGOUT_EVENT)) {
+		if (pdu.getPduType().equals(PduType.LOGOUT)) {
 			if (clientList.existsClient(pdu.getUserName())) {
 				clientList.deleteClientWithoutCondition(pdu.getUserName());
 				success = true;

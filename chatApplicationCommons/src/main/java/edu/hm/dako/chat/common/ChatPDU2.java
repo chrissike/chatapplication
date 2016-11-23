@@ -270,7 +270,7 @@ public class ChatPDU2 implements Serializable {
 	public static ChatPDU2 createLogoutEventPdu(String userName, ChatPDU2 receivedPdu) {
 
 		ChatPDU2 pdu = new ChatPDU2();
-		pdu.setPduType(PduType.LOGOUT_EVENT);
+		pdu.setPduType(PduType.UNDEFINED);
 		pdu.setUserName(userName);
 		pdu.setEventUserName(userName);
 		pdu.setServerThreadName(Thread.currentThread().getName());
@@ -291,7 +291,7 @@ public class ChatPDU2 implements Serializable {
 	public static ChatPDU2 createLoginEventPdu(String userName, ChatPDU2 receivedPdu) {
 
 		ChatPDU2 pdu = new ChatPDU2();
-		pdu.setPduType(PduType.LOGIN_EVENT);
+		pdu.setPduType(PduType.UNDEFINED);
 		pdu.setServerThreadName(Thread.currentThread().getName());
 		pdu.setClientThreadName(receivedPdu.getClientThreadName());
 		pdu.setUserName(userName);
@@ -314,7 +314,7 @@ public class ChatPDU2 implements Serializable {
 			ChatPDU2 receivedPdu) {
 
 		ChatPDU2 pdu = new ChatPDU2();
-		pdu.setPduType(PduType.LOGIN_RESPONSE);
+		pdu.setPduType(PduType.UNDEFINED);
 		pdu.setServerThreadName(Thread.currentThread().getName());
 		pdu.setClientThreadName(receivedPdu.getClientThreadName());
 		pdu.setUserName(eventInitiator);
@@ -334,7 +334,7 @@ public class ChatPDU2 implements Serializable {
 	public static ChatPDU2 createChatMessageEventPdu(String userName, ChatPDU2 receivedPdu) {
 
 		ChatPDU2 pdu = new ChatPDU2();
-		pdu.setPduType(PduType.CHAT_MESSAGE_EVENT);
+		pdu.setPduType(PduType.UNDEFINED);
 		pdu.setServerThreadName(Thread.currentThread().getName());
 		pdu.setClientThreadName(receivedPdu.getClientThreadName());
 		pdu.setUserName(userName);
@@ -370,7 +370,7 @@ public class ChatPDU2 implements Serializable {
 			long numberOfReceivedChatMessages, String clientThreadName) {
 
 		ChatPDU2 pdu = new ChatPDU2();
-		pdu.setPduType(PduType.LOGOUT_RESPONSE);
+		pdu.setPduType(PduType.UNDEFINED);
 		pdu.setServerThreadName(Thread.currentThread().getName());
 		pdu.setClientThreadName(clientThreadName);
 		pdu.setClientStatus(ClientConversationStatus.UNREGISTERED);
@@ -410,7 +410,7 @@ public class ChatPDU2 implements Serializable {
 			long numberOfReceivedChatMessages, String clientThreadName, long serverTime) {
 
 		ChatPDU2 pdu = new ChatPDU2();
-		pdu.setPduType(PduType.CHAT_MESSAGE_RESPONSE);
+		pdu.setPduType(PduType.UNDEFINED);
 		pdu.setServerThreadName(Thread.currentThread().getName());
 
 		pdu.setClientThreadName(clientThreadName);
@@ -444,7 +444,7 @@ public class ChatPDU2 implements Serializable {
 	public static ChatPDU2 createLoginErrorResponsePdu(ChatPDU2 receivedPdu, int errorCode) {
 
 		ChatPDU2 pdu = new ChatPDU2();
-		pdu.setPduType(PduType.LOGIN_RESPONSE);
+		pdu.setPduType(PduType.UNDEFINED);
 		pdu.setServerThreadName(Thread.currentThread().getName());
 		pdu.setClientThreadName(receivedPdu.getClientThreadName());
 		pdu.setUserName(receivedPdu.getUserName());
@@ -465,7 +465,7 @@ public class ChatPDU2 implements Serializable {
 	public static ChatPDU2 createLoginEventConfirm(String userName, ChatPDU2 receivedPdu) {
 
 		ChatPDU2 pdu = new ChatPDU2();
-		pdu.setPduType(PduType.LOGIN_EVENT_CONFIRM);
+		pdu.setPduType(PduType.UNDEFINED);
 		pdu.setClientStatus(ClientConversationStatus.REGISTERED);
 		pdu.setClientThreadName(Thread.currentThread().getName());
 		pdu.setServerThreadName(receivedPdu.getServerThreadName());
@@ -486,7 +486,7 @@ public class ChatPDU2 implements Serializable {
 	public static ChatPDU2 createLogoutEventConfirm(String userName, ChatPDU2 receivedPdu) {
 
 		ChatPDU2 pdu = new ChatPDU2();
-		pdu.setPduType(PduType.LOGOUT_EVENT_CONFIRM);
+		pdu.setPduType(PduType.UNDEFINED);
 		pdu.setClientStatus(ClientConversationStatus.UNREGISTERING);
 		pdu.setServerThreadName(receivedPdu.getServerThreadName());
 		pdu.setUserName(userName);
@@ -507,7 +507,7 @@ public class ChatPDU2 implements Serializable {
 			ChatPDU2 receivedPdu) {
 
 		ChatPDU2 pdu = new ChatPDU2();
-		pdu.setPduType(PduType.CHAT_MESSAGE_EVENT_CONFIRM);
+		pdu.setPduType(PduType.UNDEFINED);
 		pdu.setClientStatus(ClientConversationStatus.REGISTERED);
 		pdu.setClientThreadName(Thread.currentThread().getName());
 		pdu.setServerThreadName(receivedPdu.getServerThreadName());
