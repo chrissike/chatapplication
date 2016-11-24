@@ -80,20 +80,9 @@ public class LogInGuiController implements Initializable {
 			appController.getModel().setUserName(this.userName);
 			appController.getModel().setAddress(this.txtServername.getText());
 			appController.getModel().setPort(txtServerPort.getText());
-			serverPort = Integer.parseInt(txtServerPort.getText());
-
-			// Verbindung herstellen und beim Server anmelden
-			try {
-				MessagingHandler handler = new MessagingHandlerImpl(this.txtServername.getText(), serverPort);
-				success = handler.login(userName);
-			} catch (URISyntaxException e) {
-				appController.setErrorMessage("Chat-Client", "Die Uri ist falsch", 1001);
-			}
 		}
 		
-		if(success) {
-			ClientFxGUI.instance.loginComplete();
-		}
+		success = ClientFxGUI.instance.doLogin();
 		return success;
 	}
 

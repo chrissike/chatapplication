@@ -1,5 +1,6 @@
 package edu.hm.dako.chat.client.ui;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -7,6 +8,8 @@ import java.util.Vector;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import edu.hm.dako.chat.client.communication.rest.MessagingHandler;
+import edu.hm.dako.chat.client.communication.rest.MessagingHandlerImpl;
 import edu.hm.dako.chat.client.data.ClientModel;
 import edu.hm.dako.chat.common.ExceptionHandler;
 import javafx.application.Application;
@@ -33,6 +36,7 @@ public class ClientFxGUI extends Application {
 	protected Stage stage;
 	private ClientModel model = new ClientModel();
 	public static ClientFxGUI instance;
+	// muss das ein Attribut sein?
 	private LoggedInGuiController lc;
 
 	
@@ -64,31 +68,8 @@ public class ClientFxGUI extends Application {
 	/**
 	 * Benutzeroberflaeche fuer Chat erzeugen
 	 */
-	public void createNextGui() {
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/LoggedInGui.fxml"));
-			final Parent root = loader.load();
-			lc = (LoggedInGuiController) loader.getController();
-			lc.setAppController(this);
-			Platform.runLater(new Runnable() {
-
-				public void run() {
-					Scene scene = new Scene(root, 490, 542);
-					scene.getStylesheets().add(getClass().getResource("/application.css").toExternalForm());
-					stage.setScene(scene);
-					stage.setTitle("Chatapp");
-					stage.setResizable(false);
-				}
-			});
-		} catch (Exception e) {
-			ExceptionHandler.logException(e);
-		}
-		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-
-			public void handle(WindowEvent event) {
-				lc.btnLogOut_OnAction();
-			}
-		});
+	public void createNextGui(FXMLLoader loader) {	
+		lc = (LoggedInGuiController) loader.getController();
 	}
 
 	public void setUserList(Vector<String> userList) {
@@ -159,9 +140,45 @@ public class ClientFxGUI extends Application {
 		});
 	}
 
-	public void loginComplete() {
-		log.debug("Login erfolreich");
-		createNextGui();
+	public boolean doLogin() {
+		boolean success = false;
+		try{
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/LoggedInGui.fxml"));
+			final Parent root = loader.load();
+			createNextGui(loader);
+	
+			lc.setAppController(this);
+			// Verbindung herstellen und beim Server anmelden
+			try {
+				MessagingHandler handler = new MessagingHandlerImpl(this.getModel().getAddress().getValue(), Integer.valueOf(this.getModel().getPort().getValue()));
+				success = handler.login(this.getModel().getUserName());
+			} catch (URISyntaxException e) {
+				this.setErrorMessage("Chat-Client", "Die Uri ist falsch", 1001);
+			}
+			if(success){
+				Platform.runLater(new Runnable() {
+	
+					public void run() {
+						Scene scene = new Scene(root, 490, 542);
+						scene.getStylesheets().add(getClass().getResource("/application.css").toExternalForm());
+						stage.setScene(scene);
+						stage.setTitle("Chatapp");
+						stage.setResizable(false);
+					}
+				});
+			}
+			
+			stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+	
+				public void handle(WindowEvent event) {
+					lc.btnLogOut_OnAction();
+				}
+			});
+		} catch (Exception e) {
+			ExceptionHandler.logException(e);
+		}
+		
+		return success;
 	}
 
 	public void logoutComplete() {
