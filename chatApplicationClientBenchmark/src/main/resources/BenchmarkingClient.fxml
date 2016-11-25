@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.chart.*?>
 <?import java.lang.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="682.0" prefWidth="1001.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.hm.dako.chat.client.ui.BenchmarkingGuiController">
    <children>
@@ -46,7 +45,109 @@
                                           <TableColumn fx:id="colRTTServer" prefWidth="130.0" text="RTT Server (in ms)" />
                                       </columns>
                                     </TableView>
-                                    <HBox prefHeight="46.0" prefWidth="1001.0" />
+                                    <HBox>
+                                       <children>
+                                          <VBox alignment="CENTER">
+                                             <children>
+                                                <Label text="Ø-RTT:  ">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                </Label>
+                                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="300.0">
+                                                   <children>
+                                                      <Label fx:id="durchschRTT" text="0" textAlignment="CENTER">
+                                                         <font>
+                                                            <Font size="37.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label text="ms" />
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                          </VBox>
+                                          <Separator orientation="VERTICAL" prefHeight="200.0" />
+                                          <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0">
+                                             <children>
+                                                <Label text="Ø-RTT Server:  ">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                </Label>
+                                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="300.0">
+                                                   <children>
+                                                      <Label fx:id="durchschRTTServer" text="0" textAlignment="CENTER">
+                                                         <font>
+                                                            <Font size="37.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label text="ms" />
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                          </VBox>
+                                          <Separator layoutX="110.0" layoutY="10.0" orientation="VERTICAL" prefHeight="200.0" />
+                                          <VBox alignment="CENTER" layoutX="116.0" layoutY="10.0">
+                                             <children>
+                                                <Label text="RTT-SD:">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                </Label>
+                                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="300.0">
+                                                   <children>
+                                                      <Label fx:id="rttSD" text="0" textAlignment="CENTER">
+                                                         <font>
+                                                            <Font size="37.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label text="ms" />
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                          </VBox>
+                                          <Separator orientation="VERTICAL" prefHeight="200.0" />
+                                          <VBox alignment="CENTER" layoutX="622.0" layoutY="10.0">
+                                             <children>
+                                                <Label text="Ø-CPU:">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                </Label>
+                                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="300.0">
+                                                   <children>
+                                                      <Label fx:id="durchschCPU" text="0" textAlignment="CENTER">
+                                                         <font>
+                                                            <Font size="37.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label text="\%" />
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                          </VBox>
+                                          <Separator layoutX="760.0" layoutY="10.0" orientation="VERTICAL" prefHeight="200.0" />
+                                          <VBox alignment="CENTER" layoutX="760.0" layoutY="10.0">
+                                             <children>
+                                                <Label text="Ø-Memory:">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                </Label>
+                                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="300.0">
+                                                   <children>
+                                                      <Label fx:id="durchschMemory" text="0" textAlignment="CENTER">
+                                                         <font>
+                                                            <Font size="37.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label text="MB" />
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
                                  </children>
                               </VBox>
                            </children>

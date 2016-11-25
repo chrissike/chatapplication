@@ -1,12 +1,14 @@
 package edu.hm.dako.chat.client.benchmarking;
 
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
+
 import javax.jms.JMSException;
 import javax.naming.NamingException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import edu.hm.dako.chat.client.communication.jms.JmsConsumer;
 import edu.hm.dako.chat.client.communication.jms.JmsProducer;
 import edu.hm.dako.chat.common.ChatPDU;
 
@@ -16,15 +18,25 @@ public class ProcessBenchmarking {
 
 	private static String message = null;
 
-	public ProcessBenchmarking(String message) {
+	final CyclicBarrier startingGate;
+
+	public ProcessBenchmarking(String message, Integer clientCount) {
 		ProcessBenchmarking.setMessage(message);
+		startingGate = new CyclicBarrier(clientCount);
 	}
 
-	public void startNewBenchmarkingClient(String name) {
+	public void createNewBenchmarkingClient(String name) {
 
 		Thread thread = new Thread() {
 			public void run() {
-				log.info("Neuer Client gestartet.");
+				log.info("Client: " + name + " wartet auf den Start!");
+				try {
+					startingGate.await();
+				} catch (InterruptedException e) {
+					log.error(e.getStackTrace());
+				} catch (BrokenBarrierException e) {
+					log.error(e.getStackTrace());
+				}
 
 				ChatPDU chatPdu = new ChatPDU();
 				chatPdu.setUserName(name);
@@ -35,7 +47,6 @@ public class ProcessBenchmarking {
 				JmsProducer jms = new JmsProducer();
 				try {
 					jms.sendMessage(chatPdu);
-					log.info("Nachricht an Queue gesendet.");
 				} catch (NamingException e) {
 					log.error(e.getMessage() + ", " + e.getCause());
 				} catch (JMSException e) {
@@ -48,6 +59,17 @@ public class ProcessBenchmarking {
 
 	}
 
+	public void startAllClients() {
+		try {
+			startingGate.await();
+		} catch (InterruptedException e) {
+			log.error(e.getStackTrace());
+		} catch (BrokenBarrierException e) {
+			log.error(e.getStackTrace());
+		}
+		log.info("all threads started");
+	}
+
 	public static String getMessage() {
 		return message;
 	}
@@ -55,5 +77,4 @@ public class ProcessBenchmarking {
 	public static void setMessage(String message) {
 		ProcessBenchmarking.message = message;
 	}
-
 }

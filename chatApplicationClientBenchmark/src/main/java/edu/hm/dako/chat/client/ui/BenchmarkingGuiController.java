@@ -20,6 +20,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.CategoryAxis;
+import javafx.scene.control.Label;
 
 /**
  * Controller fuer Login-GUI
@@ -28,14 +29,14 @@ import javafx.scene.chart.CategoryAxis;
  *
  */
 @SuppressWarnings("restriction")
-public class BenchmarkingGuiController { // implements Initializable {
+public class BenchmarkingGuiController {
 
 	private static Log log = LogFactory.getLog(BenchmarkingGuiController.class);
 
-	private BenchmarkingClientFxGUI appController;
-
 	@FXML
 	private TextField txtServername, txtServerPort, txtAnzahlClients, txtAnzahlNachrichten, txtNachrichtenlaenge;
+	@FXML
+	private Label durchschRTT, durchschRTTServer, rttSD, durchschCPU, durchschMemory;
 	@FXML
 	private Button startButton;
 	@FXML
@@ -47,13 +48,11 @@ public class BenchmarkingGuiController { // implements Initializable {
 	@FXML
 	private NumberAxis analyzedMessage1, analyzedMessage2, timeOfMessage1, timeOfMessage2;
 	@FXML
-	private AreaChart<Number, Double> areaChart1, areaChart2;
+	private AreaChart<Integer, Double> areaChart1, areaChart2;
 	@FXML
 	private StackedBarChart<CategoryAxis, Double> stackedbarChart1;
 
 	public void setAppController(BenchmarkingClientFxGUI appController) {
-		this.appController = appController;
-
 		colTest.setCellValueFactory(cellData -> cellData.getValue().getColTest());
 		colAnzahlNachrichten.setCellValueFactory(cellData -> cellData.getValue().getColAnzahlNachrichten());
 		colRTT.setCellValueFactory(cellData -> cellData.getValue().getColTest());
@@ -71,7 +70,8 @@ public class BenchmarkingGuiController { // implements Initializable {
 
 	@FXML
 	private void startBenchmarking() {
-		ProcessBenchmarking process = new ProcessBenchmarking(generateMessageByLength());
+		ProcessBenchmarking process = new ProcessBenchmarking(generateMessageByLength(),
+				Integer.parseInt(txtAnzahlClients.getText()));
 
 		JmsConsumer consumer = new JmsConsumer();
 		try {
@@ -81,8 +81,10 @@ public class BenchmarkingGuiController { // implements Initializable {
 		}
 
 		for (int i = 0; i <= Integer.parseInt(txtAnzahlClients.getText()); i++) {
-			process.startNewBenchmarkingClient(String.valueOf(i));
+			process.createNewBenchmarkingClient(String.valueOf(i));
 		}
+	
+		process.startAllClients();
 
 	}
 

@@ -27,7 +27,7 @@ public class ProcessChatPDUImpl implements ProcessChatPDU {
 
 	@Inject
 	private JmsProducer publisher;
-	
+
 	private SharedChatClientList clientList = SharedChatClientList.getInstance();
 
 	@Transactional
@@ -38,9 +38,7 @@ public class ProcessChatPDUImpl implements ProcessChatPDU {
 		pdu.setServerThreadName(Thread.currentThread().getName());
 		pdu.setPduType(PduType.MESSAGE);
 
-//		TODO: Datenbank einbinden
 		persistChatData(pdu);
-
 		sendPDU(pdu);
 	}
 
@@ -49,22 +47,21 @@ public class ProcessChatPDUImpl implements ProcessChatPDU {
 		pdu.setServerTime(Long.valueOf(System.nanoTime()));
 		boolean success = updateServersideClientList(pdu);
 
-		if(success) {
+		if (success) {
 			pdu.setClients(SharedChatClientList.getInstance().getClientNameList());
-			pdu.setServerThreadName(Thread.currentThread().getName());			
+			pdu.setServerThreadName(Thread.currentThread().getName());
 			sendPDU(pdu);
 		}
 
 		return success;
 	}
 
-	
 	public boolean updateServersideClientList(ChatPDU pdu) {
 		log.info("updateServersideClientList() mit PDU-Username aufgerufen: " + pdu.getUserName());
 		boolean success = false;
-		
+
 		if (pdu.getPduType().equals(PduType.LOGIN)) {
-			if(!clientList.existsClient(pdu.getUserName())) {
+			if (!clientList.existsClient(pdu.getUserName())) {
 				clientList.createClient(pdu.getUserName(), new ClientListEntry(pdu.getUserName()));
 				success = true;
 			}
@@ -97,7 +94,6 @@ public class ProcessChatPDUImpl implements ProcessChatPDU {
 		dataSink.persistTrace(trace);
 		dataSink.createOrUpdateCount(count);
 	}
-	
 
 	public ChatPDU createPDU(String username, PduType requestType) {
 		ChatPDU requestPdu = new ChatPDU();
@@ -106,7 +102,7 @@ public class ProcessChatPDUImpl implements ProcessChatPDU {
 		requestPdu.setServerThreadName(Thread.currentThread().getName());
 		requestPdu.setUserName(username);
 		requestPdu.setClients(clientList.getClientNameList());
-		
+
 		return requestPdu;
 	}
 }

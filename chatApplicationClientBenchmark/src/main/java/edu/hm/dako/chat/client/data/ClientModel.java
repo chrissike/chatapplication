@@ -1,7 +1,6 @@
 package edu.hm.dako.chat.client.data;
 
 import javafx.scene.chart.XYChart;
-import javafx.scene.chart.StackedBarChart;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.CategoryAxis;
@@ -17,6 +16,13 @@ public class ClientModel {
 	private XYChart.Series<Integer, Double> clientTimeChart = new XYChart.Series<Integer, Double>();
 	private XYChart.Series<CategoryAxis, Double> anteilsChartServer = new XYChart.Series<CategoryAxis, Double>();
 	private XYChart.Series<CategoryAxis, Double> anteilsChartClient = new XYChart.Series<CategoryAxis, Double>();
+
+	//durchschnittliche KPIs
+	private String durchschRTT;
+	private String durchschRTTServer; 
+	private String rttSD;
+	private String durchschCPU; 
+	private String durchschMemory;
 	
 	public ClientModel() {
 		anteilsChartServer.setName("Serverzeit");
@@ -24,32 +30,26 @@ public class ClientModel {
 		resultList = FXCollections.observableArrayList();
 	}
 
-	public XYChart.Series getClientTimeChart() {
+	public XYChart.Series<Integer, Double> getClientTimeChart() {
 		return clientTimeChart;
 	}
 
 	public void addClientTime(Integer clientName, Double clientTime) {
 		synchronized (clientTimeChart) {
-			this.clientTimeChart.getData().add(new XYChart.Data(clientName, clientTime));
+			this.clientTimeChart.getData().add(new XYChart.Data<Integer, Double>(clientName, clientTime));
 		}
 	}
 
-	public XYChart.Series getServerTimeChart() {
+	public XYChart.Series<Integer, Double> getServerTimeChart() {
 		return serverTimeChart;
 	}
 
 	public void addServerTime(Integer clientName, Double serverTime) {
 		synchronized (serverTimeChart) {
-			this.serverTimeChart.getData().add(new XYChart.Data(clientName, serverTime));
+			this.serverTimeChart.getData().add(new XYChart.Data<Integer, Double>(clientName, serverTime));
 		}
 	}
 
-	
-	
-	
-	
-	
-	
 	public XYChart.Series<CategoryAxis, Double> getAnteilsChartServer() {
 		return anteilsChartServer;
 	}
@@ -80,5 +80,4 @@ public class ClientModel {
 		}
 	}
 
-	
 }
