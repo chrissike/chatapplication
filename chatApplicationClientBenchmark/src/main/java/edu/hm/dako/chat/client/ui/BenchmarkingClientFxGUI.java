@@ -59,13 +59,10 @@ public class BenchmarkingClientFxGUI extends Application {
 		this.model = clientModel;
 	}
 
-	public void showResults(ChatPDU chatPDU) {
+	public void showResults(ChatPDU chatPDU, Long rtt, Double rttMs, Double rttServerMs) {
 		Platform.runLater(new Runnable() {
-			public void run() {				
+			public void run() {
 				Integer userNameNumber = Integer.valueOf(chatPDU.getUserName());
-				Long rtt = System.nanoTime() - chatPDU.getClientStartTime();
-				Double rttMs = rtt.longValue() / 1000000000.0;
-				Double rttServerMs = chatPDU.getServerTime().longValue() / 1000000000.0;
 				
 				log.info("Client: " + userNameNumber + "ClientTime: " + rttMs + ", ServerTime: " + rttServerMs);
 				
@@ -80,6 +77,7 @@ public class BenchmarkingClientFxGUI extends Application {
 				//Table
 				ResultTableModel resulttable = new ResultTableModel(chatPDU.getUserName(), "1", String.valueOf(rttMs), String.valueOf(rttServerMs));
 				getModel().addToResultList(resulttable);
+				
 			}
 		});
 	}
