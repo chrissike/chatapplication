@@ -21,12 +21,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.control.Label;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.StringExpression;
+import javafx.beans.property.DoubleProperty;
 
 /**
  * Controller fuer Login-GUI
- * 
- * @author Paul Mandl
- *
  */
 @SuppressWarnings("restriction")
 public class BenchmarkingGuiController {
@@ -36,7 +36,7 @@ public class BenchmarkingGuiController {
 	@FXML
 	private TextField txtServername, txtServerPort, txtAnzahlClients, txtAnzahlNachrichten, txtNachrichtenlaenge;
 	@FXML
-	private Label durchschRTT, durchschRTTServer, rttSD, durchschCPU, durchschMemory;
+	private Label avgRTT, avgRTTServer, rttSD, avgCPU, avgMemory;
 	@FXML
 	private Button startButton;
 	@FXML
@@ -66,6 +66,12 @@ public class BenchmarkingGuiController {
 
 		stackedbarChart1.getData().add(appController.getModel().getAnteilsChartClient());
 		stackedbarChart1.getData().add(appController.getModel().getAnteilsChartServer());
+		
+		avgRTT.textProperty().bind(Bindings.convert(appController.getModel().getAverageRTT()));
+		avgRTTServer.textProperty().bind(Bindings.convert(appController.getModel().getAverageServerRTT()));
+		rttSD.textProperty().bind(Bindings.convert(appController.getModel().getStdDev()));
+		avgCPU.textProperty().bind(Bindings.convert(appController.getModel().getAvgCPU()));
+		avgMemory.textProperty().bind(Bindings.convert(appController.getModel().getAvgMemory()));
 	}
 
 	@FXML

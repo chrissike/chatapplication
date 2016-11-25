@@ -78,6 +78,14 @@ public class BenchmarkingClientFxGUI extends Application {
 				ResultTableModel resulttable = new ResultTableModel(chatPDU.getUserName(), "1", String.valueOf(rttMs), String.valueOf(rttServerMs));
 				getModel().addToResultList(resulttable);
 				
+				//Label
+				getModel().addToRttList(rttMs);
+				getModel().addRttServerList(rttServerMs);
+				//TODO CPU
+				//TODO Memory
+				
+				//calculate KPIs
+				getModel().calculateKPIs();
 			}
 		});
 	}

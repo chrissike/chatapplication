@@ -56,7 +56,7 @@
                                                 </Label>
                                                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="300.0">
                                                    <children>
-                                                      <Label fx:id="durchschRTT" text="0" textAlignment="CENTER">
+                                                      <Label fx:id="avgRTT" textAlignment="CENTER">
                                                          <font>
                                                             <Font size="37.0" />
                                                          </font>
@@ -76,7 +76,7 @@
                                                 </Label>
                                                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="300.0">
                                                    <children>
-                                                      <Label fx:id="durchschRTTServer" text="0" textAlignment="CENTER">
+                                                      <Label fx:id="avgRTTServer" textAlignment="CENTER">
                                                          <font>
                                                             <Font size="37.0" />
                                                          </font>
@@ -96,7 +96,7 @@
                                                 </Label>
                                                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="300.0">
                                                    <children>
-                                                      <Label fx:id="rttSD" text="0" textAlignment="CENTER">
+                                                      <Label fx:id="rttSD" textAlignment="CENTER">
                                                          <font>
                                                             <Font size="37.0" />
                                                          </font>
@@ -116,7 +116,7 @@
                                                 </Label>
                                                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="300.0">
                                                    <children>
-                                                      <Label fx:id="durchschCPU" text="0" textAlignment="CENTER">
+                                                      <Label fx:id="avgCPU" textAlignment="CENTER">
                                                          <font>
                                                             <Font size="37.0" />
                                                          </font>
@@ -136,7 +136,7 @@
                                                 </Label>
                                                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="300.0">
                                                    <children>
-                                                      <Label fx:id="durchschMemory" text="0" textAlignment="CENTER">
+                                                      <Label fx:id="avgMemory" textAlignment="CENTER">
                                                          <font>
                                                             <Font size="37.0" />
                                                          </font>
