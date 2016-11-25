@@ -1,10 +1,12 @@
 package edu.hm.dako.chat.server.rest;
 
-import edu.hm.dako.chat.server.datasink.repo.CountRepository;
-import edu.hm.dako.chat.server.datasink.repo.TraceRepository;
+import edu.hm.dako.chat.server.datasink.DataSink;
+import edu.hm.dako.chat.server.datasink.model.CountEntity;
 import edu.hm.dako.chat.server.user.SharedChatClientList;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -15,34 +17,32 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 @Path("admin")
-public class AdminService {
+@Produces({ MediaType.APPLICATION_JSON })
+@Consumes({ MediaType.APPLICATION_JSON })
+public class AdminResource {
 
-	private static final Log LOG = LogFactory.getLog(AdminService.class);
+	private static final Log LOG = LogFactory.getLog(AdminResource.class);
 
 	@Inject
-	private static CountRepository countRepository;
-	private static TraceRepository traceRepository;
-	private static SharedChatClientList chatClientList;
-
+	private static DataSink datasink;
+	
 	@Context
 	private UriInfo uriInfo;
 
 	@GET
 	@Path("clients")
-	@Produces({ MediaType.APPLICATION_JSON })
 	public Response getClients() {
 		LOG.info("AdminService.getClients aufgerufen!");
-		return Response.status(Status.OK).entity(chatClientList.getRegisteredClientNameList()).build();
+		
+		return Response.status(Status.OK).entity(SharedChatClientList.getInstance().getRegisteredClientNameList()).build();
 
 		// TODO: Remove Mock
 		// JsonBuilderFactory factory = Json.createBuilderFactory(null);
 		// JsonArray value = factory.createArrayBuilder()
 		// .add(factory.createObjectBuilder()
-		// .add("name", "Test01")
-		// )
+		// .add("name", "Test01"))
 		// .add(factory.createObjectBuilder()
-		// .add("name", "Test02")
-		// )
+		// .add("name", "Test02"))
 		// .build();
 		// return value.toString();
 
@@ -51,10 +51,19 @@ public class AdminService {
 
 	@GET
 	@Path("count/{clientId}")
-	@Consumes({ MediaType.APPLICATION_JSON })
-	@Produces({ MediaType.APPLICATION_JSON })
 	public Response getClientCount(@PathParam("clientId") String clientId) {
-		return Response.ok(200).entity(countRepository.getCountByClientname(clientId)).build();
+		
+		//TODO Daten und Zugriffe auf Repos am besten über die DataSink-Klasse abfragen.
+		//TODO ..dafür einfach neue Methoden in Count schreiben 
+		//(habe hier mal nur beispielhaft eine mit getAll geschrieben)
+		List<CountEntity> list = datasink.getAllCountData();
+		
+		if(list != null) {
+			return Response.ok().entity(list).build();
+		}
+		
+		return Response.status(Status.NO_CONTENT).build();
+//		return Response.ok(200).entity(countRepository.getCountByClientname(clientId)).build();
 	}
 
 	/*

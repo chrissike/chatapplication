@@ -32,7 +32,7 @@ public class SharedChatClientList {
 
 	private static SharedChatClientList instance;
 
-	private SharedChatClientList() {
+	public SharedChatClientList() {
 	}
 
 	/**

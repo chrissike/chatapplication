@@ -46,4 +46,13 @@ public class DataSinkImpl implements DataSink {
 		traceRepo.addTrace(trace);
 	}
 
+
+	public List<CountEntity> getAllCountData() {
+		return countRepo.getAllCount();
+	}
+
+	public List<TraceEntity> getAllTraceData() {
+		return traceRepo.showTrace();
+	}
+
 }
