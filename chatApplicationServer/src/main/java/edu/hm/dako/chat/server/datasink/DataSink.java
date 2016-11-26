@@ -1,9 +1,9 @@
 package edu.hm.dako.chat.server.datasink;
 
-import java.util.List;
-
 import edu.hm.dako.chat.server.datasink.model.CountEntity;
 import edu.hm.dako.chat.server.datasink.model.TraceEntity;
+
+import java.util.List;
 
 public interface DataSink {
 
@@ -11,7 +11,9 @@ public interface DataSink {
 
 	public void persistTrace(TraceEntity trace);
 
-	public List<CountEntity> getAllCountData();
-
 	public List<TraceEntity> getAllTraceData();
+
+	public List<CountEntity> getCountByClientname(String clientName);
+
+	public void deleteAllData();
 }

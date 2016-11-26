@@ -1,12 +1,12 @@
 package edu.hm.dako.chat.server.datasink.repo;
 
+import edu.hm.dako.chat.server.datasink.model.CountEntity;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
-import edu.hm.dako.chat.server.datasink.model.CountEntity;
-
 import java.util.List;
 
 @Stateless
@@ -29,6 +29,10 @@ public class CountRepository {
 	public void removeCount(Integer id) {
 		CountEntity count = em.find(CountEntity.class, id);
 		em.remove(count);
+	}
+
+	public void deleteAllCount() {
+		em.createQuery("DELETE FROM CountEntity").executeUpdate();
 	}
 
 	public List<CountEntity> getAllCount() {

@@ -1,15 +1,15 @@
 package edu.hm.dako.chat.server.datasink;
 
-import java.util.List;
-
-import javax.inject.Inject;
-
 import edu.hm.dako.chat.server.datasink.model.CountEntity;
-//import edu.hm.dako.chat.server.datasink.model.CountEntity;
 import edu.hm.dako.chat.server.datasink.model.TraceEntity;
 import edu.hm.dako.chat.server.datasink.repo.CountRepository;
-//import edu.hm.dako.chat.server.datasink.repo.CountRepository;
 import edu.hm.dako.chat.server.datasink.repo.TraceRepository;
+
+import javax.inject.Inject;
+import java.util.List;
+
+//import edu.hm.dako.chat.server.datasink.model.CountEntity;
+//import edu.hm.dako.chat.server.datasink.repo.CountRepository;
 
 public class DataSinkImpl implements DataSink {
 
@@ -46,13 +46,18 @@ public class DataSinkImpl implements DataSink {
 		traceRepo.addTrace(trace);
 	}
 
-
-	public List<CountEntity> getAllCountData() {
-		return countRepo.getAllCount();
-	}
-
 	public List<TraceEntity> getAllTraceData() {
 		return traceRepo.showTrace();
 	}
 
+	@Override
+	public List<CountEntity> getCountByClientname(final String clientName) {
+		return countRepo.getCountByClientname(clientName);
+	}
+
+	@Override
+	public void deleteAllData() {
+		countRepo.deleteAllCount();
+		traceRepo.deleteAllTrace();
+	}
 }

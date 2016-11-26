@@ -1,13 +1,12 @@
 package edu.hm.dako.chat.server.datasink.repo;
 
+import edu.hm.dako.chat.server.datasink.model.TraceEntity;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
-
-import edu.hm.dako.chat.server.datasink.model.TraceEntity;
-
 import java.util.List;
 
 @Stateless
@@ -31,6 +30,10 @@ public class TraceRepository {
 	public List<TraceEntity> showTrace() {
 		TypedQuery<TraceEntity> query = em.createNamedQuery("TraceEntity.findAll", TraceEntity.class);
 		return query.getResultList();
+	}
+
+	public void deleteAllTrace() {
+		em.createQuery("DELETE FROM TraceEntity").executeUpdate();
 	}
 
 }

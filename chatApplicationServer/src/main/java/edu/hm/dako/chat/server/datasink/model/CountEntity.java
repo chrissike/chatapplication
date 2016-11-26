@@ -4,8 +4,10 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@NamedQueries({ @NamedQuery(name = "CountEntity.findAll", query = "SELECT b FROM CountEntity b"),
-		@NamedQuery(name = "CountEntity.findByName", query = "SELECT b FROM CountEntity b WHERE b.nameOfClients = :nameOfClients") })
+@NamedQueries({
+		@NamedQuery(name = "CountEntity.findAll", query = "SELECT b FROM CountEntity b"),
+		@NamedQuery(name = "CountEntity.findByName", query = "SELECT b FROM CountEntity b WHERE b.nameOfClients = :nameOfClients")
+})
 public class CountEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
