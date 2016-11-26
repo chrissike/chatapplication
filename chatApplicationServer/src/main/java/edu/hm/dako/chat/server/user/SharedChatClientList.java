@@ -14,9 +14,6 @@ import edu.hm.dako.chat.server.user.ClientListEntry;
  * verwaltet (darf nur einmal erzeugt werden). Alle Worker-Threads im Server
  * nutzen diese Liste.
  *
- * Die Liste wird als HashMap organisiert. Als Schluessel wird der Username von
- * Clients verwendet.
- *
  * Genereller Hinweis: Zur Umgehung von ConcurrentModificationExceptions wird
  * bei der Iteration durch Listen generell eine Kopie der Liste angelegt.
  *
@@ -145,7 +142,6 @@ public class SharedChatClientList {
 			for (String s : new HashSet<String>(clients.keySet())) {
 				ClientListEntry client = clients.get(s);
 				stringBuilder.append(client.getUserName() + ", ");
-				stringBuilder.append(client.getWaitList() + "\n");
 			}
 		}
 		return stringBuilder.toString();
