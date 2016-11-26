@@ -45,19 +45,17 @@ public class AdminResource {
 		}
 		return Response.status(Status.NO_CONTENT).build();
 	}
-//
-//	@GET
-//
-//	@Path("trace")
-//	public Response getTrace() {
-//		return Response.ok(200).entity(dataSink.getAllTraceData()).build();
-//	}
-//
-//	@DELETE
-//
-//	@Path("deleteAllData")
-//	public Response deleteAllData() {
-//		dataSink.deleteAllData();
-//		return Response.ok(200).build();
-//	}
+
+	@GET
+	@Path("trace")
+	public Response getTrace() {
+		return Response.ok(200).entity(dataSink.getAllTraceData()).build();
+	}
+
+	@DELETE
+	@Path("deleteAllData")
+	public Response deleteAllData() {
+		dataSink.deleteAllData();
+		return Response.ok(200).build();
+	}
 }
