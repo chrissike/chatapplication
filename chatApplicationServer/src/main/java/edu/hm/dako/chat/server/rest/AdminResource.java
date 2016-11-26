@@ -6,13 +6,12 @@ import edu.hm.dako.chat.server.user.SharedChatClientList;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import java.util.List;
-
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import java.util.List;
 
 @Path("admin")
 @Produces({ MediaType.APPLICATION_JSON })
@@ -27,16 +26,16 @@ public class AdminResource {
 	@GET
 	@Path("clients")
 	public Response getClients() {
-		return Response.status(Status.OK).entity(SharedChatClientList.getInstance().getRegisteredClientNameList())
+		return Response.status(Status.OK).entity(SharedChatClientList.getInstance().getClientNameList())
 				.build();
 	}
 
 	@GET
 	@Path("count/{clientId}")
-	public Response getClientCount(@PathParam("clientId") Integer clientId) {
+	public Response getClientCount(@PathParam("clientId") String clientId) {
 		log.info("getClientCount() mit id " + clientId + " für die Datasink: " + dataSink);
 		
-		List<CountEntity> entityList = dataSink.getCountByClientname(clientId.toString());
+		List<CountEntity> entityList = dataSink.getCountByClientname(clientId);
 		if (entityList != null) {
 			for(CountEntity count : entityList) {				
 				log.info("Entitys: " + count.toString());
