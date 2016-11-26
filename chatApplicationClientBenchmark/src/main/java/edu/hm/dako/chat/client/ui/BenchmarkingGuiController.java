@@ -70,8 +70,8 @@ public class BenchmarkingGuiController {
 		avgRTT.textProperty().bind(Bindings.convert(appController.getModel().getAverageRTT()));
 		avgRTTServer.textProperty().bind(Bindings.convert(appController.getModel().getAverageServerRTT()));
 		rttSD.textProperty().bind(Bindings.convert(appController.getModel().getStdDev()));
-		avgCPU.textProperty().bind(Bindings.convert(appController.getModel().getAvgCPU()));
-		avgMemory.textProperty().bind(Bindings.convert(appController.getModel().getAvgMemory()));
+		avgCPU.textProperty().bind(Bindings.convert(appController.getSysStatus().getAvgCPU()));
+		avgMemory.textProperty().bind(Bindings.convert(appController.getSysStatus().getAvgMemory()));
 	}
 
 	@FXML

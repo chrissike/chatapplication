@@ -1,4 +1,4 @@
-package edu.hm.dako.chat.client.data;
+package edu.hm.dako.chat.client.data.util;
 
 import static org.junit.Assert.assertTrue;
 
@@ -7,6 +7,8 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import edu.hm.dako.chat.client.data.util.ModelCalculator;
 
 
 public class ModelCalculatorTest {

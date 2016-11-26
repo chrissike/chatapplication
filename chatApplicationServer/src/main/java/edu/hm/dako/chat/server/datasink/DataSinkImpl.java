@@ -8,8 +8,6 @@ import edu.hm.dako.chat.server.datasink.repo.TraceRepository;
 import javax.inject.Inject;
 import java.util.List;
 
-//import edu.hm.dako.chat.server.datasink.model.CountEntity;
-//import edu.hm.dako.chat.server.datasink.repo.CountRepository;
 
 public class DataSinkImpl implements DataSink {
 

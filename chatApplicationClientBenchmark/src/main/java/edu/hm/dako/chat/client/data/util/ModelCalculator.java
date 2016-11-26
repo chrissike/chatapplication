@@ -1,17 +1,17 @@
-package edu.hm.dako.chat.client.data;
+package edu.hm.dako.chat.client.data.util;
 
 import java.util.List;
 
 public class ModelCalculator {
 
-	protected Double calcAverageOfDouble(List<Double> list) {
+	public Double calcAverageOfDouble(List<Double> list) {
 		Double sum = 0.0d;
 		for (Double d : list)
 			sum += d;
 		return sum / list.size();
 	}
 
-	protected Double getStdDev(List<Double> list, Double avg) {
+	public Double getStdDev(List<Double> list, Double avg) {
 		return Math.sqrt(getVariance(list, avg));
 	}
 

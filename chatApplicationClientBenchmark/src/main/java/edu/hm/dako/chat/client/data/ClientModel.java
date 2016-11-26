@@ -8,10 +8,9 @@ import javafx.scene.chart.CategoryAxis;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.hm.dako.chat.client.data.util.ModelCalculator;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.IntegerProperty;
 
 /**
  * Modelldaten fuer FX-GUI
@@ -29,8 +28,6 @@ public class ClientModel {
 	private DoubleProperty averageRTT;
 	private DoubleProperty averageServerRTT;
 	private DoubleProperty stdDev;
-	private DoubleProperty avgCPU;
-	private IntegerProperty avgMemory;
 	
 	private XYChart.Series<Integer, Double> serverTimeChart = new XYChart.Series<Integer, Double>();
 	private XYChart.Series<Integer, Double> clientTimeChart = new XYChart.Series<Integer, Double>();
@@ -50,8 +47,6 @@ public class ClientModel {
 		averageRTT = new SimpleDoubleProperty(0.0);
 		averageServerRTT = new SimpleDoubleProperty(0.0);
 		stdDev = new SimpleDoubleProperty(0.0);
-		avgCPU = new SimpleDoubleProperty(0.0);
-		avgMemory = new SimpleIntegerProperty(0);
 	}
 	
 	public void calculateKPIs() {
@@ -148,22 +143,6 @@ public class ClientModel {
 
 	public synchronized void setAverageServerRTT(Double averageServerRTT) {
 		this.averageServerRTT.set(averageServerRTT);
-	}
-
-	public DoubleProperty getAvgCPU() {
-		return avgCPU;
-	}
-
-	public synchronized void setAvgCPU(Double avgCPU) {
-		this.avgCPU.set(avgCPU);
-	}
-
-	public IntegerProperty getAvgMemory() {
-		return avgMemory;
-	}
-
-	public synchronized void setAvgMemory(Integer avgMemory) {
-		this.avgMemory.set(avgMemory);
 	}
 
 	public List<Double> getRttServerList() {

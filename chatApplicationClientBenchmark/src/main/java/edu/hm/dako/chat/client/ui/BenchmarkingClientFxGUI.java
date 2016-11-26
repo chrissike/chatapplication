@@ -5,6 +5,7 @@ import org.apache.commons.logging.LogFactory;
 
 import edu.hm.dako.chat.client.data.ClientModel;
 import edu.hm.dako.chat.client.data.ResultTableModel;
+import edu.hm.dako.chat.client.data.SystemStatus;
 import edu.hm.dako.chat.common.ChatPDU;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -25,6 +26,8 @@ public class BenchmarkingClientFxGUI extends Application {
 	private static Log log = LogFactory.getLog(BenchmarkingClientFxGUI.class);
 
 	private ClientModel model = new ClientModel();
+	private SystemStatus sysStatus = new SystemStatus();
+	
 	public static BenchmarkingClientFxGUI instance;
 
 	public static void main(String[] args) {
@@ -57,6 +60,14 @@ public class BenchmarkingClientFxGUI extends Application {
 	
 	public void setModel(ClientModel clientModel) {
 		this.model = clientModel;
+	}
+
+	public SystemStatus getSysStatus() {
+		return sysStatus;
+	}
+
+	public void setSysStatus(SystemStatus sysStatus) {
+		this.sysStatus = sysStatus;
 	}
 
 	public void showResults(ChatPDU chatPDU, Long rtt, Double rttMs, Double rttServerMs) {
