@@ -32,22 +32,20 @@ public class UserResource {
 	@Path("login/{name}")
 	public Response login(@PathParam("name") String username) {
 		LOG.info("User login gestartet mit dem Nutzernamen: " + username);
-		
+
 		long startTime = System.nanoTime();
 		Validate.notNull(username);
 
 		PduType requestType = PduType.LOGIN;
 		ChatPDU pdu = process.createPDU(username, requestType);
-				
-		if(!process.processClientListChange(pdu, startTime)) {
+
+		if (!process.processClientListChange(pdu, startTime)) {
 			return Response.status(Status.CONFLICT).entity(Status.CONFLICT.getReasonPhrase()).build();
 		}
 
 		return Response.status(Status.OK).entity(Status.OK.getReasonPhrase()).build();
 	}
 
-	
-	
 	@GET
 	@Path("logout/{name}")
 	public Response logout(@PathParam("name") String username) {
@@ -58,7 +56,7 @@ public class UserResource {
 
 		PduType requestType = PduType.LOGOUT;
 		ChatPDU pdu = process.createPDU(username, requestType);
-		
+
 		process.processClientListChange(pdu, startTime);
 
 		return Response.status(Status.NO_CONTENT).entity(username).build();

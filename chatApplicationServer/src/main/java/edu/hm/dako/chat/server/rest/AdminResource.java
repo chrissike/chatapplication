@@ -26,18 +26,17 @@ public class AdminResource {
 	@GET
 	@Path("clients")
 	public Response getClients() {
-		return Response.status(Status.OK).entity(SharedChatClientList.getInstance().getClientNameList())
-				.build();
+		return Response.status(Status.OK).entity(SharedChatClientList.getInstance().getClientNameList()).build();
 	}
 
 	@GET
 	@Path("count/{clientId}")
 	public Response getClientCount(@PathParam("clientId") String clientId) {
 		log.info("getClientCount() mit id " + clientId + " für die Datasink: " + dataSink);
-		
+
 		List<CountEntity> entityList = dataSink.getCountByClientname(clientId);
 		if (entityList != null) {
-			for(CountEntity count : entityList) {				
+			for (CountEntity count : entityList) {
 				log.info("Entitys: " + count.toString());
 			}
 			return Response.ok(200).entity(entityList).build();
