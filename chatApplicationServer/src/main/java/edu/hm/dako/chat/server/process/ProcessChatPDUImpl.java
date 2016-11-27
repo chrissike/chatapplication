@@ -72,6 +72,8 @@ public class ProcessChatPDUImpl implements ProcessChatPDU {
 				success = true;
 			}
 		}
+		
+		log.info("clientList: " + clientList.getClientNameList() );
 		return success;
 	}
 

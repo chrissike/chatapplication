@@ -8,7 +8,6 @@ import edu.hm.dako.chat.server.datasink.repo.TraceRepository;
 import javax.inject.Inject;
 import java.util.List;
 
-
 public class DataSinkImpl implements DataSink {
 
 	@Inject
@@ -36,11 +35,11 @@ public class DataSinkImpl implements DataSink {
 			countRepo.updateCount(existingCount);
 			success = true;
 		}
-		
+
 		return success;
 	}
 
-	public void persistTrace(TraceEntity trace) {		
+	public void persistTrace(TraceEntity trace) {
 		traceRepo.addTrace(trace);
 	}
 
