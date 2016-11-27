@@ -11,7 +11,6 @@ import org.apache.commons.logging.LogFactory;
 import edu.hm.dako.chat.client.communication.rest.MessagingHandler;
 import edu.hm.dako.chat.client.communication.rest.MessagingHandlerImpl;
 import edu.hm.dako.chat.client.data.ClientModel;
-import edu.hm.dako.chat.common.ExceptionHandler;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -175,7 +174,7 @@ public class ClientFxGUI extends Application {
 				}
 			});
 		} catch (Exception e) {
-			ExceptionHandler.logException(e);
+			log.error(e.getStackTrace());
 		}
 		
 		return success;

@@ -1,6 +1,6 @@
 package edu.hm.dako.chat.common;
 
-public enum ClientConversationStatus {
+public enum ChatPDU2Status {
   // Client nicht eingeloggt
   UNREGISTERED,
   // Client-Login in Arbeit
