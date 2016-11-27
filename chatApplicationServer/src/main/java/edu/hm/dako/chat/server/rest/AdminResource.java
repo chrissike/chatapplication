@@ -36,13 +36,7 @@ public class AdminResource {
 		log.info("getClientCount() mit id " + clientId + " für die Datasink: " + dataSink);
 		
 		List<CountEntity> entityList = dataSink.getCountByClientname(clientId);
-		if (entityList != null) {
-			for(CountEntity count : entityList) {				
-				log.info("Entitys: " + count.toString());
-			}
-			return Response.ok(200).entity(entityList).build();
-		}
-		return Response.status(Status.NO_CONTENT).build();
+		return Response.ok(200).entity(entityList).build();
 	}
 
 	@GET
