@@ -54,7 +54,7 @@ public class DataSinkImpl implements DataSink {
 
 	@Override
 	public void deleteAllData() {
-		countRepo.deleteAllCount();
 		traceRepo.deleteAllTrace();
+		countRepo.deleteAllCount();
 	}
 }

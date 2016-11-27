@@ -33,16 +33,8 @@ public class AdminResource {
 	@GET
 	@Path("count/{clientId}")
 	public Response getClientCount(@PathParam("clientId") String clientId) {
-		log.info("getClientCount() mit id " + clientId + " für die Datasink: " + dataSink);
-		
 		List<CountEntity> entityList = dataSink.getCountByClientname(clientId);
 		return Response.ok(200).entity(entityList).build();
-	}
-
-	@GET
-	@Path("trace")
-	public Response getTrace() {
-		return Response.ok(200).entity(dataSink.getAllTraceData()).build();
 	}
 
 	@DELETE
