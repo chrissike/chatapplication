@@ -15,7 +15,7 @@ import edu.hm.dako.chat.client.communication.rest.MessagingHandler;
 import edu.hm.dako.chat.client.communication.rest.MessagingHandlerImpl;
 import edu.hm.dako.chat.client.communication.rest.TechnicalException;
 import edu.hm.dako.chat.client.data.ClientModel;
-import edu.hm.dako.chat.common.ChatPDU;
+import edu.hm.dako.chat.model.ChatPDU;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;

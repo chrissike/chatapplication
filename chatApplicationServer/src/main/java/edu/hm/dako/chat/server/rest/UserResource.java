@@ -14,9 +14,9 @@ import org.apache.commons.lang3.Validate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import edu.hm.dako.chat.common.ChatPDU;
+import edu.hm.dako.chat.model.ChatPDU;
+import edu.hm.dako.chat.model.PduType;
 import edu.hm.dako.chat.server.process.ProcessChatPDU;
-import edu.hm.dako.chat.common.PduType;
 
 @Path("user")
 @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })

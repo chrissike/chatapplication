@@ -1,4 +1,4 @@
-package edu.hm.dako.chat.common;
+package edu.hm.dako.chat.model;
 
 import java.io.Serializable;
 import java.util.Vector;

@@ -8,8 +8,8 @@ import javax.transaction.Transactional;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import edu.hm.dako.chat.common.ChatPDU;
-import edu.hm.dako.chat.common.PduType;
+import edu.hm.dako.chat.model.ChatPDU;
+import edu.hm.dako.chat.model.PduType;
 import edu.hm.dako.chat.server.datasink.DataSink;
 import edu.hm.dako.chat.server.datasink.model.CountEntity;
 import edu.hm.dako.chat.server.datasink.model.TraceEntity;

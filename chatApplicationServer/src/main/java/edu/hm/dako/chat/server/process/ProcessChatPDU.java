@@ -1,7 +1,7 @@
 package edu.hm.dako.chat.server.process;
 
-import edu.hm.dako.chat.common.ChatPDU;
-import edu.hm.dako.chat.common.PduType;
+import edu.hm.dako.chat.model.ChatPDU;
+import edu.hm.dako.chat.model.PduType;
 
 public interface ProcessChatPDU {
 

@@ -1,4 +1,4 @@
-package edu.hm.dako.chat.common;
+package edu.hm.dako.chat.model;
 
 public enum ChatPDU2Status {
   // Client nicht eingeloggt

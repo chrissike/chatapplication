@@ -12,7 +12,7 @@ import javax.jms.MessageListener;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import edu.hm.dako.chat.common.ChatPDU;
+import edu.hm.dako.chat.model.ChatPDU;
 import edu.hm.dako.chat.server.process.ProcessChatPDU;
 
 // http://docs.jboss.org/jbossmessaging/docs/usermanual-2.0.0.beta4/html/appserver-integration.html
