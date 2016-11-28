@@ -1,13 +1,13 @@
 package edu.hm.dako.chat.model;
 
 import java.io.Serializable;
-import java.util.Vector;
+import java.util.List;
 
 /**
  * Nachrichtenaufbau fuer Chat-Protokoll (fuer alle Nachrichtentypen: Request,
  * Response, Event, Confirm)
  */
-public class ChatPDU implements Serializable {
+public class ChatPDU implements Serializable, PDU {
 
 	private static final long serialVersionUID = -6149488654340429875L;
 
@@ -34,7 +34,7 @@ public class ChatPDU implements Serializable {
 	/**
 	 * Liste aller angemeldeten User
 	 */
-	private Vector<String> clients;
+	private List<String> clients;
 
 	/**
 	 * Zeit in Nanosekunden, die der Server fuer die komplette Bearbeitung einer
@@ -58,13 +58,9 @@ public class ChatPDU implements Serializable {
 		pduType = PduType.UNDEFINED;
 	}
 
-	public ChatPDU(PduType cmd, Vector<String> clients) {
-		this.pduType = cmd;
-		this.clients = clients;
-	}
-
-	public ChatPDU(PduType cmd, String message) {
-		this.pduType = cmd;
+	public ChatPDU(String clientName, String message, PduType pdutype) {
+		this.userName = clientName;
+		this.pduType = pdutype;
 		this.message = message;
 	}
 
@@ -75,7 +71,7 @@ public class ChatPDU implements Serializable {
 				+ numberOfRetries + "]";
 	}
 
-	public void setClients(Vector<String> clients) {
+	public synchronized void setClients(List<String> clients) {
 		this.clients = clients;
 	}
 
@@ -103,7 +99,7 @@ public class ChatPDU implements Serializable {
 		return pduType;
 	}
 
-	public Vector<String> getClients() {
+	public List<String> getClients() {
 		return clients;
 	}
 

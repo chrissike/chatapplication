@@ -28,10 +28,7 @@ public class JmsProducerTest {
 		jmsProducer = new JmsProducer();
 		jmsConsumer = new JmsConsumer();
 
-		chatPdu = new ChatPDU();
-		chatPdu.setMessage("Testnachricht");
-		chatPdu.setUserName("Hans Wurst");
-		chatPdu.setPduType(PduType.MESSAGE);
+		chatPdu = new ChatPDU("Hans Wurst", "Testnachricht", PduType.MESSAGE);
 	}
 
 	@Test

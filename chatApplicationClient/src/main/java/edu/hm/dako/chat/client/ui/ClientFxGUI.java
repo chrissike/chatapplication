@@ -3,7 +3,6 @@ package edu.hm.dako.chat.client.ui;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -71,7 +70,7 @@ public class ClientFxGUI extends Application {
 		lc = (LoggedInGuiController) loader.getController();
 	}
 
-	public void setUserList(Vector<String> userList) {
+	public void setUserList(List<String> userList) {
 		System.out.println("Update der Teilnehmerliste gestartet.");
 		final List<String> users = new ArrayList<String>();
 		for (String user : userList) {

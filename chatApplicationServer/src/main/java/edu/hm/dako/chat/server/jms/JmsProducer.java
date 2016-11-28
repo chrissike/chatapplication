@@ -12,7 +12,7 @@ import javax.naming.NamingException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import edu.hm.dako.chat.model.ChatPDU;
+import edu.hm.dako.chat.model.PDU;
 
 public class JmsProducer {
 
@@ -27,8 +27,8 @@ public class JmsProducer {
 	@Resource(mappedName = "java:/jms/topic/chatresp2")
 	private Topic topic;
 	
-	public void sendMessage(ChatPDU pdu) throws NamingException {
-		log.info("Send ChatPDU: " + pdu.toString());
+	public void sendMessage(PDU pdu) throws NamingException {
+		log.debug("Send ChatPDU: " + pdu.toString());
 		JMSProducer producer = context.createProducer();
 		producer.send(topic, pdu);
 	}
