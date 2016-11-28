@@ -1,6 +1,5 @@
 package edu.hm.dako.chat.client.ui;
 
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
@@ -8,8 +7,6 @@ import java.util.regex.Pattern;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import edu.hm.dako.chat.client.communication.rest.MessagingHandler;
-import edu.hm.dako.chat.client.communication.rest.MessagingHandlerImpl;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -74,7 +71,6 @@ public class LogInGuiController implements Initializable {
 			appController.setErrorMessage("Chat-Client", "Benutzername fehlt", 1);
 		}
 
-		Integer serverPort = null;
 		Boolean success = false;
 		if (inputOk) {
 			appController.getModel().setUserName(this.userName);

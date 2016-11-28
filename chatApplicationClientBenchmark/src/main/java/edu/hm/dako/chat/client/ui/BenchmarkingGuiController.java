@@ -36,7 +36,7 @@ public class BenchmarkingGuiController {
 	@FXML
 	private TextField txtServername, txtServerPort, txtAnzahlClients, txtAnzahlNachrichten, txtNachrichtenlaenge;
 	@FXML
-	private Label avgRTT, avgRTTServer, rttSD, avgCPU, avgMemory;
+	private Label avgRTT, maxRTT, minRTT, avgRTTServer, rttSD, avgCPU, avgMemory;
 	@FXML
 	private Button startButton;
 	@FXML
