@@ -6,7 +6,6 @@ import javax.jms.Message;
 import edu.hm.dako.benchmarkUtil.SystemResourceCalculator;
 import edu.hm.dako.chat.client.ui.BenchmarkingClientFxGUI;
 import edu.hm.dako.chat.model.BenchmarkPDU;
-import edu.hm.dako.chat.model.ChatPDU;
 import edu.hm.dako.chat.model.PDU;
 
 public class ReceiverThread implements Runnable {
@@ -31,7 +30,6 @@ public class ReceiverThread implements Runnable {
 	}
 
 	public void run() {
-		System.out.println("run() wird ausgeführt!");
 		if (bmPDU != null && BenchmarkingClientFxGUI.instance != null) {
 			bmPDU.setAvgCPUUsage(SystemResourceCalculator.getAvgCPUUsage().doubleValue());
 			stopAndCalculateRTT();
@@ -41,11 +39,9 @@ public class ReceiverThread implements Runnable {
 	}
 
 	private void stopAndCalculateRTT() {
-		System.out.println("stopAndCalculateRTT() wird ausgeführt");
 		setRtt(System.nanoTime() - bmPDU.getClientStartTime());
 		setRttMs(rtt.longValue() / 1000000000.0);
 		setRttServerMs(bmPDU.getServerTime().longValue() / 1000000000.0);
-		System.out.println("stopAndCalculateRTT() beendet");
 	}
 
 	public Long getRtt() {

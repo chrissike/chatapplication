@@ -1,14 +1,8 @@
 package edu.hm.dako.chat.client.ui;
 
-import javax.naming.NamingException;
-
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import edu.hm.dako.chat.client.benchmarking.ProcessBenchmarking;
-import edu.hm.dako.chat.client.benchmarking.TopicSubscriber;
-import edu.hm.dako.chat.client.communication.jms.JmsConsumer;
 import edu.hm.dako.chat.client.data.ResultTableModel;
 import javafx.fxml.FXML;
 import javafx.scene.chart.AreaChart;
@@ -21,18 +15,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.control.Label;
-import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
-import javafx.beans.binding.StringExpression;
-import javafx.beans.property.DoubleProperty;
 
 /**
  * Controller fuer Login-GUI
  */
 @SuppressWarnings("restriction")
 public class BenchmarkingGuiController {
-
-	private static Log log = LogFactory.getLog(BenchmarkingGuiController.class);
 	
 	@FXML
 	private TextField txtServername, txtServerPort, txtAnzahlClients, txtAnzahlNachrichten, txtNachrichtenlaenge;
@@ -86,11 +75,6 @@ public class BenchmarkingGuiController {
 		for (int i = 1; i <= Integer.parseInt(txtAnzahlClients.getText()); i++) {
 			process.createNewBenchmarkingClient(String.valueOf(BenchmarkingClientFxGUI.getAndIncreaseClientNameCounter()));
 		}
-		
-//		Platform.runLater(() -> {
-//			log.debug("Startschuss für alle Threads geben...");
-//			process.startAllClients();			
-//		});
 	}
 
 	private String generateMessageByLength() {

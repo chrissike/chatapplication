@@ -71,7 +71,6 @@ public class ClientFxGUI extends Application {
 	}
 
 	public void setUserList(List<String> userList) {
-		System.out.println("Update der Teilnehmerliste gestartet.");
 		final List<String> users = new ArrayList<String>();
 		for (String user : userList) {
 			if (!user.equals(getModel().getUserName())) {

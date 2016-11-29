@@ -59,7 +59,6 @@ public class ClientModel {
 		// AverageRTT
 		Double averageRtt = Math.round(calculator.calcAverageOfDouble(getRttList()) * 100.0) / 100.0;
 		setAverageRTT(averageRtt);
-		System.out.println("AverageRtt: " + getAverageRTT());
 
 		// MaxMinRTT
 		setMaxRTT(Math.round(calculator.getMaxOfList(getRttList()) * 100.0) / 100.0);
@@ -67,7 +66,6 @@ public class ClientModel {
 
 		// StdDev
 		setStdDev(Math.round(calculator.getStdDev(getRttList(), averageRtt) * 100.0) / 100.0);
-		System.out.println("StdDev:" + getStdDev());
 
 		// AverageRTTServer
 		setAverageServerRTT(Math.round(calculator.calcAverageOfDouble(getRttServerList()) * 100.0) / 100.0);
