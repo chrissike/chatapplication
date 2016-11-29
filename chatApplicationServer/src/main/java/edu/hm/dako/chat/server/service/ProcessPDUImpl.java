@@ -1,4 +1,4 @@
-package edu.hm.dako.chat.server.process;
+package edu.hm.dako.chat.server.service;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -21,9 +21,9 @@ import edu.hm.dako.chat.server.user.ClientListEntry;
 import edu.hm.dako.chat.server.user.SharedChatClientList;
 
 @Stateless
-public class ProcessChatPDUImpl implements ProcessChatPDU {
+public class ProcessPDUImpl implements ProcessPDU {
 
-	private static Log log = LogFactory.getLog(ProcessChatPDUImpl.class);
+	private static Log log = LogFactory.getLog(ProcessPDUImpl.class);
 
 	@Inject
 	private DataSink dataSink;

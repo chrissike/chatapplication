@@ -13,7 +13,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import edu.hm.dako.chat.model.PDU;
-import edu.hm.dako.chat.server.process.ProcessChatPDU;
+import edu.hm.dako.chat.server.service.ProcessPDU;
 
 
 @MessageDriven(name = "JmsConsumer", activationConfig = {
@@ -25,7 +25,7 @@ public class JmsConsumer implements MessageListener {
 	private static Log log = LogFactory.getLog(JmsConsumer.class);
 
 	@Inject
-	ProcessChatPDU process;
+	ProcessPDU process;
 
 	@Resource
 	private MessageDrivenContext mdc;

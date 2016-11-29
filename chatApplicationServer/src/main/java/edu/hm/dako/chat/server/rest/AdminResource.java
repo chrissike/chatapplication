@@ -3,8 +3,6 @@ package edu.hm.dako.chat.server.rest;
 import edu.hm.dako.chat.server.datasink.DataSink;
 import edu.hm.dako.chat.server.datasink.model.CountEntity;
 import edu.hm.dako.chat.server.user.SharedChatClientList;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -17,8 +15,6 @@ import java.util.List;
 @Produces({ MediaType.APPLICATION_JSON })
 @Consumes({ MediaType.APPLICATION_JSON })
 public class AdminResource {
-
-	private static final Log log = LogFactory.getLog(AdminResource.class);
 
 	@Inject
 	private DataSink dataSink;
@@ -40,7 +36,7 @@ public class AdminResource {
 	@GET
 	@Path("statistics")
 	public Response getStatistics() {
-		return Response.ok(200).entity(new Statistics()).build();
+		return Response.ok(200).entity(new Statistics(dataSink.getAllTraceData())).build();
 	}
 
 	@DELETE

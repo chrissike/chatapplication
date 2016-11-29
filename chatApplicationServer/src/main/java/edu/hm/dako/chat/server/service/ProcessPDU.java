@@ -1,10 +1,10 @@
-package edu.hm.dako.chat.server.process;
+package edu.hm.dako.chat.server.service;
 
 import edu.hm.dako.chat.model.ChatPDU;
 import edu.hm.dako.chat.model.PDU;
 import edu.hm.dako.chat.model.PduType;
 
-public interface ProcessChatPDU {
+public interface ProcessPDU {
 
 	public void processMessage(PDU pdu);
 
