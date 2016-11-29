@@ -1,7 +1,8 @@
 package edu.hm.dako.chat.server.user;
 
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Vector;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.logging.Log;
@@ -63,9 +64,9 @@ public class SharedChatClientList {
 	 * 
 	 * @return Vektor mit allen Namen der eingetragenen Clients
 	 */
-	public synchronized Vector<String> getClientNameList() {
+	public synchronized List<String> getClientNameList() {
 
-		Vector<String> clientNameList = new Vector<String>();
+		List<String> clientNameList = new ArrayList<String>();
 		for (String s : new HashSet<String>(clients.keySet())) {
 			clientNameList.add(s);
 		}
@@ -124,26 +125,5 @@ public class SharedChatClientList {
 	public synchronized long size() {
 
 		return clients.size();
-	}
-
-	/**
-	 * Ausgeben der aktuellen Clientliste einschliesslich der Wartelisten der
-	 * Clients
-	 */
-	public String printClientList() {
-
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Clientliste mit zugehoerigen Wartelisten: ");
-
-		if (clients.isEmpty()) {
-			stringBuilder.append(" leer\n");
-		} else {
-			stringBuilder.append("\n");
-			for (String s : new HashSet<String>(clients.keySet())) {
-				ClientListEntry client = clients.get(s);
-				stringBuilder.append(client.getUserName() + ", ");
-			}
-		}
-		return stringBuilder.toString();
 	}
 }

@@ -3,7 +3,6 @@ package edu.hm.dako.chat.client.ui;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -11,7 +10,6 @@ import org.apache.commons.logging.LogFactory;
 import edu.hm.dako.chat.client.communication.rest.MessagingHandler;
 import edu.hm.dako.chat.client.communication.rest.MessagingHandlerImpl;
 import edu.hm.dako.chat.client.data.ClientModel;
-import edu.hm.dako.chat.common.ExceptionHandler;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -72,7 +70,7 @@ public class ClientFxGUI extends Application {
 		lc = (LoggedInGuiController) loader.getController();
 	}
 
-	public void setUserList(Vector<String> userList) {
+	public void setUserList(List<String> userList) {
 		System.out.println("Update der Teilnehmerliste gestartet.");
 		final List<String> users = new ArrayList<String>();
 		for (String user : userList) {
@@ -175,7 +173,7 @@ public class ClientFxGUI extends Application {
 				}
 			});
 		} catch (Exception e) {
-			ExceptionHandler.logException(e);
+			log.error(e.getStackTrace());
 		}
 		
 		return success;

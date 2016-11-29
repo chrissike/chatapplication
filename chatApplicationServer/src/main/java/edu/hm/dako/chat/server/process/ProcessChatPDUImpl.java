@@ -8,8 +8,11 @@ import javax.transaction.Transactional;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import edu.hm.dako.chat.common.ChatPDU;
-import edu.hm.dako.chat.common.PduType;
+import edu.hm.dako.benchmarkUtil.SystemResourceCalculator;
+import edu.hm.dako.chat.model.BenchmarkPDU;
+import edu.hm.dako.chat.model.ChatPDU;
+import edu.hm.dako.chat.model.PDU;
+import edu.hm.dako.chat.model.PduType;
 import edu.hm.dako.chat.server.datasink.DataSink;
 import edu.hm.dako.chat.server.datasink.model.CountEntity;
 import edu.hm.dako.chat.server.datasink.model.TraceEntity;
@@ -31,7 +34,7 @@ public class ProcessChatPDUImpl implements ProcessChatPDU {
 	private SharedChatClientList clientList = SharedChatClientList.getInstance();
 
 	@Transactional
-	public void processMessage(ChatPDU pdu) {
+	public void processMessage(PDU pdu) {
 		log.info("JMS-Nachricht ist angekommen: " + pdu.toString());
 
 		pdu.setServerTime(Long.valueOf(System.nanoTime()));
@@ -39,7 +42,21 @@ public class ProcessChatPDUImpl implements ProcessChatPDU {
 		pdu.setPduType(PduType.MESSAGE);
 
 		persistChatData(pdu);
+
+		if (pdu instanceof BenchmarkPDU) {
+			pdu = fillBenchmarkPDU(pdu);
+		}
+
 		sendPDU(pdu);
+	}
+
+	private PDU fillBenchmarkPDU(PDU pdu) {
+		BenchmarkPDU bPDU = (BenchmarkPDU) pdu;
+		SystemResourceCalculator sysResource = new SystemResourceCalculator();
+		bPDU.setFreeMemory(sysResource.getFreeMemory().doubleValue());
+		bPDU.setUsedMemory(sysResource.getUsedMemory().doubleValue());
+
+		return bPDU;
 	}
 
 	public boolean processClientListChange(ChatPDU pdu, long startTime) {
@@ -72,12 +89,12 @@ public class ProcessChatPDUImpl implements ProcessChatPDU {
 				success = true;
 			}
 		}
-		
-		log.info("clientList: " + clientList.getClientNameList() );
+
+		log.info("clientList: " + clientList.getClientNameList());
 		return success;
 	}
 
-	private void sendPDU(ChatPDU pdu) {
+	private void sendPDU(PDU pdu) {
 		log.info("pdu servertime: " + pdu.getServerTime() + ", nowtime: " + Long.valueOf((System.nanoTime())));
 		Long serverTime = Long.valueOf((System.nanoTime())) - pdu.getServerTime();
 		pdu.setServerTime(serverTime);
@@ -89,7 +106,7 @@ public class ProcessChatPDUImpl implements ProcessChatPDU {
 		}
 	}
 
-	private void persistChatData(ChatPDU pdu) {
+	private void persistChatData(PDU pdu) {
 		TraceEntity trace = new TraceEntity(pdu.getUserName(), pdu.getServerThreadName(), pdu.getMessage());
 		CountEntity count = new CountEntity(pdu.getUserName(), 1);
 

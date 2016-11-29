@@ -67,6 +67,46 @@
                                              </children>
                                           </VBox>
                                           <Separator orientation="VERTICAL" prefHeight="200.0" />
+                                          <VBox alignment="CENTER" layoutX="178.0" layoutY="10.0">
+                                             <children>
+                                                <Label text="RTT max:  ">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                </Label>
+                                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="300.0">
+                                                   <children>
+                                                      <Label fx:id="maxRTT" textAlignment="CENTER">
+                                                         <font>
+                                                            <Font size="37.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label text="ms" />
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                          </VBox>
+                                          <Separator layoutX="148.0" layoutY="10.0" orientation="VERTICAL" prefHeight="200.0" />
+                                          <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0">
+                                             <children>
+                                                <Label text="RTT min:  ">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                </Label>
+                                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="300.0">
+                                                   <children>
+                                                      <Label fx:id="minRTT" textAlignment="CENTER">
+                                                         <font>
+                                                            <Font size="37.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label text="ms" />
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                          </VBox>
+                                          <Separator layoutX="809.0" layoutY="10.0" orientation="VERTICAL" prefHeight="200.0" />
                                           <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0">
                                              <children>
                                                 <Label text="Ø-RTT Server:  ">
@@ -141,7 +181,7 @@
                                                             <Font size="37.0" />
                                                          </font>
                                                       </Label>
-                                                      <Label text="MB" />
+                                                      <Label text="MiB" />
                                                    </children>
                                                 </HBox>
                                              </children>

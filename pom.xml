@@ -15,8 +15,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 		<hibernate.version>5.1.0.Final</hibernate.version>
-		<version.wildfly>10.0.0.Final</version.wildfly>
-		<version.jboss.bom>10.1.0.Final</version.jboss.bom>
+		<wildfly.version>10.1.0.Final</wildfly.version>
 		<version.jboss.spec.javaee.7.0>1.0.3.Final</version.jboss.spec.javaee.7.0>
 		<version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
 
@@ -55,77 +54,26 @@
 				<version>${project.version}</version>
 			</dependency>
 
-			<!-- 3rd party Libs -->
-			<!-- https://mvnrepository.com/artifact/commons-logging/commons-logging -->
+			<!-- Wildfly Libs -->
 			<dependency>
 				<groupId>org.wildfly.bom</groupId>
 				<artifactId>wildfly-javaee7-with-tools</artifactId>
-				<version>${version.jboss.bom}</version>
+				<version>${wildfly.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.wildfly</groupId>
 				<artifactId>wildfly-jms-client-bom</artifactId>
-				<version>${version.wildfly}</version>
+				<version>${wildfly.version}</version>
 				<type>pom</type>
 			</dependency>
-			<dependency>
-				<groupId>org.jboss.spec</groupId>
-				<artifactId>jboss-javaee-7.0</artifactId>
-				<version>1.0.3.Final</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-
 			<dependency>
 				<groupId>org.wildfly</groupId>
 				<artifactId>wildfly-ejb-client-bom</artifactId>
-				<version>10.0.0.Final</version>
+				<version>${wildfly.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.jboss.spec</groupId>
-				<artifactId>jboss-javaee-all-7.0</artifactId>
-				<version>1.0.3.Final</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-			<dependency>
-				<groupId>commons-logging</groupId>
-				<artifactId>commons-logging</artifactId>
-				<version>1.2</version>
-			</dependency>
-			<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-math3 -->
-			<dependency>
-				<groupId>org.apache.commons</groupId>
-				<artifactId>commons-math3</artifactId>
-				<version>3.6</version>
-			</dependency>
-			<!-- https://mvnrepository.com/artifact/com.jgoodies/jgoodies-common -->
-			<dependency>
-				<groupId>com.jgoodies</groupId>
-				<artifactId>jgoodies-common</artifactId>
-				<version>1.8.1</version>
-			</dependency>
-			<!-- https://mvnrepository.com/artifact/com.jgoodies/jgoodies-forms -->
-			<dependency>
-				<groupId>com.jgoodies</groupId>
-				<artifactId>jgoodies-forms</artifactId>
-				<version>1.9.0</version>
-			</dependency>
-			<!-- https://mvnrepository.com/artifact/javax.jms/javax.jms-api -->
-			<dependency>
-				<groupId>javax.jms</groupId>
-				<artifactId>javax.jms-api</artifactId>
-				<version>2.0.1</version>
-			</dependency>
-			<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api -->
-			<dependency>
-				<groupId>org.apache.logging.log4j</groupId>
-				<artifactId>log4j-api</artifactId>
-				<version>2.6.2</version>
 			</dependency>
 			<dependency>
 				<groupId>org.wildfly</groupId>
@@ -134,12 +82,38 @@
 				<type>pom</type>
 				<scope>provided</scope>
 			</dependency>
+			<dependency>
+				<groupId>org.jboss.spec</groupId>
+				<artifactId>jboss-javaee-7.0</artifactId>
+				<version>1.0.3.Final</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			
+			<!-- 3rd party Libs -->
+			<!-- https://mvnrepository.com/artifact/commons-logging/commons-logging -->
+			<dependency>
+				<groupId>commons-logging</groupId>
+				<artifactId>commons-logging</artifactId>
+				<version>1.2</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api -->
+			<dependency>
+				<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-api</artifactId>
+				<version>2.6.2</version>
+			</dependency>
 			<!-- https://mvnrepository.com/artifact/javax.ws.rs/javax.ws.rs-api -->
 			<dependency>
 				<groupId>javax.ws.rs</groupId>
 				<artifactId>javax.ws.rs-api</artifactId>
 				<version>2.0.1</version>
-				<scope>provided</scope>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/org.glassfish.jersey.core/jersey-client -->
+			<dependency>
+				<groupId>org.glassfish.jersey.core</groupId>
+				<artifactId>jersey-client</artifactId>
+				<version>2.24.1</version>
 			</dependency>
 			<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
 			<dependency>

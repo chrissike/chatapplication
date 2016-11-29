@@ -10,7 +10,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import edu.hm.dako.chat.client.communication.jms.JmsProducer;
-import edu.hm.dako.chat.common.ChatPDU;
+import edu.hm.dako.chat.model.BenchmarkPDU;
+import edu.hm.dako.chat.model.ChatPDU;
 
 public class ProcessBenchmarking {
 
@@ -38,7 +39,7 @@ public class ProcessBenchmarking {
 					log.error(e.getStackTrace());
 				}
 
-				ChatPDU chatPdu = new ChatPDU();
+				ChatPDU chatPdu = new BenchmarkPDU();
 				chatPdu.setUserName(name);
 				chatPdu.setServerThreadName(Thread.currentThread().getName());
 				chatPdu.setMessage(ProcessBenchmarking.getMessage());

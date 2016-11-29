@@ -4,7 +4,7 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 
 import edu.hm.dako.chat.client.ui.BenchmarkingClientFxGUI;
-import edu.hm.dako.chat.common.ChatPDU;
+import edu.hm.dako.chat.model.ChatPDU;
 
 public class ReceiverThread implements Runnable {
 

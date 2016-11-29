@@ -15,7 +15,7 @@ import edu.hm.dako.chat.client.communication.rest.MessagingHandler;
 import edu.hm.dako.chat.client.communication.rest.MessagingHandlerImpl;
 import edu.hm.dako.chat.client.communication.rest.TechnicalException;
 import edu.hm.dako.chat.client.data.ClientModel;
-import edu.hm.dako.chat.common.ChatPDU;
+import edu.hm.dako.chat.model.ChatPDU;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -23,13 +23,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 
 /**
  * Controller Chatclient-UI

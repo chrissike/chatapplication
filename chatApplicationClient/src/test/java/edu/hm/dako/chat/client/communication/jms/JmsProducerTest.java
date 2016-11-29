@@ -10,8 +10,8 @@ import org.apache.commons.logging.LogFactory;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.hm.dako.chat.common.ChatPDU;
-import edu.hm.dako.chat.common.PduType;
+import edu.hm.dako.chat.model.ChatPDU;
+import edu.hm.dako.chat.model.PduType;
 
 public class JmsProducerTest {
 
@@ -28,10 +28,7 @@ public class JmsProducerTest {
 		jmsProducer = new JmsProducer();
 		jmsConsumer = new JmsConsumer();
 
-		chatPdu = new ChatPDU();
-		chatPdu.setMessage("Testnachricht");
-		chatPdu.setUserName("Hans Wurst");
-		chatPdu.setPduType(PduType.MESSAGE);
+		chatPdu = new ChatPDU("Hans Wurst", "Testnachricht", PduType.MESSAGE);
 	}
 
 	@Test

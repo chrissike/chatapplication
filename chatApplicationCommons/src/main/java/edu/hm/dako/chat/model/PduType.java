@@ -1,4 +1,4 @@
-package edu.hm.dako.chat.common;
+package edu.hm.dako.chat.model;
 
 /**
  * Enumeration zur Definition der Chat-PDU-Typen
