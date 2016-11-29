@@ -37,6 +37,12 @@ public class AdminResource {
 		return Response.ok(200).entity(entityList).build();
 	}
 
+	@GET
+	@Path("statistics")
+	public Response getStatistics() {
+		return Response.ok(200).entity(new Statistics()).build();
+	}
+
 	@DELETE
 	@Path("deleteAllData")
 	public Response deleteAllData() {
