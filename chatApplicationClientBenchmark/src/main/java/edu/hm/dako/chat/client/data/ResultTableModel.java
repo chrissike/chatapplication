@@ -10,15 +10,16 @@ public class ResultTableModel {
 	private StringProperty colAnzahlNachrichten;
 	private StringProperty colRTT;
 	private StringProperty colRTTServer;
-	
+	private StringProperty colFreeMemory;
 	
 	public ResultTableModel(String colTest, String colAnzahlNachrichten,
-			String colRTT, String colRTTServer) {
+			String colRTT, String colRTTServer, String colFreeMemory) {
 		super();
 		this.colTest = new SimpleStringProperty(colTest);
 		this.colAnzahlNachrichten = new SimpleStringProperty(colAnzahlNachrichten);
 		this.colRTT = new SimpleStringProperty(colRTT);
 		this.colRTTServer = new SimpleStringProperty(colRTTServer);
+		this.colFreeMemory = new SimpleStringProperty(colFreeMemory);
 	}
 
 
@@ -59,6 +60,16 @@ public class ResultTableModel {
 
 	public void setColRTTServer(StringProperty colRTTServer) {
 		this.colRTTServer = colRTTServer;
+	}
+
+
+	public StringProperty getColFreeMemory() {
+		return colFreeMemory;
+	}
+
+
+	public void setColFreeMemory(StringProperty colFreeMemory) {
+		this.colFreeMemory = colFreeMemory;
 	}
 
 

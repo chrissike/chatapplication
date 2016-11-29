@@ -31,7 +31,7 @@ public class MessagingHandlerImpl implements MessagingHandler {
 	 * @param serverPort
 	 * @throws URISyntaxException
 	 */
-	public MessagingHandlerImpl(final String uriToEndpoint, Integer serverPort) throws URISyntaxException, TechnicalException {
+	public MessagingHandlerImpl(final String uriToEndpoint, Integer serverPort) throws URISyntaxException, TechnicalRestException {
 		this.uri = new URI("http://" + uriToEndpoint + ":" + serverPort);
 		this.restClient = ClientBuilder.newClient();
 	}
@@ -49,14 +49,14 @@ public class MessagingHandlerImpl implements MessagingHandler {
 			if (Status.NOT_FOUND.getStatusCode() == response.getStatus()) {
 				throw new Exception("Sie sind nicht eingeloggt.");
 			}
-			result = handleResponseContainingSingleExample(response, Status.OK);
+			result = handleResponse(response, Status.OK);
 		} catch (final Throwable th) {
 			handleTechnicalException(th);
 		}
 		return result;
 	}
 
-	public Boolean logout(String anmeldename) throws TechnicalException {
+	public Boolean logout(String anmeldename) throws TechnicalRestException {
 		if (anmeldename == null) {
 			return false;
 		}
@@ -66,15 +66,15 @@ public class MessagingHandlerImpl implements MessagingHandler {
 			final Response response = this.restClient.target(uri).path(USER_RESOURCE)
 					.path("logout").path(anmeldename)
 					.request(MediaType.APPLICATION_JSON).get();
-			result = handleResponseContainingSingleExample(response, Status.NO_CONTENT);
+			result = handleResponse(response, Status.NO_CONTENT);
 		} catch (final Throwable th) {
 			handleTechnicalException(th);
 		}
 		return result;
 	}
 
-	private Boolean handleResponseContainingSingleExample(final Response response, final Status expectedStatus)
-			throws Exception {
+	private Boolean handleResponse(final Response response, final Status expectedStatus)
+			throws TechnicalRestException {
 		Validate.notNull(response);
 		Validate.notNull(expectedStatus);
 
@@ -85,10 +85,8 @@ public class MessagingHandlerImpl implements MessagingHandler {
 			if (errorItem != null) {
 				handleResponseWithErrorItem(errorItem);
 			}
-		} else {
-			
 		}
-		throw new Exception();
+		throw new TechnicalRestException(response.getStatusInfo().getReasonPhrase());
 	}
 
 	private ErrorItem errorItem(final Response response) {
@@ -99,7 +97,7 @@ public class MessagingHandlerImpl implements MessagingHandler {
 		final String errorMessage = errorMessageFromErrorItem(errorItem);
 		LOG.warn(errorMessage);
 		if (ErrorType.VALIDATION_ERROR.equals(errorItem.getErrorType())) {
-			throw new TechnicalException(errorMessage);
+			throw new TechnicalRestException(errorMessage);
 		} else {
 			throw new NonTechnicalException(errorMessage);
 		}
@@ -109,9 +107,9 @@ public class MessagingHandlerImpl implements MessagingHandler {
 		return StringUtils.join(errorItem.getErrorMessages(), ", ");
 	}
 
-	private void handleTechnicalException(final Throwable th) throws TechnicalException {
+	private void handleTechnicalException(final Throwable th) throws TechnicalRestException {
 		LOG.error("Es ist ein technischer Fehler aufgetreten", th);
-		throw new TechnicalException(th.getMessage());
+		throw new TechnicalRestException(th.getMessage());
 	}
 
 }

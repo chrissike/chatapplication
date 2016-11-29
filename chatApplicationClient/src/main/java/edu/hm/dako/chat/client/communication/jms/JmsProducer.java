@@ -14,7 +14,7 @@ import javax.naming.NamingException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import edu.hm.dako.chat.model.ChatPDU;
+import edu.hm.dako.chat.model.PDU;
 
 /**
  * JMS Producer zum senden einer Nachricht.
@@ -32,8 +32,8 @@ public class JmsProducer {
 	private static final String DEFAULT_CONNECTION_FACTORY = "jms/HTTPConnectionFactory"; // "jms/RemoteConnectionFactory";
 	private static final String QUEUE = "jms/queue/chatreq2";
 	
-	public Boolean sendMessage(ChatPDU chatPdu) throws NamingException, JMSException {
-
+	public Boolean sendMessage(PDU pdu) throws NamingException, JMSException {
+		
 		Context ctx = new InitialContext(createProperties());
 
 		confac = (ConnectionFactory) ctx.lookup(DEFAULT_CONNECTION_FACTORY);
@@ -44,7 +44,8 @@ public class JmsProducer {
 			
 			// Perform the JNDI lookups
 			producer = context.createProducer();
-			producer.send(queue, chatPdu);
+			producer.send(queue, pdu);
+			log.info(">>>>>>> send durchgefuehrt für: " + pdu.getUserName());
 		} catch (Exception e) {
 			log.error(e.getMessage() + ", " + e.getCause());
 			return false;

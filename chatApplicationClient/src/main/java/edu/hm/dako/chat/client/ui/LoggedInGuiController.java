@@ -13,7 +13,7 @@ import edu.hm.dako.chat.client.communication.jms.JmsProducer;
 import edu.hm.dako.chat.client.communication.jms.TopicSubscriber;
 import edu.hm.dako.chat.client.communication.rest.MessagingHandler;
 import edu.hm.dako.chat.client.communication.rest.MessagingHandlerImpl;
-import edu.hm.dako.chat.client.communication.rest.TechnicalException;
+import edu.hm.dako.chat.client.communication.rest.TechnicalRestException;
 import edu.hm.dako.chat.client.data.ClientModel;
 import edu.hm.dako.chat.model.ChatPDU;
 import javafx.application.Platform;
@@ -125,7 +125,7 @@ public class LoggedInGuiController {
 		
 		try {
 		handler.logout(appController.getModel().getUserName());
-		} catch (TechnicalException e) {
+		} catch (TechnicalRestException e) {
 			System.exit(0);
 		}
 		

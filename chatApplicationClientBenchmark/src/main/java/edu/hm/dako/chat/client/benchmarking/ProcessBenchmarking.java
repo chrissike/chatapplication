@@ -11,7 +11,7 @@ import org.apache.commons.logging.LogFactory;
 
 import edu.hm.dako.chat.client.communication.jms.JmsProducer;
 import edu.hm.dako.chat.model.BenchmarkPDU;
-import edu.hm.dako.chat.model.ChatPDU;
+import edu.hm.dako.chat.model.PDU;
 
 public class ProcessBenchmarking {
 
@@ -39,15 +39,16 @@ public class ProcessBenchmarking {
 					log.error(e.getStackTrace());
 				}
 
-				ChatPDU chatPdu = new BenchmarkPDU();
-				chatPdu.setUserName(name);
-				chatPdu.setServerThreadName(Thread.currentThread().getName());
-				chatPdu.setMessage(ProcessBenchmarking.getMessage());
-				chatPdu.setClientStartTime(System.nanoTime());
+				PDU chatPdu = createBenchmarkCPU(name);
+				sendBenchmarkCPU(chatPdu);
+				
+				startingGate.reset();
+			}
 
+			public void sendBenchmarkCPU(PDU pdu) {
 				JmsProducer jms = new JmsProducer();
 				try {
-					jms.sendMessage(chatPdu);
+					jms.sendMessage(pdu);
 				} catch (NamingException e) {
 					log.error(e.getMessage() + ", " + e.getCause());
 				} catch (JMSException e) {
@@ -60,6 +61,15 @@ public class ProcessBenchmarking {
 
 	}
 
+	public PDU createBenchmarkCPU(String name) {
+		PDU chatPdu = new BenchmarkPDU();
+		chatPdu.setUserName(name);
+		chatPdu.setServerThreadName(Thread.currentThread().getName());
+		chatPdu.setMessage(ProcessBenchmarking.getMessage());
+		chatPdu.setClientStartTime(System.nanoTime());
+		return chatPdu;
+	}
+	
 	public void startAllClients() {
 		try {
 			startingGate.await();

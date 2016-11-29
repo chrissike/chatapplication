@@ -9,7 +9,7 @@ public interface MessagingHandler {
 	 * @param uri
 	 * @return
 	 */
-	public Boolean login(final String anmeldename) throws TechnicalException;
+	public Boolean login(final String anmeldename) throws TechnicalRestException;
 	
 	/**
 	 * Logout von der Chat-Anwendung
@@ -18,6 +18,6 @@ public interface MessagingHandler {
 	 * @param uri
 	 * @return
 	 */
-	public Boolean logout(final String anmeldename) throws TechnicalException;
+	public Boolean logout(final String anmeldename) throws TechnicalRestException;
 	
 }

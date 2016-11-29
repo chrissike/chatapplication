@@ -9,12 +9,9 @@ import javax.jms.MessageListener;
  *
  */
 public class TopicSubscriber implements MessageListener {
-
-	private Integer messageCount = 0;
 	
 	public void onMessage(Message message) {
-		Runnable r = new ReceiverThread(message, messageCount);
+		Runnable r = new ReceiverThread(message);
 		new Thread(r).start();
-		messageCount++;		
 	}
 }

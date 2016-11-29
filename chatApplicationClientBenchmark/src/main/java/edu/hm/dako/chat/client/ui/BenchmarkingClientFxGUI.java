@@ -1,12 +1,16 @@
 package edu.hm.dako.chat.client.ui;
 
+import javax.naming.NamingException;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import edu.hm.dako.chat.client.benchmarking.TopicSubscriber;
+import edu.hm.dako.chat.client.communication.jms.JmsConsumer;
 import edu.hm.dako.chat.client.data.ClientModel;
 import edu.hm.dako.chat.client.data.ResultTableModel;
 import edu.hm.dako.chat.client.data.SystemStatus;
-import edu.hm.dako.chat.model.ChatPDU;
+import edu.hm.dako.chat.model.BenchmarkPDU;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -27,9 +31,12 @@ public class BenchmarkingClientFxGUI extends Application {
 
 	private ClientModel model = new ClientModel();
 	private SystemStatus sysStatus = new SystemStatus();
-	
+
 	public static BenchmarkingClientFxGUI instance;
 
+	private static Integer clientNameCounter = 1;
+	private static Integer clientNameReceivedCounter = 1;
+	
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -45,19 +52,27 @@ public class BenchmarkingClientFxGUI extends Application {
 		Parent root = loader.load();
 		Scene scene = new Scene(root);
 		scene.getStylesheets().add(getClass().getResource("/application.css").toExternalForm());
-		
+
 		BenchmarkingGuiController lc = (BenchmarkingGuiController) loader.getController();
 		lc.setAppController(this);
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Benchmarking");
 		primaryStage.setResizable(true);
 		primaryStage.show();
+		
+		JmsConsumer consumer = new JmsConsumer();
+		try {
+			consumer.initJmsConsumer(new TopicSubscriber());
+		} catch (NamingException e1) {
+			log.error(e1.getStackTrace());
+		}
+
 	}
 
 	public ClientModel getModel() {
 		return model;
 	}
-	
+
 	public void setModel(ClientModel clientModel) {
 		this.model = clientModel;
 	}
@@ -70,34 +85,48 @@ public class BenchmarkingClientFxGUI extends Application {
 		this.sysStatus = sysStatus;
 	}
 
-	public void showResults(ChatPDU chatPDU, Long rtt, Double rttMs, Double rttServerMs) {
-		Platform.runLater(new Runnable() {
-			public void run() {
-				Integer userNameNumber = Integer.valueOf(chatPDU.getUserName());
-				
-				log.info("Client: " + userNameNumber + "ClientTime: " + rttMs + ", ServerTime: " + rttServerMs);
-				
-				//ChartBars
-				getModel().addClientTime(userNameNumber, rttMs);
-				getModel().addServerTime(userNameNumber, rttServerMs);
-				
-				//StockedBarChart
-				getModel().setAnteilsChartClient((rtt.longValue() - chatPDU.getServerTime().longValue()) / 1000000000.0);
-				getModel().setAnteilsChartServer(rttServerMs);
-				
-				//Table
-				ResultTableModel resulttable = new ResultTableModel(chatPDU.getUserName(), "1", String.valueOf(rttMs), String.valueOf(rttServerMs));
-				getModel().addToResultList(resulttable);
-				
-				//Label
-				getModel().addToRttList(rttMs);
-				getModel().addRttServerList(rttServerMs);
-				//TODO CPU
-				//TODO Memory
-				
-				//calculate KPIs
-				getModel().calculateKPIs();
-			}
+	public void showResults(BenchmarkPDU pdu, Long rtt, Double rttMs, Double rttServerMs) {
+		Platform.runLater(() -> {
+			Integer userNameNumber = Integer.valueOf(pdu.getUserName());
+
+			log.info("Client: " + userNameNumber + ", ClientTime: " + rttMs + ", ServerTime: " + rttServerMs);
+
+			// ChartBars
+			getModel().addClientTime(userNameNumber, rttMs);
+			getModel().addServerTime(userNameNumber, rttServerMs);
+
+			// StockedBarChart
+			getModel().setAnteilsChartClient((rtt.longValue() - pdu.getServerTime().longValue()) / 1000000000.0);
+			getModel().setAnteilsChartServer(rttServerMs);
+
+			// Label
+			getModel().addToRttList(rttMs);
+			getModel().addRttServerList(rttServerMs);
+
+			// CPU/Memory
+			getSysStatus().addCpuList(pdu.getAvgCPUUsage());
+			getSysStatus().addFreeServerMemoryList(pdu.getFreeMemory().intValue());
+
+			// Table
+			ResultTableModel resulttable = new ResultTableModel(pdu.getUserName(), "1", String.valueOf(rttMs),
+					String.valueOf(rttServerMs), pdu.getFreeMemory().toString());
+			getModel().addToResultList(resulttable);
+
+			// calculate KPIs
+			 getModel().calculateKPIs();
+			 getSysStatus().calculateSysStatus();
 		});
+	}
+
+	public synchronized static Integer getAndIncreaseClientNameReceivedCounter() {
+		Integer count = clientNameReceivedCounter;
+		clientNameReceivedCounter++;
+		return count;
+	}
+	
+	public synchronized static Integer getAndIncreaseClientNameCounter() {
+		Integer count = clientNameCounter;
+		clientNameCounter++;
+		return count;
 	}
 }

@@ -43,6 +43,7 @@
                                           <TableColumn fx:id="colAnzahlNachrichten" prefWidth="130.0" text="Anzahl Nachrichten" />
                                           <TableColumn fx:id="colRTT" prefWidth="130.0" text="RTT (in ms)" />
                                           <TableColumn fx:id="colRTTServer" prefWidth="130.0" text="RTT Server (in ms)" />
+                                          <TableColumn fx:id="colFreeMemory" prefWidth="160.0" text="Free Server Heapspace (MiB)" />
                                       </columns>
                                     </TableView>
                                     <HBox>
@@ -52,6 +53,11 @@
                                                 <Label text="Ø-RTT:  ">
                                                    <font>
                                                       <Font size="15.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label text="">
+                                                   <font>
+                                                      <Font size="10.0" />
                                                    </font>
                                                 </Label>
                                                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="300.0">
@@ -74,6 +80,11 @@
                                                       <Font size="15.0" />
                                                    </font>
                                                 </Label>
+                                                <Label text="">
+                                                   <font>
+                                                      <Font size="10.0" />
+                                                   </font>
+                                                </Label>
                                                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="300.0">
                                                    <children>
                                                       <Label fx:id="maxRTT" textAlignment="CENTER">
@@ -92,6 +103,11 @@
                                                 <Label text="RTT min:  ">
                                                    <font>
                                                       <Font size="15.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label text="">
+                                                   <font>
+                                                      <Font size="10.0" />
                                                    </font>
                                                 </Label>
                                                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="300.0">
@@ -114,6 +130,11 @@
                                                       <Font size="15.0" />
                                                    </font>
                                                 </Label>
+                                                <Label text="">
+                                                   <font>
+                                                      <Font size="10.0" />
+                                                   </font>
+                                                </Label>
                                                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="300.0">
                                                    <children>
                                                       <Label fx:id="avgRTTServer" textAlignment="CENTER">
@@ -132,6 +153,11 @@
                                                 <Label text="RTT-SD:">
                                                    <font>
                                                       <Font size="15.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label text="">
+                                                   <font>
+                                                      <Font size="10.0" />
                                                    </font>
                                                 </Label>
                                                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="300.0">
@@ -154,6 +180,11 @@
                                                       <Font size="15.0" />
                                                    </font>
                                                 </Label>
+                                                <Label text="">
+                                                   <font>
+                                                      <Font size="10.0" />
+                                                   </font>
+                                                </Label>
                                                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="300.0">
                                                    <children>
                                                       <Label fx:id="avgCPU" textAlignment="CENTER">
@@ -169,14 +200,19 @@
                                           <Separator layoutX="760.0" layoutY="10.0" orientation="VERTICAL" prefHeight="200.0" />
                                           <VBox alignment="CENTER" layoutX="760.0" layoutY="10.0">
                                              <children>
-                                                <Label text="Ø-Memory:">
-                                                   <font>
+                                                <Label text="Free Heapspace:">
+                                                <font>
                                                       <Font size="15.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label text="(min. of Server)">
+                                                   <font>
+                                                      <Font size="10.0" />
                                                    </font>
                                                 </Label>
                                                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="300.0">
                                                    <children>
-                                                      <Label fx:id="avgMemory" textAlignment="CENTER">
+                                                      <Label fx:id="minFreeMemory" textAlignment="CENTER">
                                                          <font>
                                                             <Font size="37.0" />
                                                          </font>

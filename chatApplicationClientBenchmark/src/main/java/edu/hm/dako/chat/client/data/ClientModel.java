@@ -24,53 +24,53 @@ public class ClientModel {
 
 	private List<Double> rttList;
 	private List<Double> rttServerList;
-	
+	private List<Double> serverMemoryList;
+
 	private DoubleProperty averageRTT;
+	private DoubleProperty maxRTT;
+	private DoubleProperty minRTT;
 	private DoubleProperty averageServerRTT;
 	private DoubleProperty stdDev;
-	
+
 	private XYChart.Series<Integer, Double> serverTimeChart = new XYChart.Series<Integer, Double>();
 	private XYChart.Series<Integer, Double> clientTimeChart = new XYChart.Series<Integer, Double>();
 	private XYChart.Series<CategoryAxis, Double> anteilsChartServer = new XYChart.Series<CategoryAxis, Double>();
 	private XYChart.Series<CategoryAxis, Double> anteilsChartClient = new XYChart.Series<CategoryAxis, Double>();
 
 	public ClientModel() {
-		calculator = new ModelCalculator();
+		this.calculator = new ModelCalculator();
 
-		anteilsChartServer.setName("Serverzeit");
-		anteilsChartClient.setName("Clientzeit (Anfrage + Netzlatenz)");
-		resultList = FXCollections.observableArrayList();
-		
-		rttList = new ArrayList<Double>();
-		rttServerList = new ArrayList<Double>();
-		
-		averageRTT = new SimpleDoubleProperty(0.0);
-		averageServerRTT = new SimpleDoubleProperty(0.0);
-		stdDev = new SimpleDoubleProperty(0.0);
+		this.anteilsChartServer.setName("Serverzeit");
+		this.anteilsChartClient.setName("Clientzeit (Anfrage + Netzlatenz)");
+		this.resultList = FXCollections.observableArrayList();
+
+		this.rttList = new ArrayList<Double>();
+		this.rttServerList = new ArrayList<Double>();
+		this.serverMemoryList = new ArrayList<Double>();
+
+		this.averageRTT = new SimpleDoubleProperty(0.0);
+		this.averageServerRTT = new SimpleDoubleProperty(0.0);
+		this.stdDev = new SimpleDoubleProperty(0.0);
+		this.maxRTT = new SimpleDoubleProperty(0.0);
+		this.minRTT = new SimpleDoubleProperty(0.0);
 	}
-	
-	public void calculateKPIs() {
-		//AverageRTT
-		Double averageRtt = calculator.calcAverageOfDouble(getRttList());
-		averageRtt = Math.round(averageRtt * 100.0) / 100.0;
+
+	public synchronized void calculateKPIs() {
+		// AverageRTT
+		Double averageRtt = Math.round(calculator.calcAverageOfDouble(getRttList()) * 100.0) / 100.0;
 		setAverageRTT(averageRtt);
 		System.out.println("AverageRtt: " + getAverageRTT());
 
-		//StdDev
-		Double stdDev = calculator.getStdDev(getRttList(), averageRtt);
-		stdDev = Math.round(stdDev * 100.0) / 100.0;
-		setStdDev(stdDev);
+		// MaxMinRTT
+		setMaxRTT(Math.round(calculator.getMaxOfList(getRttList()) * 100.0) / 100.0);
+		setMinRTT(Math.round(calculator.getMinOfList(getRttList()) * 100.0) / 100.0);
+
+		// StdDev
+		setStdDev(Math.round(calculator.getStdDev(getRttList(), averageRtt) * 100.0) / 100.0);
 		System.out.println("StdDev:" + getStdDev());
-		
-		//AverageRTTServer
-		Double averageServerRtt = calculator.calcAverageOfDouble(getRttServerList());
-		averageServerRtt = Math.round(averageServerRtt * 100.0) / 100.0;
-		setAverageServerRTT(averageServerRtt);
-		System.out.println("AverageRtt: " + getAverageRTT());
-		
-		//TODO AverageCPU
-		
-		//TODO AverageMemory
+
+		// AverageRTTServer
+		setAverageServerRTT(Math.round(calculator.calcAverageOfDouble(getRttServerList()) * 100.0) / 100.0);
 	}
 
 	public XYChart.Series<Integer, Double> getClientTimeChart() {
@@ -151,6 +151,30 @@ public class ClientModel {
 
 	public synchronized void addRttServerList(Double rttServer) {
 		this.rttServerList.add(rttServer);
+	}
+
+	public List<Double> getServerMemoryList() {
+		return serverMemoryList;
+	}
+
+	public synchronized void addServerMemoryList(Double serverMemory) {
+		this.serverMemoryList.add(serverMemory);
+	}
+
+	public DoubleProperty getMaxRTT() {
+		return maxRTT;
+	}
+
+	public void setMaxRTT(Double maxRTT) {
+		this.maxRTT.set(maxRTT);
+	}
+
+	public DoubleProperty getMinRTT() {
+		return minRTT;
+	}
+
+	public void setMinRTT(Double minRTT) {
+		this.minRTT.set(minRTT);
 	}
 
 }
