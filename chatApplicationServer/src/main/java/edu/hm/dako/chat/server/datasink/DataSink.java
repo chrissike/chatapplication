@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface DataSink {
 
-	public Boolean createOrUpdateCount(CountEntity count);
+	public Boolean createOrUpdateCount(CountEntity count) throws Exception;
 
-	public void persistTrace(TraceEntity trace);
+	public void persistTrace(TraceEntity trace) throws Exception;
 
 	public List<TraceEntity> getAllTraceData();
 

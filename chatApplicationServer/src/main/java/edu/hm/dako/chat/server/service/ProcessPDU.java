@@ -6,7 +6,7 @@ import edu.hm.dako.chat.model.PduType;
 
 public interface ProcessPDU {
 
-	public void processMessage(PDU pdu);
+	public void processMessage(PDU pdu) throws Exception;
 
 	public boolean processClientListChange(ChatPDU pdu, long startTime);
 

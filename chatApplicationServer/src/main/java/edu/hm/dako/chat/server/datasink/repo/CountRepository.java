@@ -17,12 +17,12 @@ public class CountRepository {
 	@PersistenceContext(unitName = PERSISTENCE_UNIT_NAME, type = PersistenceContextType.TRANSACTION)
 	EntityManager em;
 
-	public void addCount(CountEntity count) {
+	public void addCount(CountEntity count) throws Exception {
 		count.setId(null);
 		em.persist(count);
 	}
 
-	public void updateCount(CountEntity count) {
+	public void updateCount(CountEntity count) throws Exception {
 		em.persist(count);
 	}
 	

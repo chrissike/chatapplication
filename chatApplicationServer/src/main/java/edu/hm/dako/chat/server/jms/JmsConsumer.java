@@ -4,8 +4,9 @@ import javax.annotation.Resource;
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.MessageDriven;
 import javax.ejb.MessageDrivenContext;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
 import javax.inject.Inject;
-import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 
@@ -20,6 +21,7 @@ import edu.hm.dako.chat.server.service.ProcessPDU;
 		@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
 		@ActivationConfigProperty(propertyName = "destination", propertyValue = "jms/queue/chatreq2"),
 		@ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge") })
+@TransactionManagement(TransactionManagementType.CONTAINER)
 public class JmsConsumer implements MessageListener {
 
 	private static Log log = LogFactory.getLog(JmsConsumer.class);
@@ -34,10 +36,11 @@ public class JmsConsumer implements MessageListener {
 		log.debug(">>>> onMessage()-Methode gestartet" + message.toString());
 
 		try {
-			PDU chatPDU = message.getBody(PDU.class);
-			process.processMessage(chatPDU);
-		} catch (JMSException e) {
-			log.error(e.toString());
+			PDU pdu = message.getBody(PDU.class);
+			process.processMessage(pdu);
+		} catch (Throwable e) {
+			log.error(e.getStackTrace());
+			log.info(">>>>>>> Exception ist in der XA-Transaktion geflogen und wird nun als Rollback gekennzeichnet.");
 			mdc.setRollbackOnly();
 		}
 

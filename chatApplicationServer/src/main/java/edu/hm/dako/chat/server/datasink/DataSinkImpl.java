@@ -16,7 +16,7 @@ public class DataSinkImpl implements DataSink {
 	@Inject
 	private TraceRepository traceRepo;
 
-	public Boolean createOrUpdateCount(CountEntity count) {
+	public Boolean createOrUpdateCount(CountEntity count) throws Exception {
 
 		Boolean success = false;
 		List<CountEntity> entityList = countRepo.getCountByClientname(count.getNameOfClients());
@@ -39,7 +39,7 @@ public class DataSinkImpl implements DataSink {
 		return success;
 	}
 
-	public void persistTrace(TraceEntity trace) {
+	public void persistTrace(TraceEntity trace) throws Exception {
 		traceRepo.addTrace(trace);
 	}
 

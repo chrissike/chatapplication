@@ -17,7 +17,7 @@ public class TraceRepository {
 	@PersistenceContext(unitName = PERSISTENCE_UNIT_NAME, type = PersistenceContextType.TRANSACTION)
 	EntityManager em;
 
-	public void addTrace(TraceEntity trace) {
+	public void addTrace(TraceEntity trace) throws Exception {
 		trace.setId(null);
 		em.persist(trace);
 	}

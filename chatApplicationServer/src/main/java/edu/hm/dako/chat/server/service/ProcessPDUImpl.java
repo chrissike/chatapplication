@@ -1,6 +1,8 @@
 package edu.hm.dako.chat.server.service;
 
 import javax.ejb.Stateless;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
 import javax.inject.Inject;
 import javax.naming.NamingException;
 import javax.transaction.Transactional;
@@ -34,7 +36,7 @@ public class ProcessPDUImpl implements ProcessPDU {
 	private SharedChatClientList clientList = SharedChatClientList.getInstance();
 
 	@Transactional
-	public void processMessage(PDU pdu) {
+	public void processMessage(PDU pdu) throws Exception {
 		log.info("JMS-Nachricht ist angekommen: " + pdu.toString());
 
 		pdu.setServerTime(Long.valueOf(System.nanoTime()));
@@ -106,7 +108,7 @@ public class ProcessPDUImpl implements ProcessPDU {
 		}
 	}
 
-	private void persistChatData(PDU pdu) {
+	private void persistChatData(PDU pdu) throws Exception {
 		TraceEntity trace = new TraceEntity(pdu.getUserName(), pdu.getServerThreadName(), pdu.getMessage());
 		CountEntity count = new CountEntity(pdu.getUserName(), 1);
 
