@@ -54,8 +54,8 @@ public class ChatPDU implements Serializable, PDU {
 	 */
 	private Long numberOfRetries;
 
-	public ChatPDU() {
-		pduType = PduType.UNDEFINED;
+	public ChatPDU(PduType type) {
+		pduType = type;
 	}
 
 	public ChatPDU(String clientName, String message, PduType pdutype) {

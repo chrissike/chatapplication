@@ -8,6 +8,7 @@ import javax.naming.NamingException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import edu.hm.dako.chat.jms.connect.JmsChatContext;
 import edu.hm.dako.chat.jms.connect.JmsConsumer;
 import edu.hm.dako.chat.jms.connect.JmsProducer;
 import edu.hm.dako.chat.client.communication.jms.TopicSubscriber;
@@ -16,6 +17,7 @@ import edu.hm.dako.chat.client.communication.rest.MessagingHandlerImpl;
 import edu.hm.dako.chat.client.communication.rest.TechnicalRestException;
 import edu.hm.dako.chat.client.data.ClientModel;
 import edu.hm.dako.chat.model.ChatPDU;
+import edu.hm.dako.chat.model.PduType;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -38,6 +40,7 @@ public class LoggedInGuiController {
 	private static Log log = LogFactory.getLog(LoggedInGuiController.class);
 	
 	private JmsConsumer jmsConsumer;
+	private JmsChatContext jmsContext;
 	
 	@FXML
 	private Button btnSubmit;
@@ -91,9 +94,10 @@ public class LoggedInGuiController {
 		chatList.setItems(this.appController.getModel().chats);
 		btnSubmit.disableProperty().bind(appController.getModel().block);
 		
+		jmsContext = new JmsChatContext();
 		try {
 			jmsConsumer = new JmsConsumer();
-			jmsConsumer.initJmsConsumer(new TopicSubscriber());
+			jmsConsumer.initJmsConsumer(new TopicSubscriber(), jmsContext);
 		} catch (NamingException e) {
 			log.error(e.getMessage() + ", " + e.getCause());
 		}
@@ -108,11 +112,6 @@ public class LoggedInGuiController {
 			teilnehmerListe.setStyle("-fx-opacity: 1;");
 		}
 	}
-	
-	public void updateTeilnehmerListe() {
-		//is this method needed if the listener can handle everything?
-	}
-
 	
 	public void btnLogOut_OnAction() {
 		MessagingHandler handler = null;
@@ -148,13 +147,13 @@ public class LoggedInGuiController {
 	
 	public void btnSubmit_OnAction() {
 		
-		ChatPDU chatPdu = new ChatPDU();
+		ChatPDU chatPdu = new ChatPDU(PduType.MESSAGE);
 		chatPdu.setUserName(appController.getModel().getUserName());
 		chatPdu.setMessage(txtChatMessage.getText());
 		
-		JmsProducer jms = new JmsProducer();
+		JmsProducer<ChatPDU> jms = new JmsProducer<ChatPDU>();
 		try {
-			jms.sendMessage(chatPdu);
+			jms.sendMessage(chatPdu, jmsContext);
 		} catch (NamingException e) {
 			log.error(e.getMessage() + ", " + e.getCause());
 		} catch (JMSException e) {

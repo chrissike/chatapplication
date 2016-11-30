@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.hm.dako.chat.client.benchmarking.ProcessBenchmarking;
+import edu.hm.dako.chat.jms.connect.JmsChatContext;
 import edu.hm.dako.chat.jms.connect.JmsConsumer;
 import edu.hm.dako.chat.jms.connect.JmsProducer;
 import edu.hm.dako.chat.model.PDU;
@@ -21,14 +22,16 @@ public class JmsBenchmarkProcessTest {
 
 	ProcessBenchmarking process;
 	JmsConsumer consumer;
+	JmsChatContext context;
 	TestTopicSubscriber testSubscriber;
 
 	@Before
 	public void prepareTest() {
 		consumer = new JmsConsumer();
+		context = new JmsChatContext();
 		testSubscriber = new TestTopicSubscriber();
 		try {
-			consumer.initJmsConsumer(testSubscriber);
+			consumer.initJmsConsumer(testSubscriber, context);
 		} catch (NamingException e1) {
 			log.error(e1.getStackTrace());
 		}
@@ -41,7 +44,7 @@ public class JmsBenchmarkProcessTest {
 		process = new ProcessBenchmarking("testmessage", 1);
 		JmsProducer<PDU> jms = new JmsProducer<PDU>();
 		try {
-			jms.sendMessage(process.createBenchmarkCPU("Hans Dieter"));
+			jms.sendMessage(process.createBenchmarkCPU("Hans Dieter"), context);
 		} catch (NamingException e) {
 			log.error(e.getMessage() + ", " + e.getCause());
 		} catch (JMSException e) {

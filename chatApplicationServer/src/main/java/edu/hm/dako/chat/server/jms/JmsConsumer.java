@@ -16,7 +16,6 @@ import org.apache.commons.logging.LogFactory;
 import edu.hm.dako.chat.model.PDU;
 import edu.hm.dako.chat.server.service.ProcessPDU;
 
-
 @MessageDriven(name = "JmsConsumer", activationConfig = {
 		@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
 		@ActivationConfigProperty(propertyName = "destination", propertyValue = "jms/queue/chatreq2"),
@@ -32,15 +31,20 @@ public class JmsConsumer implements MessageListener {
 	@Resource
 	private MessageDrivenContext mdc;
 
+	Integer rollbackCount = 0;
+
 	public void onMessage(Message message) {
 		log.debug(">>>> onMessage()-Methode gestartet" + message.toString());
+		PDU pdu = null;
 
 		try {
-			PDU pdu = message.getBody(PDU.class);
+			pdu = message.getBody(PDU.class);
 			process.processMessage(pdu);
 		} catch (Throwable e) {
-			log.error(e.getStackTrace());
-			log.info(">>>>>>> Exception ist in der XA-Transaktion geflogen und wird nun als Rollback gekennzeichnet.");
+			rollbackCount++;
+			log.error(e.getMessage()
+					+ ">>>>>>> Exception ist in der XA-Transaktion geflogen und wird nun als Rollback gekennzeichnet. User: "
+					+ pdu.getUserName() + ", Count: " + rollbackCount);
 			mdc.setRollbackOnly();
 		}
 

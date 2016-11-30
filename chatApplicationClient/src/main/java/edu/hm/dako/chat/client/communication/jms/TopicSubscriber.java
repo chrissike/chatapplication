@@ -32,9 +32,6 @@ public class TopicSubscriber implements MessageListener {
 			case LOGOUT:
 				ClientFxGUI.instance.setUserList(chatPDU.getClients());
 				break;
-			case UNDEFINED:
-				// TODO was tun??
-				break;
 			default:
 				// TODO was tun??
 				break;

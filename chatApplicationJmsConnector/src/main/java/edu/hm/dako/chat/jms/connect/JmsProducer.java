@@ -26,20 +26,16 @@ public class JmsProducer<T extends Serializable> {
 
 	private JMSContext context;
 	private JMSProducer producer;
-	private Queue queue;
-
-	private static final String DEFAULT_CONNECTION_FACTORY = "jms/HTTPConnectionFactory"; // "jms/RemoteConnectionFactory";
-	private static final String QUEUE = "jms/queue/chatreq2";
 	
-	public Boolean sendMessage(T dto) throws NamingException, JMSException {
+	public Boolean sendMessage(T dto, JmsChatContext jmsContext) throws NamingException, JMSException {
 		
-		Context ctx = new InitialContext(createProperties());
+		Context ctx = new InitialContext(createProperties(jmsContext));
 
-		confac = (ConnectionFactory) ctx.lookup(DEFAULT_CONNECTION_FACTORY);
+		confac = (ConnectionFactory) ctx.lookup(jmsContext.getDefaultConnectionFactory());
 
 		try {
-			context = confac.createContext("guest", "guest");
-			queue = (Queue) ctx.lookup(QUEUE);
+			context = confac.createContext(jmsContext.getSecurityUser(), jmsContext.getSecurityPassword());
+			Queue queue = (Queue) ctx.lookup(jmsContext.getQueue());
 			
 			// Perform the JNDI lookups
 			producer = context.createProducer();
@@ -57,13 +53,13 @@ public class JmsProducer<T extends Serializable> {
 		return true;
 	}
 
-	private Properties createProperties() {
+	private Properties createProperties(JmsChatContext jmsContext) {
 		Properties jndiProps = new Properties();
-		jndiProps.put(Context.INITIAL_CONTEXT_FACTORY, "org.jboss.naming.remote.client.InitialContextFactory");
-		jndiProps.put(Context.PROVIDER_URL, "http-remoting://127.0.0.1:8089");
-		jndiProps.put(Context.SECURITY_PRINCIPAL, "guest");
-		jndiProps.put(Context.SECURITY_CREDENTIALS, "guest");
-		jndiProps.put("jboss.naming.client.ejb.context", true);
+		jndiProps.put(Context.INITIAL_CONTEXT_FACTORY, jmsContext.getInitialContextFactory());
+		jndiProps.put(Context.PROVIDER_URL, jmsContext.getProviderURL());
+		jndiProps.put(Context.SECURITY_PRINCIPAL, jmsContext.getSecurityUser());
+		jndiProps.put(Context.SECURITY_CREDENTIALS, jmsContext.getSecurityPassword());
+		jndiProps.put("jboss.naming.client.ejb.context", jmsContext.getEjbContext());
 		return jndiProps;
 	}
 }

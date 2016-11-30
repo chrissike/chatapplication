@@ -115,8 +115,7 @@ public class ProcessPDUImpl implements ProcessPDU {
 	}
 
 	public ChatPDU createPDU(String username, PduType requestType) {
-		ChatPDU requestPdu = new ChatPDU();
-		requestPdu.setPduType(requestType);
+		ChatPDU requestPdu = new ChatPDU(requestType);
 		Thread.currentThread().setName("Client-" + username);
 		requestPdu.setServerThreadName(Thread.currentThread().getName());
 		requestPdu.setUserName(username);

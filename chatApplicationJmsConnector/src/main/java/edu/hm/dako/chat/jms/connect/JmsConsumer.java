@@ -17,18 +17,14 @@ public class JmsConsumer {
 	private ConnectionFactory confac;
 	private JMSContext context;
 	private JMSConsumer consumer;
-	private Topic topic;
-	
-	private static final String DEFAULT_CONNECTION_FACTORY = "jms/HTTPConnectionFactory";
-	private static final String TOPIC = "jms/topic/chatresp2";
 
-	public Message initJmsConsumer(MessageListener listener) throws NamingException {
-	    Context ctx = new InitialContext(initProperties());	
+	public Message initJmsConsumer(MessageListener listener, JmsChatContext jmsContext) throws NamingException {
+	    Context ctx = new InitialContext(initProperties(jmsContext));	
 	    
-		confac = (ConnectionFactory) ctx.lookup(DEFAULT_CONNECTION_FACTORY);
-		topic = (Topic) ctx.lookup(TOPIC);
+		confac = (ConnectionFactory) ctx.lookup(jmsContext.getDefaultConnectionFactory());
+		Topic topic = (Topic) ctx.lookup(jmsContext.getTopic());
 				 
-		context = confac.createContext("guest", "guest");
+		context = confac.createContext(jmsContext.getSecurityUser(), jmsContext.getSecurityPassword());
 		
 		context.setClientID(Thread.currentThread().getId() + Thread.currentThread().getName() + Math.random());
 
@@ -43,14 +39,14 @@ public class JmsConsumer {
 		return null;
 	}
 
-	private Properties initProperties() {
+	private Properties initProperties(JmsChatContext jmsContext) {
 		Properties jndiProps = new Properties();
-	    jndiProps.put(Context.INITIAL_CONTEXT_FACTORY, "org.jboss.naming.remote.client.InitialContextFactory");
-	    jndiProps.put(Context.URL_PKG_PREFIXES, "org.jnp.interfaces");
-	    jndiProps.put(Context.PROVIDER_URL, "http-remoting://127.0.0.1:8089");
-	    jndiProps.put(Context.SECURITY_PRINCIPAL, "guest");
-	    jndiProps.put(Context.SECURITY_CREDENTIALS, "guest");
-	    jndiProps.put("jboss.naming.client.ejb.context", true);
+	    jndiProps.put(Context.INITIAL_CONTEXT_FACTORY, jmsContext.getInitialContextFactory());
+	    jndiProps.put(Context.URL_PKG_PREFIXES, jmsContext.getUrlPkgPrefixes());
+	    jndiProps.put(Context.PROVIDER_URL, jmsContext.getProviderURL());
+	    jndiProps.put(Context.SECURITY_PRINCIPAL, jmsContext.getSecurityUser());
+	    jndiProps.put(Context.SECURITY_CREDENTIALS, jmsContext.getSecurityPassword());
+	    jndiProps.put("jboss.naming.client.ejb.context", jmsContext.getEjbContext());
 		return jndiProps;
 	}
 	

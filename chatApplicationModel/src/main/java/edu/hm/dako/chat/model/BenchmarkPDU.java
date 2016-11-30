@@ -20,8 +20,8 @@ public class BenchmarkPDU extends ChatPDU implements PDU {
 	 */
 	private Double avgCPUUsage;
 
-	public BenchmarkPDU() {
-		super();
+	public BenchmarkPDU(PduType type) {
+		super(type);
 	}
 
 	public Double getFreeMemory() {

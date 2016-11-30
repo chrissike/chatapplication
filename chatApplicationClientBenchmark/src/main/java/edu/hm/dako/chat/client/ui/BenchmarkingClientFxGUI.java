@@ -6,6 +6,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import edu.hm.dako.chat.client.benchmarking.TopicSubscriber;
+import edu.hm.dako.chat.jms.connect.JmsChatContext;
 import edu.hm.dako.chat.jms.connect.JmsConsumer;
 import edu.hm.dako.chat.client.data.ClientModel;
 import edu.hm.dako.chat.client.data.ResultTableModel;
@@ -34,6 +35,8 @@ public class BenchmarkingClientFxGUI extends Application {
 
 	public static BenchmarkingClientFxGUI instance;
 
+	private static JmsChatContext jmsContext;
+	
 	private static Integer clientNameCounter = 1;
 	private static Integer clientNameReceivedCounter = 1;
 	
@@ -61,8 +64,9 @@ public class BenchmarkingClientFxGUI extends Application {
 		primaryStage.show();
 		
 		JmsConsumer consumer = new JmsConsumer();
+		jmsContext = new JmsChatContext();
 		try {
-			consumer.initJmsConsumer(new TopicSubscriber());
+			consumer.initJmsConsumer(new TopicSubscriber(), jmsContext);
 		} catch (NamingException e1) {
 			log.error(e1.getStackTrace());
 		}
@@ -83,6 +87,14 @@ public class BenchmarkingClientFxGUI extends Application {
 
 	public void setSysStatus(SystemStatus sysStatus) {
 		this.sysStatus = sysStatus;
+	}
+
+	public static JmsChatContext getJmsContext() {
+		return jmsContext;
+	}
+
+	public static void setJmsContext(JmsChatContext jmsContext) {
+		BenchmarkingClientFxGUI.jmsContext = jmsContext;
 	}
 
 	public void showResults(BenchmarkPDU pdu, Long rtt, Double rttMs, Double rttServerMs) {
