@@ -12,15 +12,11 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * JMS Producer zum senden einer Nachricht.
  */
 public class JmsProducer<T extends Serializable> {
-
-	private static final Log log = LogFactory.getLog(JmsProducer.class.getName());
 
 	private ConnectionFactory confac;
 
@@ -42,7 +38,6 @@ public class JmsProducer<T extends Serializable> {
 			producer.send(queue, dto);
 		} catch (Exception e) {
 			//TODO sollte nur throws machen!
-			log.error(e.getMessage() + ", " + e.getCause());
 			return false;
 		} finally {
 			if (context != null) {
