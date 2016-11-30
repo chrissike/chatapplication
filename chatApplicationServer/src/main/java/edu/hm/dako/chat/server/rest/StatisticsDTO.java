@@ -18,11 +18,9 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.OptionalDouble;
 
-public class Statistics implements Serializable {
+public class StatisticsDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
-	private List<TraceEntity> traceData;
 
 	private Long numClients;
 	
@@ -30,24 +28,18 @@ public class Statistics implements Serializable {
 	
 	private OptionalDouble avgMsgLength;
 
-	public Statistics(List<TraceEntity> traceList) {
+	public StatisticsDTO(List<TraceEntity> traceList) {
 		SharedChatClientList sharedChatClientList = SharedChatClientList.getInstance();
 		numClients = sharedChatClientList.size();
-		traceData = traceList;
+		List<TraceEntity> traceData = traceList;
 		totalMessages = traceData.size();
 
 		if (totalMessages > 0) {
-			avgMsgLength = traceData.parallelStream()
-					.mapToInt(trace -> trace.getNachricht().length()).average();
+			avgMsgLength = traceData
+					.parallelStream()
+					.mapToInt(trace -> trace.getNachricht().length())
+					.average();
 		}
-	}
-
-	public List<TraceEntity> getTraceData() {
-		return traceData;
-	}
-
-	public void setTraceData(List<TraceEntity> traceData) {
-		this.traceData = traceData;
 	}
 
 	public Long getNumClients() {

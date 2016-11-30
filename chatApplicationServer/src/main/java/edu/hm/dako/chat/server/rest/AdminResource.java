@@ -36,7 +36,7 @@ public class AdminResource {
 	@GET
 	@Path("statistics")
 	public Response getStatistics() {
-		return Response.ok(200).entity(new Statistics(dataSink.getAllTraceData())).build();
+		return Response.ok(200).entity(new StatisticsDTO(dataSink.getAllTraceData())).build();
 	}
 
 	@DELETE
