@@ -10,6 +10,8 @@ import org.apache.commons.logging.LogFactory;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.hm.dako.chat.jms.connect.JmsConsumer;
+import edu.hm.dako.chat.jms.connect.JmsProducer;
 import edu.hm.dako.chat.model.ChatPDU;
 import edu.hm.dako.chat.model.PduType;
 
@@ -17,7 +19,7 @@ public class JmsProducerTest {
 
 	private static Log log = LogFactory.getLog(JmsProducerTest.class);
 
-	JmsProducer jmsProducer;
+	JmsProducer<ChatPDU> jmsProducer;
 	JmsConsumer jmsConsumer;
 
 	ChatPDU chatPdu;
@@ -25,7 +27,7 @@ public class JmsProducerTest {
 	@Before
 	public void prepareTest() {
 
-		jmsProducer = new JmsProducer();
+		jmsProducer = new JmsProducer<ChatPDU>();
 		jmsConsumer = new JmsConsumer();
 
 		chatPdu = new ChatPDU("Hans Wurst", "Testnachricht", PduType.MESSAGE);

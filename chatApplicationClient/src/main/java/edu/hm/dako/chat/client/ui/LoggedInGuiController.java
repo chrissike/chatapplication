@@ -8,8 +8,8 @@ import javax.naming.NamingException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import edu.hm.dako.chat.client.communication.jms.JmsConsumer;
-import edu.hm.dako.chat.client.communication.jms.JmsProducer;
+import edu.hm.dako.chat.jms.connect.JmsConsumer;
+import edu.hm.dako.chat.jms.connect.JmsProducer;
 import edu.hm.dako.chat.client.communication.jms.TopicSubscriber;
 import edu.hm.dako.chat.client.communication.rest.MessagingHandler;
 import edu.hm.dako.chat.client.communication.rest.MessagingHandlerImpl;

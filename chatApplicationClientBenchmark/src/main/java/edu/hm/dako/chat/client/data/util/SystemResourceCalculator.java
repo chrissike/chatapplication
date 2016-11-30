@@ -1,4 +1,4 @@
-package edu.hm.dako.benchmarkUtil;
+package edu.hm.dako.chat.client.data.util;
 
 import java.lang.management.ManagementFactory;
 import com.sun.management.OperatingSystemMXBean;
@@ -6,7 +6,6 @@ import com.sun.management.OperatingSystemMXBean;
 @SuppressWarnings("restriction")
 public class SystemResourceCalculator {
 
-	Runtime r;
 //	private static OperatingSystemMXBean osbean;
 //	private static int nCPUs;
 //
@@ -14,24 +13,7 @@ public class SystemResourceCalculator {
 //	private static Long startCpuTime;
 
 	public SystemResourceCalculator() {
-		r = Runtime.getRuntime();
 //		startWallclockTime = System.nanoTime();
-	}
-
-	/**
-	 * Liefert den freien Speicher
-	 */
-	public Long getFreeMemory() {
-		return r.freeMemory() / (1024 * 1024);
-	}
-
-	/**
-	 * Berechnet den tatsaechlich benutzten Heap-Speicher Heap-Groesse in MiB
-	 * 
-	 * @return
-	 */
-	public Long getUsedMemory() {
-		return (r.totalMemory() - r.freeMemory());
 	}
 
 	/**

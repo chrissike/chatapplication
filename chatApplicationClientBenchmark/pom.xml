@@ -20,11 +20,11 @@
 	<dependencies>
 		<dependency>
 			<groupId>edu.hm.dako.chat</groupId>
-			<artifactId>chatApplicationClient</artifactId>
+			<artifactId>chatApplicationJmsConnector</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>edu.hm.dako.chat</groupId>
-			<artifactId>chatApplicationCommons</artifactId>
+			<artifactId>chatApplicationModel</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>javax.ws.rs</groupId>

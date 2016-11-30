@@ -9,7 +9,7 @@ import javax.naming.NamingException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import edu.hm.dako.chat.client.communication.jms.JmsProducer;
+import edu.hm.dako.chat.jms.connect.JmsProducer;
 import edu.hm.dako.chat.model.BenchmarkPDU;
 import edu.hm.dako.chat.model.PDU;
 
@@ -46,7 +46,7 @@ public class ProcessBenchmarking {
 			}
 
 			public void sendBenchmarkCPU(PDU pdu) {
-				JmsProducer jms = new JmsProducer();
+				JmsProducer<PDU> jms = new JmsProducer<PDU>();
 				try {
 					jms.sendMessage(pdu);
 				} catch (NamingException e) {

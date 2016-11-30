@@ -6,7 +6,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import edu.hm.dako.chat.client.benchmarking.TopicSubscriber;
-import edu.hm.dako.chat.client.communication.jms.JmsConsumer;
+import edu.hm.dako.chat.jms.connect.JmsConsumer;
 import edu.hm.dako.chat.client.data.ClientModel;
 import edu.hm.dako.chat.client.data.ResultTableModel;
 import edu.hm.dako.chat.client.data.SystemStatus;

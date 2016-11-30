@@ -11,8 +11,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.hm.dako.chat.client.benchmarking.ProcessBenchmarking;
-import edu.hm.dako.chat.client.communication.jms.JmsConsumer;
-import edu.hm.dako.chat.client.communication.jms.JmsProducer;
+import edu.hm.dako.chat.jms.connect.JmsConsumer;
+import edu.hm.dako.chat.jms.connect.JmsProducer;
+import edu.hm.dako.chat.model.PDU;
 
 public class JmsBenchmarkProcessTest {
 
@@ -38,7 +39,7 @@ public class JmsBenchmarkProcessTest {
 		Boolean success = false;
 
 		process = new ProcessBenchmarking("testmessage", 1);
-		JmsProducer jms = new JmsProducer();
+		JmsProducer<PDU> jms = new JmsProducer<PDU>();
 		try {
 			jms.sendMessage(process.createBenchmarkCPU("Hans Dieter"));
 		} catch (NamingException e) {

@@ -21,12 +21,12 @@
 
 		<!-- plugin versions -->
 		<maven-compiler.version>3.1</maven-compiler.version>
-
 	</properties>
 
 	<modules>
 		<module>chatApplicationServer</module>
-		<module>chatApplicationCommons</module>
+		<module>chatApplicationModel</module>
+		<module>chatApplicationJmsConnector</module>
 		<module>chatApplicationClient</module>
 		<module>chatApplicationClientBenchmark</module>
 	</modules>
@@ -35,7 +35,7 @@
 		<dependencies>
 			<dependency>
 				<groupId>edu.hm.dako.chat</groupId>
-				<artifactId>chatApplicationCommons</artifactId>
+				<artifactId>chatApplicationModel</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
@@ -53,6 +53,12 @@
 				<artifactId>chatApplicationClientBenchmark</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>edu.hm.dako.chat</groupId>
+				<artifactId>chatApplicationJmsConnector</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			
 
 			<!-- Wildfly Libs -->
 			<dependency>

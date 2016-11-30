@@ -1,8 +1,6 @@
 package edu.hm.dako.chat.server.service;
 
 import javax.ejb.Stateless;
-import javax.ejb.TransactionManagement;
-import javax.ejb.TransactionManagementType;
 import javax.inject.Inject;
 import javax.naming.NamingException;
 import javax.transaction.Transactional;
@@ -10,7 +8,7 @@ import javax.transaction.Transactional;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import edu.hm.dako.benchmarkUtil.SystemResourceCalculator;
+import edu.hm.dako.chat.server.service.SystemResourceCalculator;
 import edu.hm.dako.chat.model.BenchmarkPDU;
 import edu.hm.dako.chat.model.ChatPDU;
 import edu.hm.dako.chat.model.PDU;

@@ -30,7 +30,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>edu.hm.dako.chat</groupId>
-			<artifactId>chatApplicationCommons</artifactId>
+			<artifactId>chatApplicationModel</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>javax.enterprise</groupId>

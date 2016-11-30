@@ -3,10 +3,10 @@ package edu.hm.dako.chat.client.benchmarking;
 import javax.jms.JMSException;
 import javax.jms.Message;
 
-import edu.hm.dako.benchmarkUtil.SystemResourceCalculator;
 import edu.hm.dako.chat.client.ui.BenchmarkingClientFxGUI;
 import edu.hm.dako.chat.model.BenchmarkPDU;
 import edu.hm.dako.chat.model.PDU;
+import edu.hm.dako.chat.client.data.util.SystemResourceCalculator;
 
 public class ReceiverThread implements Runnable {
 	
