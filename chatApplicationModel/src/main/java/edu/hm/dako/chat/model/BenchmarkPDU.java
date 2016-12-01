@@ -19,6 +19,12 @@ public class BenchmarkPDU extends ChatPDU implements PDU {
 	 * Durchschnittliche CPU-Auslastung
 	 */
 	private Double avgCPUUsage;
+	
+	/**
+	 * Zähler für die eingegangenen Nachrichten.
+	 */
+	private Integer messageNr;
+	
 
 	public BenchmarkPDU(PduType type) {
 		super(type);
@@ -48,4 +54,13 @@ public class BenchmarkPDU extends ChatPDU implements PDU {
 		this.avgCPUUsage = avgCPUUsage;
 	}
 
+	public Integer getMessageNr() {
+		return messageNr;
+	}
+
+	public void setMessageNr(Integer messageNr) {
+		this.messageNr = messageNr;
+	}
+
+	
 }

@@ -28,11 +28,16 @@ public class ProcessBenchmarking {
 		startingGate = new CyclicBarrier(clientCount);
 	}
 
-	public void createNewBenchmarkingClient(String name) {
+	public void createNewBenchmarkingClient(String name, Integer messageCount) {
 
 		Thread thread = new Thread() {
 			public void run() {
 				log.info("Client: " + name + " wartet auf den Start!");
+
+				// Client legt einen Eintrag in die SharedRTTClientList um bei
+				// den eingehenden Nachrichten eine Zuordnung zu schaffen.
+				BenchmarkingClientFxGUI.instance.getModel().addClientToSharedRTTClientList(name);
+
 				try {
 					startingGate.await();
 				} catch (InterruptedException e) {
@@ -41,8 +46,11 @@ public class ProcessBenchmarking {
 					log.error(e.getStackTrace());
 				}
 
-				PDU chatPdu = createBenchmarkCPU(name);
-				sendBenchmarkCPU(chatPdu);
+				PDU pdu = createBenchmarkCPU(name);
+
+				for (int i = 1; i <= messageCount; i++) {
+					sendBenchmarkCPU(pdu);
+				}
 
 				startingGate.reset();
 			}

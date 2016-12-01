@@ -75,7 +75,7 @@ public class BenchmarkingGuiController {
 
 		for (int i = 1; i <= Integer.parseInt(txtAnzahlClients.getText()); i++) {
 			process.createNewBenchmarkingClient(
-					String.valueOf(BenchmarkingClientFxGUI.getAndIncreaseClientNameCounter()));
+					String.valueOf(BenchmarkingClientFxGUI.getAndIncreaseClientNameCounter()), Integer.parseInt(txtAnzahlNachrichten.getText()));
 		}
 	}
 

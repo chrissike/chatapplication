@@ -6,7 +6,9 @@ import javafx.collections.ObservableList;
 import javafx.scene.chart.CategoryAxis;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import edu.hm.dako.chat.client.data.util.ModelCalculator;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -21,6 +23,8 @@ public class ClientModel {
 	private ModelCalculator calculator;
 
 	private ObservableList<ResultTableModel> resultList;
+	
+	private final Map<String, List<Double>> sharedRTTClientList;
 
 	private List<Double> rttList;
 	private List<Double> rttServerList;
@@ -39,6 +43,8 @@ public class ClientModel {
 
 	public ClientModel() {
 		this.calculator = new ModelCalculator();
+		
+		sharedRTTClientList = new HashMap<String, List<Double>>();
 
 		this.anteilsChartServer.setName("Serverzeit");
 		this.anteilsChartClient.setName("Clientzeit (Anfrage + Netzlatenz)");
@@ -173,6 +179,22 @@ public class ClientModel {
 
 	public void setMinRTT(Double minRTT) {
 		this.minRTT.set(minRTT);
+	}
+
+	public Map<String, List<Double>> getSharedRttClientList() {
+		return sharedRTTClientList;
+	}
+
+	public void addClientToSharedRTTClientList(String clientName) {
+		sharedRTTClientList.put(clientName, new ArrayList<Double>());
+	}
+	
+	public synchronized void addRTTToSharedRTTClientList(String clientName, Long rtt) {
+		sharedRTTClientList.get(clientName).add(rtt.doubleValue());
+	}
+	
+	public List<Double> getRTTListOfClient(String clientName) {
+		return sharedRTTClientList.get(clientName);
 	}
 
 }

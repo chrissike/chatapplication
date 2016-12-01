@@ -31,8 +31,9 @@ public class ReceiverThread implements Runnable {
 	public void run() {
 		if (bmPDU != null && BenchmarkingClientFxGUI.instance != null) {
 			stopAndCalculateRTT();
+			BenchmarkingClientFxGUI.instance.getModel().addRTTToSharedRTTClientList(bmPDU.getUserName(), getRtt());
 			bmPDU.setAvgCPUUsage(BenchmarkingClientFxGUI.getSysResourceCalc().getAverageCpuUtilisation().doubleValue() * 100);
-			bmPDU.setUserName(BenchmarkingClientFxGUI.getAndIncreaseClientNameReceivedCounter().toString());
+			bmPDU.setMessageNr(BenchmarkingClientFxGUI.getAndIncreaseClientNameReceivedCounter());
 			BenchmarkingClientFxGUI.instance.showResults(bmPDU, getRtt(), getRttMs(), getRttServerMs());
 		}
 	}

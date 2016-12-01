@@ -1,5 +1,7 @@
 package edu.hm.dako.chat.client.ui;
 
+import java.util.stream.Collectors;
+
 import javax.naming.NamingException;
 
 import org.apache.commons.logging.Log;
@@ -9,6 +11,7 @@ import edu.hm.dako.chat.client.benchmarking.TopicSubscriber;
 import edu.hm.dako.chat.jms.connect.JmsChatContext;
 import edu.hm.dako.chat.jms.connect.JmsConsumer;
 import edu.hm.dako.chat.client.data.ClientModel;
+import edu.hm.dako.chat.client.data.GroupedResultTableModel;
 import edu.hm.dako.chat.client.data.ResultTableModel;
 import edu.hm.dako.chat.client.data.SystemStatus;
 import edu.hm.dako.chat.client.data.util.SystemResourceCalculator;
@@ -38,10 +41,10 @@ public class BenchmarkingClientFxGUI extends Application {
 
 	private static JmsChatContext jmsContext;
 	private static SystemResourceCalculator sysResourceCalc;
-	
+
 	private static Integer clientNameCounter = 1;
 	private static Integer clientNameReceivedCounter = 1;
-	
+
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -64,7 +67,7 @@ public class BenchmarkingClientFxGUI extends Application {
 		primaryStage.setTitle("Benchmarking");
 		primaryStage.setResizable(true);
 		primaryStage.show();
-		
+
 		JmsConsumer consumer = new JmsConsumer();
 		jmsContext = new JmsChatContext();
 		try {
@@ -106,13 +109,12 @@ public class BenchmarkingClientFxGUI extends Application {
 
 	public void showResults(BenchmarkPDU pdu, Long rtt, Double rttMs, Double rttServerMs) {
 		Platform.runLater(() -> {
-			Integer userNameNumber = Integer.valueOf(pdu.getUserName());
 
-			log.info("Client: " + userNameNumber + ", ClientTime: " + rttMs + ", ServerTime: " + rttServerMs);
+			log.info("Client: " + pdu.getUserName() + ", ClientTime: " + rttMs + ", ServerTime: " + rttServerMs);
 
 			// ChartBars
-			getModel().addClientTime(userNameNumber, rttMs);
-			getModel().addServerTime(userNameNumber, rttServerMs);
+			getModel().addClientTime(Integer.valueOf(pdu.getMessageNr()), rttMs);
+			getModel().addServerTime(Integer.valueOf(pdu.getMessageNr()), rttServerMs);
 
 			// StockedBarChart
 			getModel().setAnteilsChartClient((rtt.longValue() - pdu.getServerTime().longValue()) / 1000000000.0);
@@ -127,13 +129,22 @@ public class BenchmarkingClientFxGUI extends Application {
 			getSysStatus().addFreeServerMemoryList(pdu.getFreeMemory().intValue());
 
 			// Table
-			ResultTableModel resulttable = new ResultTableModel(pdu.getUserName(), "1", String.valueOf(rttMs),
-					String.valueOf(rttServerMs), pdu.getFreeMemory().toString(), pdu.getAvgCPUUsage().toString());
+			ResultTableModel resulttable = new ResultTableModel(pdu.getMessageNr().toString(), "1",
+					String.valueOf(rttMs), String.valueOf(rttServerMs), pdu.getFreeMemory().toString(),
+					pdu.getAvgCPUUsage().toString());
+
+			Double avgDbl = getModel().getRTTListOfClient(pdu.getUserName()).parallelStream()
+					.collect(Collectors.averagingDouble(d -> d));
+			GroupedResultTableModel groupedResulttable = new GroupedResultTableModel(pdu.getUserName(),
+					avgDbl.toString());
+
+			log.info(">>>> GroupedResultTable: " + groupedResulttable.toString());
+
 			getModel().addToResultList(resulttable);
 
 			// calculate KPIs
-			 getModel().calculateKPIs();
-			 getSysStatus().calculateSysStatus();
+			getModel().calculateKPIs();
+			getSysStatus().calculateSysStatus();
 		});
 	}
 
@@ -142,7 +153,7 @@ public class BenchmarkingClientFxGUI extends Application {
 		clientNameReceivedCounter++;
 		return count;
 	}
-	
+
 	public synchronized static Integer getAndIncreaseClientNameCounter() {
 		Integer count = clientNameCounter;
 		clientNameCounter++;
