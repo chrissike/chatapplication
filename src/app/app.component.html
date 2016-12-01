@@ -1,0 +1,29 @@
+<md-toolbar color="primary">
+    Chat Admin Client
+</md-toolbar>
+<md-tab-group>
+    <md-tab>
+        <template md-tab-label>
+            Chat Clients
+        </template>
+        <template md-tab-content>
+            <app-chat-client-list></app-chat-client-list>
+        </template>
+    </md-tab>
+    <md-tab>
+        <template md-tab-label>
+            Statistics
+        </template>
+        <template md-tab-content>
+            <app-statistics></app-statistics>
+        </template>
+    </md-tab>
+    <md-tab>
+        <template md-tab-label>
+            Delete All
+        </template>
+        <template md-tab-content>
+            <button md-button md-raised-button color="warn" (click)="deleteAllData()" style="margin: 8px">DELETE ALL DATA?</button>
+        </template>
+    </md-tab>
+</md-tab-group>

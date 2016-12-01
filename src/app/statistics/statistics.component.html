@@ -1,0 +1,22 @@
+<table>
+    <tr>
+        <th>Kennzahl</th>
+        <th>Wert</th>
+    </tr>
+    <tr>
+        <th>Anzahl Clients</th>
+        <th>{{statistics?.numClients}}</th>
+    </tr>
+    <tr>
+        <th>Anzahl Nachrichten gesamt</th>
+        <th>{{statistics?.totalMessages}}</th>
+    </tr>
+    <tr *ngIf="statistics?.numClients > 0">
+        <th>Durchschnittliche Nachrichtenzahl pro Client</th>
+        <th>{{statistics?.avgMsgPerClient}}</th>
+    </tr>
+    <tr *ngIf="statistics?.avgMsgLength">
+        <th>Durchschnittliche Nachrichtenlänge</th>
+        <th>{{statistics?.avgMsgLength.asDouble}}</th>
+    </tr>
+</table>

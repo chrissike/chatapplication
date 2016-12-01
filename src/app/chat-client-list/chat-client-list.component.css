@@ -1,0 +1,8 @@
+.chat-client__card {
+    margin: 8px;
+    max-width: 300px;
+}
+.chat-client__container {
+    display: flex;
+    flex-direction: row;
+}

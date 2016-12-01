@@ -1,0 +1,13 @@
+<div class="chat-client__container">
+    <md-card class="chat-client__card" *ngFor="let c of chatClients">
+        <md-card-title>
+            {{c.name}}
+        </md-card-title>
+        <md-card-content *ngIf="c.count !== undefined">
+            {{c.count}}
+        </md-card-content>
+        <md-card-actions>
+            <button md-button (click)="getClientCount(c)">GET COUNT</button>
+        </md-card-actions>
+    </md-card>
+</div>
