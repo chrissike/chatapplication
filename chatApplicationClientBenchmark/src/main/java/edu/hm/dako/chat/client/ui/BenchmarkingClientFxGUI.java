@@ -11,6 +11,7 @@ import edu.hm.dako.chat.jms.connect.JmsConsumer;
 import edu.hm.dako.chat.client.data.ClientModel;
 import edu.hm.dako.chat.client.data.ResultTableModel;
 import edu.hm.dako.chat.client.data.SystemStatus;
+import edu.hm.dako.chat.client.data.util.SystemResourceCalculator;
 import edu.hm.dako.chat.model.BenchmarkPDU;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -36,6 +37,7 @@ public class BenchmarkingClientFxGUI extends Application {
 	public static BenchmarkingClientFxGUI instance;
 
 	private static JmsChatContext jmsContext;
+	private static SystemResourceCalculator sysResourceCalc;
 	
 	private static Integer clientNameCounter = 1;
 	private static Integer clientNameReceivedCounter = 1;
@@ -71,6 +73,7 @@ public class BenchmarkingClientFxGUI extends Application {
 			log.error(e1.getStackTrace());
 		}
 
+		sysResourceCalc = new SystemResourceCalculator();
 	}
 
 	public ClientModel getModel() {
@@ -97,6 +100,10 @@ public class BenchmarkingClientFxGUI extends Application {
 		BenchmarkingClientFxGUI.jmsContext = jmsContext;
 	}
 
+	public static SystemResourceCalculator getSysResourceCalc() {
+		return sysResourceCalc;
+	}
+
 	public void showResults(BenchmarkPDU pdu, Long rtt, Double rttMs, Double rttServerMs) {
 		Platform.runLater(() -> {
 			Integer userNameNumber = Integer.valueOf(pdu.getUserName());
@@ -121,7 +128,7 @@ public class BenchmarkingClientFxGUI extends Application {
 
 			// Table
 			ResultTableModel resulttable = new ResultTableModel(pdu.getUserName(), "1", String.valueOf(rttMs),
-					String.valueOf(rttServerMs), pdu.getFreeMemory().toString());
+					String.valueOf(rttServerMs), pdu.getFreeMemory().toString(), pdu.getAvgCPUUsage().toString());
 			getModel().addToResultList(resulttable);
 
 			// calculate KPIs

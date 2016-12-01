@@ -43,18 +43,24 @@ public class ProcessBenchmarking {
 
 				PDU chatPdu = createBenchmarkCPU(name);
 				sendBenchmarkCPU(chatPdu);
-				
+
 				startingGate.reset();
 			}
 
 			public void sendBenchmarkCPU(PDU pdu) {
 				JmsProducer<PDU> jms = new JmsProducer<PDU>();
-				try {
-					jms.sendMessage(pdu, BenchmarkingClientFxGUI.getJmsContext());
-				} catch (NamingException e) {
-					log.error(e.getMessage() + ", " + e.getCause());
-				} catch (JMSException e) {
-					log.error(e.getMessage() + ", " + e.getCause());
+
+				int retryCounter = 0;
+				boolean success = false;
+				while (success == false && retryCounter <= 3) {
+					try {
+						success = jms.sendMessage(pdu, BenchmarkingClientFxGUI.getJmsContext());
+						retryCounter++;
+					} catch (NamingException e) {
+						log.error(e.getMessage() + ", " + e.getCause());
+					} catch (JMSException e) {
+						log.error(e.getMessage() + ", " + e.getCause());
+					}
 				}
 			}
 		};
@@ -71,7 +77,7 @@ public class ProcessBenchmarking {
 		chatPdu.setClientStartTime(System.nanoTime());
 		return chatPdu;
 	}
-	
+
 	public void startAllClients() {
 		try {
 			startingGate.await();

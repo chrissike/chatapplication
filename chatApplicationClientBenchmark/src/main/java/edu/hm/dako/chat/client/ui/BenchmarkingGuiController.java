@@ -22,7 +22,7 @@ import javafx.beans.binding.Bindings;
  */
 @SuppressWarnings("restriction")
 public class BenchmarkingGuiController {
-	
+
 	@FXML
 	private TextField txtServername, txtServerPort, txtAnzahlClients, txtAnzahlNachrichten, txtNachrichtenlaenge;
 	@FXML
@@ -32,7 +32,7 @@ public class BenchmarkingGuiController {
 	@FXML
 	private TableView<ResultTableModel> tableErgebnis;
 	@FXML
-	private TableColumn<ResultTableModel, String> colTest, colAnzahlNachrichten, colRTT, colRTTServer, colFreeMemory;
+	private TableColumn<ResultTableModel, String> colTest, colAnzahlNachrichten, colRTT, colRTTServer, colFreeMemory, colAvgCpu;
 	@FXML
 	private Tab rttDiagramm1, rttDiagramm2, ergebniszahlen;
 	@FXML
@@ -45,10 +45,11 @@ public class BenchmarkingGuiController {
 	public void setAppController(BenchmarkingClientFxGUI appController) {
 		colTest.setCellValueFactory(cellData -> cellData.getValue().getColTest());
 		colAnzahlNachrichten.setCellValueFactory(cellData -> cellData.getValue().getColAnzahlNachrichten());
-		colRTT.setCellValueFactory(cellData -> cellData.getValue().getColTest());
-		colRTTServer.setCellValueFactory(cellData -> cellData.getValue().getColTest());
+		colRTT.setCellValueFactory(cellData -> cellData.getValue().getColRTT());
+		colRTTServer.setCellValueFactory(cellData -> cellData.getValue().getColRTTServer());
 		colFreeMemory.setCellValueFactory(cellData -> cellData.getValue().getColFreeMemory());
-		
+		colAvgCpu.setCellValueFactory(cellData -> cellData.getValue().getColAvgCpu());
+
 		tableErgebnis.setItems(appController.getModel().getResultList());
 		tableErgebnis.setEditable(false);
 
@@ -57,9 +58,9 @@ public class BenchmarkingGuiController {
 
 		stackedbarChart1.getData().add(appController.getModel().getAnteilsChartClient());
 		stackedbarChart1.getData().add(appController.getModel().getAnteilsChartServer());
-		
+
 		avgRTT.textProperty().bind(Bindings.convert(appController.getModel().getAverageRTT()));
-		maxRTT.textProperty().bind(Bindings.convert(appController.getModel().getMaxRTT())); 
+		maxRTT.textProperty().bind(Bindings.convert(appController.getModel().getMaxRTT()));
 		minRTT.textProperty().bind(Bindings.convert(appController.getModel().getMinRTT()));
 		avgRTTServer.textProperty().bind(Bindings.convert(appController.getModel().getAverageServerRTT()));
 		rttSD.textProperty().bind(Bindings.convert(appController.getModel().getStdDev()));
@@ -73,7 +74,8 @@ public class BenchmarkingGuiController {
 				Integer.parseInt(txtAnzahlClients.getText()));
 
 		for (int i = 1; i <= Integer.parseInt(txtAnzahlClients.getText()); i++) {
-			process.createNewBenchmarkingClient(String.valueOf(BenchmarkingClientFxGUI.getAndIncreaseClientNameCounter()));
+			process.createNewBenchmarkingClient(
+					String.valueOf(BenchmarkingClientFxGUI.getAndIncreaseClientNameCounter()));
 		}
 	}
 
