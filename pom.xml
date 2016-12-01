@@ -29,6 +29,7 @@
 		<module>chatApplicationJmsConnector</module>
 		<module>chatApplicationClient</module>
 		<module>chatApplicationClientBenchmark</module>
+		<module>chatApplicationIntegrationTest</module>
 	</modules>
 
 	<dependencyManagement>
