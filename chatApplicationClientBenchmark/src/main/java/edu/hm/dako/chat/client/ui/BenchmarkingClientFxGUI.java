@@ -1,20 +1,13 @@
 package edu.hm.dako.chat.client.ui;
 
-import java.util.stream.Collectors;
-
-import javax.naming.NamingException;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import edu.hm.dako.chat.client.benchmarking.TopicSubscriber;
-import edu.hm.dako.chat.jms.connect.JmsChatContext;
-import edu.hm.dako.chat.jms.connect.JmsConsumer;
 import edu.hm.dako.chat.client.data.ClientModel;
 import edu.hm.dako.chat.client.data.GroupedResultTableModel;
 import edu.hm.dako.chat.client.data.ResultTableModel;
 import edu.hm.dako.chat.client.data.SystemStatus;
 import edu.hm.dako.chat.client.data.util.SystemResourceCalculator;
+import edu.hm.dako.chat.jms.connect.JmsChatContext;
+import edu.hm.dako.chat.jms.connect.JmsConsumer;
 import edu.hm.dako.chat.model.BenchmarkPDU;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -22,6 +15,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import javax.naming.NamingException;
+import java.util.stream.Collectors;
 
 /**
  * Chat-GUI
@@ -129,19 +127,17 @@ public class BenchmarkingClientFxGUI extends Application {
 			getSysStatus().addFreeServerMemoryList(pdu.getFreeMemory().intValue());
 
 			// Table
-			ResultTableModel resulttable = new ResultTableModel(pdu.getMessageNr().toString(), "1",
+			ResultTableModel resultTableRow = new ResultTableModel(pdu.getMessageNr().toString(), "1",
 					String.valueOf(rttMs), String.valueOf(rttServerMs), pdu.getFreeMemory().toString(),
 					pdu.getAvgCPUUsage().toString());
 
 			Double avgDbl = getModel().getRTTListOfClient(pdu.getUserName()).parallelStream()
 					.collect(Collectors.averagingDouble(d -> d));
-			GroupedResultTableModel groupedResulttable = new GroupedResultTableModel(pdu.getUserName(),
+			GroupedResultTableModel groupedResulttableRow = new GroupedResultTableModel(pdu.getUserName(),
 					avgDbl.toString());
 
-			log.info(">>>> GroupedResultTable: " + groupedResulttable.toString());
-
-			getModel().addToResultList(resulttable);
-			getModel().addToGroupedResultList(groupedResulttable);
+			getModel().addToResultList(resultTableRow);
+			getModel().addToGroupedResultList(groupedResulttableRow);
 
 			// calculate KPIs
 			getModel().calculateKPIs();

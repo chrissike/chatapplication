@@ -1,14 +1,11 @@
 package edu.hm.dako.chat.server.user;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import edu.hm.dako.chat.server.user.ClientListEntry;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Liste aller angemeldeten Clients. Diese Liste wird im Server als Singleton
@@ -24,7 +21,7 @@ import edu.hm.dako.chat.server.user.ClientListEntry;
 public class SharedChatClientList {
 
 	private static Log log = LogFactory.getLog(SharedChatClientList.class);
-	
+
 	/**
 	 * Liste aller eingeloggten Clients
 	 */
@@ -35,7 +32,7 @@ public class SharedChatClientList {
 
 	/**
 	 * Thread-sicheres Erzeugen einer Instanz der Liste
-	 * 
+	 *
 	 * @return Referenz auf die erzeugte Liste
 	 */
 	public static synchronized SharedChatClientList getInstance() {
@@ -49,7 +46,7 @@ public class SharedChatClientList {
 
 	/**
 	 * Client auslesen
-	 * 
+	 *
 	 * @param userName
 	 *            Name des Clients
 	 * @return Referenz auf den gesuchten Client
@@ -61,42 +58,29 @@ public class SharedChatClientList {
 
 	/**
 	 * Stellt eine Liste aller Namen der eingetragenen Clients bereit
-	 * 
+	 *
 	 * @return Vektor mit allen Namen der eingetragenen Clients
 	 */
 	public synchronized List<String> getClientNameList() {
 
-		List<String> clientNameList = new ArrayList<String>();
-		for (String s : new HashSet<String>(clients.keySet())) {
-			clientNameList.add(s);
-		}
-		return clientNameList;
+		return new ArrayList<>(clients.keySet());
 	}
 
 	/**
 	 * Prueft, ob ein Client in der Userliste ist
-	 * 
+	 *
 	 * @param userName
 	 *            Name des Clients
-	 * @return
+	 * @return ob Client in der Liste existiert
 	 */
 	public synchronized boolean existsClient(String userName) {
 
-		if (userName != null) {
-			if (!clients.containsKey(userName)) {
-				log.debug("User nicht in Clientliste: " + userName);
-				return false;
-			} else {
-				return true;
-			}
-		} else {
-			return false;
-		}
+		return userName != null && clients.containsKey(userName);
 	}
 
 	/**
 	 * Legt einen neuen Client an
-	 * 
+	 *
 	 * @param userName
 	 *            Name des neuen Clients
 	 * @param client
@@ -108,7 +92,7 @@ public class SharedChatClientList {
 
 	/**
 	 * Loescht einen Client zwangsweise inkl. aller Einträge in Wartelisten.
-	 * 
+	 *
 	 * @param userName
 	 *            Name des Clients
 	 */
@@ -119,7 +103,7 @@ public class SharedChatClientList {
 
 	/**
 	 * Laenge der Liste ausgeben
-	 * 
+	 *
 	 * @return Laenge der Liste
 	 */
 	public synchronized long size() {
