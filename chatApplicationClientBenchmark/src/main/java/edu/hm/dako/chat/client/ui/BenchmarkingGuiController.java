@@ -3,6 +3,7 @@ package edu.hm.dako.chat.client.ui;
 import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.dako.chat.client.benchmarking.ProcessBenchmarking;
+import edu.hm.dako.chat.client.data.GroupedResultTableModel;
 import edu.hm.dako.chat.client.data.ResultTableModel;
 import javafx.fxml.FXML;
 import javafx.scene.chart.AreaChart;
@@ -30,9 +31,13 @@ public class BenchmarkingGuiController {
 	@FXML
 	private Button startButton;
 	@FXML
-	private TableView<ResultTableModel> tableErgebnis;
+	private TableView<ResultTableModel> tableResults;
+	@FXML
+	private TableView<GroupedResultTableModel> tableResultsGrouped;
 	@FXML
 	private TableColumn<ResultTableModel, String> colTest, colAnzahlNachrichten, colRTT, colRTTServer, colFreeMemory, colAvgCpu;
+	@FXML
+	private TableColumn<GroupedResultTableModel, String> colClientName, colAvgRttOfClient;
 	@FXML
 	private Tab rttDiagramm1, rttDiagramm2, ergebniszahlen;
 	@FXML
@@ -43,6 +48,7 @@ public class BenchmarkingGuiController {
 	private StackedBarChart<CategoryAxis, Double> stackedbarChart1;
 
 	public void setAppController(BenchmarkingClientFxGUI appController) {
+		// initialize columns of Table tableResults
 		colTest.setCellValueFactory(cellData -> cellData.getValue().getColTest());
 		colAnzahlNachrichten.setCellValueFactory(cellData -> cellData.getValue().getColAnzahlNachrichten());
 		colRTT.setCellValueFactory(cellData -> cellData.getValue().getColRTT());
@@ -50,15 +56,24 @@ public class BenchmarkingGuiController {
 		colFreeMemory.setCellValueFactory(cellData -> cellData.getValue().getColFreeMemory());
 		colAvgCpu.setCellValueFactory(cellData -> cellData.getValue().getColAvgCpu());
 
-		tableErgebnis.setItems(appController.getModel().getResultList());
-		tableErgebnis.setEditable(false);
+		// initialize columns of Table tableResultsGrouped
+		colClientName.setCellValueFactory(cellData -> cellData.getValue().getColUsername());
+		colAvgRttOfClient.setCellValueFactory(cellData -> cellData.getValue().getColAvgRTT());
 
+		// initialize tables
+		tableResults.setItems(appController.getModel().getResultList());
+		tableResults.setEditable(false);
+		tableResultsGrouped.setItems(appController.getModel().getGroupedResultList());
+		tableResultsGrouped.setEditable(false);
+
+		// initialize charts
 		areaChart1.getData().addAll(appController.getModel().getClientTimeChart());
 		areaChart2.getData().addAll(appController.getModel().getServerTimeChart());
 
 		stackedbarChart1.getData().add(appController.getModel().getAnteilsChartClient());
 		stackedbarChart1.getData().add(appController.getModel().getAnteilsChartServer());
 
+		// initialize statistic-fields
 		avgRTT.textProperty().bind(Bindings.convert(appController.getModel().getAverageRTT()));
 		maxRTT.textProperty().bind(Bindings.convert(appController.getModel().getMaxRTT()));
 		minRTT.textProperty().bind(Bindings.convert(appController.getModel().getMinRTT()));
@@ -75,7 +90,8 @@ public class BenchmarkingGuiController {
 
 		for (int i = 1; i <= Integer.parseInt(txtAnzahlClients.getText()); i++) {
 			process.createNewBenchmarkingClient(
-					String.valueOf(BenchmarkingClientFxGUI.getAndIncreaseClientNameCounter()), Integer.parseInt(txtAnzahlNachrichten.getText()));
+					String.valueOf(BenchmarkingClientFxGUI.getAndIncreaseClientNameCounter()),
+					Integer.parseInt(txtAnzahlNachrichten.getText()));
 		}
 	}
 

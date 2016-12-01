@@ -141,6 +141,7 @@ public class BenchmarkingClientFxGUI extends Application {
 			log.info(">>>> GroupedResultTable: " + groupedResulttable.toString());
 
 			getModel().addToResultList(resulttable);
+			getModel().addToGroupedResultList(groupedResulttable);
 
 			// calculate KPIs
 			getModel().calculateKPIs();

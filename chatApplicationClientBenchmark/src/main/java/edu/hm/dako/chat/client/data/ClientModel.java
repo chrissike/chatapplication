@@ -23,6 +23,7 @@ public class ClientModel {
 	private ModelCalculator calculator;
 
 	private ObservableList<ResultTableModel> resultList;
+	private ObservableList<GroupedResultTableModel> groupedResultList;
 	
 	private final Map<String, List<Double>> sharedRTTClientList;
 
@@ -49,7 +50,8 @@ public class ClientModel {
 		this.anteilsChartServer.setName("Serverzeit");
 		this.anteilsChartClient.setName("Clientzeit (Anfrage + Netzlatenz)");
 		this.resultList = FXCollections.observableArrayList();
-
+		this.groupedResultList = FXCollections.observableArrayList();
+		
 		this.rttList = new ArrayList<Double>();
 		this.rttServerList = new ArrayList<Double>();
 		this.serverMemoryList = new ArrayList<Double>();
@@ -113,8 +115,16 @@ public class ClientModel {
 		return resultList;
 	}
 
+	public synchronized void addToGroupedResultList(GroupedResultTableModel groupedResultList) {
+		this.groupedResultList.addAll(groupedResultList);
+	}
+
+	public ObservableList<GroupedResultTableModel> getGroupedResultList() {
+		return groupedResultList;
+	}
+
 	public synchronized void addToResultList(ResultTableModel resulttable) {
-		resultList.addAll(resulttable);
+		this.resultList.addAll(resulttable);
 	}
 
 	public List<Double> getRttList() {

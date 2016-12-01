@@ -23,11 +23,11 @@ public class GroupedResultTableModel {
 		this.colUsername = colUsername;
 	}
 
-	public StringProperty getColAnzahlNachrichten() {
+	public StringProperty getColAvgRTT() {
 		return colAvgRTT;
 	}
 
-	public void setColAnzahlNachrichten(StringProperty colAvgRTT) {
+	public void setColAvgRTT(StringProperty colAvgRTT) {
 		this.colAvgRTT = colAvgRTT;
 	}
 
