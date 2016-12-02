@@ -11,6 +11,7 @@ import edu.hm.dako.chat.jms.connect.JmsConsumer;
 import edu.hm.dako.chat.model.BenchmarkPDU;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -19,6 +20,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import javax.naming.NamingException;
+
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -137,7 +140,13 @@ public class BenchmarkingClientFxGUI extends Application {
 					avgDbl.toString());
 
 			getModel().addToResultList(resultTableRow);
-			getModel().addToGroupedResultList(groupedResulttableRow);
+
+			if (getModel().getGroupedResultList().stream().filter(p -> p.getColUsername().getValue().equals(pdu.getUserName()))
+					.findFirst().isPresent()) {
+				getModel().updateGroupedResultList(groupedResulttableRow);
+			}else{
+				getModel().addToGroupedResultList(groupedResulttableRow);
+			}
 
 			// calculate KPIs
 			getModel().calculateKPIs();

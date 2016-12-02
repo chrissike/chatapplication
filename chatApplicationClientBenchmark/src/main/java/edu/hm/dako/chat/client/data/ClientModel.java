@@ -24,7 +24,7 @@ public class ClientModel {
 
 	private ObservableList<ResultTableModel> resultList;
 	private ObservableList<GroupedResultTableModel> groupedResultList;
-	
+
 	private final Map<String, List<Double>> sharedRTTClientList;
 
 	private List<Double> rttList;
@@ -44,14 +44,14 @@ public class ClientModel {
 
 	public ClientModel() {
 		this.calculator = new ModelCalculator();
-		
+
 		sharedRTTClientList = new HashMap<String, List<Double>>();
 
 		this.anteilsChartServer.setName("Serverzeit");
 		this.anteilsChartClient.setName("Clientzeit (Anfrage + Netzlatenz)");
 		this.resultList = FXCollections.observableArrayList();
 		this.groupedResultList = FXCollections.observableArrayList();
-		
+
 		this.rttList = new ArrayList<Double>();
 		this.rttServerList = new ArrayList<Double>();
 		this.serverMemoryList = new ArrayList<Double>();
@@ -117,6 +117,15 @@ public class ClientModel {
 
 	public synchronized void addToGroupedResultList(GroupedResultTableModel groupedResultList) {
 		this.groupedResultList.addAll(groupedResultList);
+	}
+
+	public synchronized void updateGroupedResultList(GroupedResultTableModel groupedResultList) {
+		GroupedResultTableModel model = getGroupedResultList().stream()
+				.filter(p -> p.getColUsername().getValue().equals(groupedResultList.getColUsername().getValue()))
+				.findFirst().get();
+		GroupedResultTableModel newmodel = model;
+		newmodel.setColAvgRTT(groupedResultList.getColAvgRTT());
+		getGroupedResultList().set(getGroupedResultList().indexOf(model), newmodel);
 	}
 
 	public ObservableList<GroupedResultTableModel> getGroupedResultList() {
@@ -191,19 +200,17 @@ public class ClientModel {
 		this.minRTT.set(minRTT);
 	}
 
-	public Map<String, List<Double>> getSharedRttClientList() {
-		return sharedRTTClientList;
-	}
-
 	public void addClientToSharedRTTClientList(String clientName) {
 		sharedRTTClientList.put(clientName, new ArrayList<Double>());
 	}
-	
+
 	public synchronized void addRTTToSharedRTTClientList(String clientName, Long rtt) {
-		sharedRTTClientList.get(clientName).add(rtt.doubleValue());
+		List<Double> list = sharedRTTClientList.get(clientName);
+		list.add(rtt.doubleValue());
+		sharedRTTClientList.put(clientName, list);
 	}
-	
-	public List<Double> getRTTListOfClient(String clientName) {
+
+	public synchronized List<Double> getRTTListOfClient(String clientName) {
 		return sharedRTTClientList.get(clientName);
 	}
 

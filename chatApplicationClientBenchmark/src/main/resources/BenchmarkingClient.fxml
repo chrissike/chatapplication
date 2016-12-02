@@ -43,7 +43,7 @@
                                           <TableColumn fx:id="colAnzahlNachrichten" prefWidth="130.0" text="Anzahl Nachrichten" />
                                           <TableColumn fx:id="colRTT" prefWidth="130.0" text="RTT (in ms)" />
                                           <TableColumn fx:id="colRTTServer" prefWidth="130.0" text="RTT Server (in ms)" />
-                                          <TableColumn fx:id="colFreeMemory" prefWidth="165.0" text="Free Server Heap (MiB)" />
+                                          <TableColumn fx:id="colFreeMemory" prefWidth="170.0" text="Freier Server Speicher (MiB)" />
                                           <TableColumn fx:id="colAvgCpu" prefWidth="165.0" text="Ø-CPU Auslastung (%)" />
                                       </columns>
                                     </TableView>
@@ -201,12 +201,12 @@
                                           <Separator layoutX="760.0" layoutY="10.0" orientation="VERTICAL" prefHeight="200.0" />
                                           <VBox alignment="CENTER" layoutX="760.0" layoutY="10.0">
                                              <children>
-                                                <Label text="Free Heapspace:">
+                                                <Label text="Freier Speicher:">
                                                 <font>
                                                       <Font size="15.0" />
                                                    </font>
                                                 </Label>
-                                                <Label text="(min. of Server)">
+                                                <Label text="(min. des Servers)">
                                                    <font>
                                                       <Font size="10.0" />
                                                    </font>
@@ -243,201 +243,20 @@
                                           <TableColumn fx:id="colAvgRttOfClient" prefWidth="370.0" text="Ø-RTT aller Nachrichten eines Clients" />
                                       </columns>
                                     </TableView>
-                                    <HBox>
-                                       <children>
-                                          <VBox alignment="CENTER">
-                                             <children>
-                                                <Label text="Ø-RTT :  ">
-                                                   <font>
-                                                      <Font size="15.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label text="">
-                                                   <font>
-                                                      <Font size="10.0" />
-                                                   </font>
-                                                </Label>
-                                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="300.0">
-                                                   <children>
-                                                      <Label fx:id="avgRTT" textAlignment="CENTER">
-                                                         <font>
-                                                            <Font size="37.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Label text="ms" />
-                                                   </children>
-                                                </HBox>
-                                             </children>
-                                          </VBox>
-                                          <Separator orientation="VERTICAL" prefHeight="200.0" />
-                                          <VBox alignment="CENTER" layoutX="178.0" layoutY="10.0">
-                                             <children>
-                                                <Label text="RTT max:  ">
-                                                   <font>
-                                                      <Font size="15.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label text="">
-                                                   <font>
-                                                      <Font size="10.0" />
-                                                   </font>
-                                                </Label>
-                                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="300.0">
-                                                   <children>
-                                                      <Label fx:id="maxRTT" textAlignment="CENTER">
-                                                         <font>
-                                                            <Font size="37.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Label text="ms" />
-                                                   </children>
-                                                </HBox>
-                                             </children>
-                                          </VBox>
-                                          <Separator layoutX="148.0" layoutY="10.0" orientation="VERTICAL" prefHeight="200.0" />
-                                          <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0">
-                                             <children>
-                                                <Label text="RTT min:  ">
-                                                   <font>
-                                                      <Font size="15.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label text="">
-                                                   <font>
-                                                      <Font size="10.0" />
-                                                   </font>
-                                                </Label>
-                                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="300.0">
-                                                   <children>
-                                                      <Label fx:id="minRTT" textAlignment="CENTER">
-                                                         <font>
-                                                            <Font size="37.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Label text="ms" />
-                                                   </children>
-                                                </HBox>
-                                             </children>
-                                          </VBox>
-                                          <Separator layoutX="809.0" layoutY="10.0" orientation="VERTICAL" prefHeight="200.0" />
-                                          <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0">
-                                             <children>
-                                                <Label text="Ø-RTT Server:  ">
-                                                   <font>
-                                                      <Font size="15.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label text="">
-                                                   <font>
-                                                      <Font size="10.0" />
-                                                   </font>
-                                                </Label>
-                                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="300.0">
-                                                   <children>
-                                                      <Label fx:id="avgRTTServer" textAlignment="CENTER">
-                                                         <font>
-                                                            <Font size="37.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Label text="ms" />
-                                                   </children>
-                                                </HBox>
-                                             </children>
-                                          </VBox>
-                                          <Separator layoutX="110.0" layoutY="10.0" orientation="VERTICAL" prefHeight="200.0" />
-                                          <VBox alignment="CENTER" layoutX="116.0" layoutY="10.0">
-                                             <children>
-                                                <Label text="RTT-SD:">
-                                                   <font>
-                                                      <Font size="15.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label text="">
-                                                   <font>
-                                                      <Font size="10.0" />
-                                                   </font>
-                                                </Label>
-                                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="300.0">
-                                                   <children>
-                                                      <Label fx:id="rttSD" textAlignment="CENTER">
-                                                         <font>
-                                                            <Font size="37.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Label text="ms" />
-                                                   </children>
-                                                </HBox>
-                                             </children>
-                                          </VBox>
-                                          <Separator orientation="VERTICAL" prefHeight="200.0" />
-                                          <VBox alignment="CENTER" layoutX="622.0" layoutY="10.0">
-                                             <children>
-                                                <Label text="Ø-CPU:">
-                                                   <font>
-                                                      <Font size="15.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label text="">
-                                                   <font>
-                                                      <Font size="10.0" />
-                                                   </font>
-                                                </Label>
-                                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="300.0">
-                                                   <children>
-                                                      <Label fx:id="avgCPU" textAlignment="CENTER">
-                                                         <font>
-                                                            <Font size="37.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Label text="\%" />
-                                                   </children>
-                                                </HBox>
-                                             </children>
-                                          </VBox>
-                                          <Separator layoutX="760.0" layoutY="10.0" orientation="VERTICAL" prefHeight="200.0" />
-                                          <VBox alignment="CENTER" layoutX="760.0" layoutY="10.0">
-                                             <children>
-                                                <Label text="Free Heapspace:">
-                                                <font>
-                                                      <Font size="15.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label text="(min. of Server)">
-                                                   <font>
-                                                      <Font size="10.0" />
-                                                   </font>
-                                                </Label>
-                                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="300.0">
-                                                   <children>
-                                                      <Label fx:id="minFreeMemory" textAlignment="CENTER">
-                                                         <font>
-                                                            <Font size="37.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <Label text="MiB" />
-                                                   </children>
-                                                </HBox>
-                                             </children>
-                                          </VBox>
-                                       </children>
-                                    </HBox>
                                  </children>
                               </VBox>
                            </children>
                         </AnchorPane>
                   </content>
                 </Tab>
-                <Tab fx:id="rttDiagramm1" text="RTT-Client">
+                <Tab fx:id="rttDiagramm1" text="RTT-Nachrichten">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0">
                            <children>
                               <AreaChart fx:id="areaChart1" horizontalGridLinesVisible="false" layoutY="-3.0" title="Round Trip Time (Verarbeitungszeit) Gesamt" verticalGridLinesVisible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <xAxis>
-                                  <NumberAxis fx:id="analyzedMessage1" label="Client-Nummer" minorTickCount="0" side="BOTTOM" tickUnit="1.0" upperBound="250.0" />
+                                  <NumberAxis fx:id="analyzedMessage1" label="Nachrichtennummer (Aufsteigend der RTT sortiert)" minorTickCount="0" side="BOTTOM" tickUnit="1.0" upperBound="250.0" />
                                 </xAxis>
-                                <yAxis>
-                                  <NumberAxis fx:id="timeOfMessage1" side="LEFT" />
-                                </yAxis>
                                 <yAxis>
                                   <NumberAxis fx:id="timeOfMessage1" label="Verarbeitungszeit in ms" side="LEFT" />
                                 </yAxis>
@@ -452,7 +271,7 @@
                            <children>
                               <AreaChart fx:id="areaChart2" horizontalGridLinesVisible="false" layoutY="-3.0" title="Round Trip Time (Verarbeitungszeit) des Servers" verticalGridLinesVisible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <xAxis>
-                                  <NumberAxis fx:id="analyzedMessage2" label="Client-Nummer" minorTickCount="0" side="BOTTOM" />
+                                  <NumberAxis fx:id="analyzedMessage2" label="Abgearbeitete Nachrichten" minorTickCount="0" side="BOTTOM" />
                                 </xAxis>
                                 <yAxis>
                                   <NumberAxis fx:id="timeOfMessage2" label="Verarbeitungszeit in ms" side="LEFT" />
