@@ -7,8 +7,8 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import edu.hm.dako.chat.client.communication.rest.MessagingHandler;
-import edu.hm.dako.chat.client.communication.rest.MessagingHandlerImpl;
+import edu.hm.dako.chat.rest.MessagingHandler;
+import edu.hm.dako.chat.rest.MessagingHandlerImpl;
 import edu.hm.dako.chat.client.data.ClientModel;
 import javafx.application.Application;
 import javafx.application.Platform;

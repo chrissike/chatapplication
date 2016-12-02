@@ -36,13 +36,15 @@ public class BenchmarkingGuiController {
 	@FXML
 	private TableView<GroupedResultTableModel> tableResultsGrouped;
 	@FXML
-	private TableColumn<ResultTableModel, String> colTest, colAnzahlNachrichten, colRTT, colRTTServer, colFreeMemory, colAvgCpu;
+	private TableColumn<ResultTableModel, String> colTest, colAnzahlNachrichten, colRTT, colRTTServer, colFreeMemory,
+			colAvgCpu;
 	@FXML
 	private TableColumn<GroupedResultTableModel, String> colClientName, colAvgRttOfClient;
 	@FXML
 	private Tab rttDiagramm1, rttDiagramm2, rttDiagramm3, ergebniszahlen;
 	@FXML
-	private NumberAxis analyzedMessage1, analyzedMessage2, analyzedMessage4, timeOfMessage1, timeOfMessage2, timeOfMessage4;
+	private NumberAxis analyzedMessage1, analyzedMessage2, analyzedMessage4, timeOfMessage1, timeOfMessage2,
+			timeOfMessage4;
 	@FXML
 	private AreaChart<Integer, Double> areaChart1, areaChart2;
 	@FXML
@@ -91,10 +93,14 @@ public class BenchmarkingGuiController {
 		ProcessBenchmarking process = new ProcessBenchmarking(generateMessageByLength(),
 				Integer.parseInt(txtAnzahlClients.getText()));
 
+		Integer messageCount = Integer.parseInt(txtAnzahlNachrichten.getText());
+		Integer clientCount = Integer.parseInt(txtAnzahlClients.getText());
+
+		BenchmarkingClientFxGUI.instance.getModel().setTotalNumberOfMessages(clientCount * messageCount);
+
 		for (int i = 1; i <= Integer.parseInt(txtAnzahlClients.getText()); i++) {
 			process.createNewBenchmarkingClient(
-					String.valueOf(BenchmarkingClientFxGUI.getAndIncreaseClientNameCounter()),
-					Integer.parseInt(txtAnzahlNachrichten.getText()));
+					String.valueOf(BenchmarkingClientFxGUI.getAndIncreaseClientNameCounter()), messageCount);
 		}
 	}
 

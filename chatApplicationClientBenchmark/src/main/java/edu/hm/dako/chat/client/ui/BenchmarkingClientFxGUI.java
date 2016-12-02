@@ -39,7 +39,7 @@ public class BenchmarkingClientFxGUI extends Application {
 
 	private static Integer clientNameCounter = 1;
 	private static Integer clientNameReceivedCounter = 1;
-
+	
 	public static void main(String[] args) {
 		launch(args);
 	}

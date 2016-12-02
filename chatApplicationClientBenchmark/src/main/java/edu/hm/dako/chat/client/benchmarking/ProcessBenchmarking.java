@@ -1,5 +1,6 @@
 package edu.hm.dako.chat.client.benchmarking;
 
+import java.net.URISyntaxException;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 
@@ -14,6 +15,9 @@ import edu.hm.dako.chat.jms.connect.JmsProducer;
 import edu.hm.dako.chat.model.BenchmarkPDU;
 import edu.hm.dako.chat.model.PDU;
 import edu.hm.dako.chat.model.PduType;
+import edu.hm.dako.chat.rest.MessagingHandler;
+import edu.hm.dako.chat.rest.MessagingHandlerImpl;
+import edu.hm.dako.chat.rest.TechnicalRestException;
 
 public class ProcessBenchmarking {
 
@@ -48,8 +52,19 @@ public class ProcessBenchmarking {
 
 				PDU pdu = createBenchmarkCPU(name);
 
-				for (int i = 1; i <= messageCount; i++) {
-					sendBenchmarkCPU(pdu);
+				//login
+				MessagingHandler handler = null;
+				try {
+					handler = new MessagingHandlerImpl("127.0.0.1", 8089);
+					handler.login(pdu.getUserName());
+					
+					for (int i = 1; i <= messageCount; i++) {
+						sendBenchmarkCPU(pdu);
+					}
+				} catch (TechnicalRestException e) {
+					log.error(e.getMessage());
+				} catch (URISyntaxException e) {
+					log.error(e.getMessage());
 				}
 
 				startingGate.reset();

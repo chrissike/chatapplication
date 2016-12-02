@@ -22,6 +22,8 @@ public class ClientModel {
 
 	private ModelCalculator calculator;
 
+	private Integer totalNumberOfMessages;
+	
 	private ObservableList<ResultTableModel> resultList;
 	private ObservableList<GroupedResultTableModel> groupedResultList;
 
@@ -229,6 +231,14 @@ public class ClientModel {
 
 	public synchronized List<Double> getRTTListOfClient(String clientName) {
 		return sharedRTTClientList.get(clientName);
+	}
+
+	public Integer getTotalNumberOfMessages() {
+		return totalNumberOfMessages;
+	}
+
+	public void setTotalNumberOfMessages(Integer totalNumberOfMessages) {
+		this.totalNumberOfMessages = totalNumberOfMessages;
 	}
 
 }

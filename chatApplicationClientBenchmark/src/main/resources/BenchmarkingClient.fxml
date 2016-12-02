@@ -41,8 +41,8 @@
                                       <columns>
                                         <TableColumn fx:id="colTest" prefWidth="130.0" text="Nachrichtennummer" />
                                           <TableColumn fx:id="colAnzahlNachrichten" prefWidth="130.0" text="Anzahl Nachrichten" />
-                                          <TableColumn fx:id="colRTT" prefWidth="130.0" text="RTT (in ms)" />
-                                          <TableColumn fx:id="colRTTServer" prefWidth="130.0" text="RTT Server (in ms)" />
+                                          <TableColumn fx:id="colRTT" prefWidth="130.0" text="RTT (in s)" />
+                                          <TableColumn fx:id="colRTTServer" prefWidth="130.0" text="RTT Server (in s)" />
                                           <TableColumn fx:id="colFreeMemory" prefWidth="170.0" text="Freier Server Speicher (MiB)" />
                                           <TableColumn fx:id="colAvgCpu" prefWidth="165.0" text="Ø-CPU Auslastung (%)" />
                                       </columns>
@@ -51,7 +51,7 @@
                                        <children>
                                           <VBox alignment="CENTER">
                                              <children>
-                                                <Label text="Ø-RTT:  ">
+                                                <Label text="Ø-RTT gesamt:  ">
                                                    <font>
                                                       <Font size="15.0" />
                                                    </font>
@@ -68,7 +68,7 @@
                                                             <Font size="37.0" />
                                                          </font>
                                                       </Label>
-                                                      <Label text="ms" />
+                                                      <Label text="s" />
                                                    </children>
                                                 </HBox>
                                              </children>
@@ -93,7 +93,7 @@
                                                             <Font size="37.0" />
                                                          </font>
                                                       </Label>
-                                                      <Label text="ms" />
+                                                      <Label text="s" />
                                                    </children>
                                                 </HBox>
                                              </children>
@@ -118,7 +118,7 @@
                                                             <Font size="37.0" />
                                                          </font>
                                                       </Label>
-                                                      <Label text="ms" />
+                                                      <Label text="s" />
                                                    </children>
                                                 </HBox>
                                              </children>
@@ -143,7 +143,7 @@
                                                             <Font size="37.0" />
                                                          </font>
                                                       </Label>
-                                                      <Label text="ms" />
+                                                      <Label text="s" />
                                                    </children>
                                                 </HBox>
                                              </children>
@@ -168,7 +168,7 @@
                                                             <Font size="37.0" />
                                                          </font>
                                                       </Label>
-                                                      <Label text="ms" />
+                                                      <Label text="s" />
                                                    </children>
                                                 </HBox>
                                              </children>
@@ -240,7 +240,7 @@
                                     <TableView fx:id="tableResultsGrouped" prefHeight="583.0" prefWidth="986.0">
                                       <columns>
                                         <TableColumn fx:id="colClientName" prefWidth="230.0" text="Clientname" />
-                                          <TableColumn fx:id="colAvgRttOfClient" prefWidth="370.0" text="Ø-RTT aller Nachrichten eines Clients (ms)" />
+                                          <TableColumn fx:id="colAvgRttOfClient" prefWidth="370.0" text="Ø-RTT aller Nachrichten eines Clients (s)" />
                                       </columns>
                                     </TableView>
                                  </children>
@@ -258,7 +258,7 @@
                                   <NumberAxis fx:id="analyzedMessage1" label="Nachrichtennummer (Aufsteigend der RTT sortiert)" minorTickCount="0" side="BOTTOM" tickUnit="1.0" upperBound="250.0" />
                                 </xAxis>
                                 <yAxis>
-                                  <NumberAxis fx:id="timeOfMessage1" label="Verarbeitungszeit in ms" side="LEFT" />
+                                  <NumberAxis fx:id="timeOfMessage1" label="Verarbeitungszeit (s)" side="LEFT" />
                                 </yAxis>
                               </AreaChart>
                            </children>
@@ -274,7 +274,7 @@
                                   <NumberAxis fx:id="analyzedMessage4" label="Clientnummer" minorTickCount="0" side="BOTTOM" tickUnit="1.0" upperBound="250.0" />
                                 </xAxis>
                                 <yAxis>
-                                  <NumberAxis fx:id="timeOfMessage4" label="Verarbeitungszeit in ms" side="LEFT" />
+                                  <NumberAxis fx:id="timeOfMessage4" label="Verarbeitungszeit (s)" side="LEFT" />
                                 </yAxis>
                               </LineChart>
                            </children>
@@ -290,7 +290,7 @@
                                   <NumberAxis fx:id="analyzedMessage2" label="Abgearbeitete Nachrichten" minorTickCount="0" side="BOTTOM" />
                                 </xAxis>
                                 <yAxis>
-                                  <NumberAxis fx:id="timeOfMessage2" label="Verarbeitungszeit in ms" side="LEFT" />
+                                  <NumberAxis fx:id="timeOfMessage2" label="Verarbeitungszeit (s)" side="LEFT" />
                                 </yAxis>
                               </AreaChart>
                            </children>
