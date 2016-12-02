@@ -27,6 +27,7 @@
 		<module>chatApplicationServer</module>
 		<module>chatApplicationModel</module>
 		<module>chatApplicationJmsConnector</module>
+		<module>chatApplicationRestConnector</module>
 		<module>chatApplicationClient</module>
 		<module>chatApplicationClientBenchmark</module>
 		<module>chatApplicationIntegrationTest</module>
@@ -57,6 +58,11 @@
 			<dependency>
 				<groupId>edu.hm.dako.chat</groupId>
 				<artifactId>chatApplicationJmsConnector</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>edu.hm.dako.chat</groupId>
+				<artifactId>chatApplicationRestConnector</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			
