@@ -11,7 +11,6 @@ import edu.hm.dako.chat.jms.connect.JmsConsumer;
 import edu.hm.dako.chat.model.BenchmarkPDU;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -20,15 +19,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import javax.naming.NamingException;
-
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
  * Chat-GUI
- * 
- * @author Paul Mandl
- *
  */
 @SuppressWarnings("restriction")
 public class BenchmarkingClientFxGUI extends Application {
@@ -114,7 +108,7 @@ public class BenchmarkingClientFxGUI extends Application {
 			log.info("Client: " + pdu.getUserName() + ", ClientTime: " + rttMs + ", ServerTime: " + rttServerMs);
 
 			// ChartBars
-			getModel().addClientTime(Integer.valueOf(pdu.getMessageNr()), rttMs);
+			getModel().addMessageTime(Integer.valueOf(pdu.getMessageNr()), rttMs);
 			getModel().addServerTime(Integer.valueOf(pdu.getMessageNr()), rttServerMs);
 
 			// StockedBarChart
@@ -134,17 +128,19 @@ public class BenchmarkingClientFxGUI extends Application {
 					String.valueOf(rttMs), String.valueOf(rttServerMs), pdu.getFreeMemory().toString(),
 					pdu.getAvgCPUUsage().toString());
 
-			Double avgDbl = getModel().getRTTListOfClient(pdu.getUserName()).parallelStream()
-					.collect(Collectors.averagingDouble(d -> d));
+			Double avgRttOfClient = getModel().getRTTListOfClient(pdu.getUserName()).parallelStream()
+					.collect(Collectors.averagingDouble(d -> d)).longValue() / 1000000000.0;
 			GroupedResultTableModel groupedResulttableRow = new GroupedResultTableModel(pdu.getUserName(),
-					avgDbl.toString());
+					avgRttOfClient.toString());
 
 			getModel().addToResultList(resultTableRow);
 
 			if (getModel().getGroupedResultList().stream().filter(p -> p.getColUsername().getValue().equals(pdu.getUserName()))
 					.findFirst().isPresent()) {
+				getModel().updateClientTime(Integer.valueOf(pdu.getUserName()), avgRttOfClient);
 				getModel().updateGroupedResultList(groupedResulttableRow);
 			}else{
+				getModel().addClientTime(Integer.valueOf(pdu.getUserName()), avgRttOfClient);
 				getModel().addToGroupedResultList(groupedResulttableRow);
 			}
 

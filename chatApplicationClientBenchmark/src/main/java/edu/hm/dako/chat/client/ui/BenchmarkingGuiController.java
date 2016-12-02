@@ -7,6 +7,7 @@ import edu.hm.dako.chat.client.data.GroupedResultTableModel;
 import edu.hm.dako.chat.client.data.ResultTableModel;
 import javafx.fxml.FXML;
 import javafx.scene.chart.AreaChart;
+import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
@@ -39,11 +40,13 @@ public class BenchmarkingGuiController {
 	@FXML
 	private TableColumn<GroupedResultTableModel, String> colClientName, colAvgRttOfClient;
 	@FXML
-	private Tab rttDiagramm1, rttDiagramm2, ergebniszahlen;
+	private Tab rttDiagramm1, rttDiagramm2, rttDiagramm3, ergebniszahlen;
 	@FXML
-	private NumberAxis analyzedMessage1, analyzedMessage2, timeOfMessage1, timeOfMessage2;
+	private NumberAxis analyzedMessage1, analyzedMessage2, analyzedMessage4, timeOfMessage1, timeOfMessage2, timeOfMessage4;
 	@FXML
 	private AreaChart<Integer, Double> areaChart1, areaChart2;
+	@FXML
+	private LineChart<Integer, Double> areaChart3;
 	@FXML
 	private StackedBarChart<CategoryAxis, Double> stackedbarChart1;
 
@@ -67,9 +70,9 @@ public class BenchmarkingGuiController {
 		tableResultsGrouped.setEditable(false);
 
 		// initialize charts
-		areaChart1.getData().addAll(appController.getModel().getClientTimeChart());
+		areaChart1.getData().addAll(appController.getModel().getMessageTimeChart());
 		areaChart2.getData().addAll(appController.getModel().getServerTimeChart());
-
+		areaChart3.getData().addAll(appController.getModel().getClientTimeChart());
 		stackedbarChart1.getData().add(appController.getModel().getAnteilsChartClient());
 		stackedbarChart1.getData().add(appController.getModel().getAnteilsChartServer());
 

@@ -38,6 +38,7 @@ public class ClientModel {
 	private DoubleProperty stdDev;
 
 	private XYChart.Series<Integer, Double> serverTimeChart = new XYChart.Series<Integer, Double>();
+	private XYChart.Series<Integer, Double> messageTimeChart = new XYChart.Series<Integer, Double>();
 	private XYChart.Series<Integer, Double> clientTimeChart = new XYChart.Series<Integer, Double>();
 	private XYChart.Series<CategoryAxis, Double> anteilsChartServer = new XYChart.Series<CategoryAxis, Double>();
 	private XYChart.Series<CategoryAxis, Double> anteilsChartClient = new XYChart.Series<CategoryAxis, Double>();
@@ -79,6 +80,14 @@ public class ClientModel {
 		setAverageServerRTT(Math.round(calculator.calcAverageOfDouble(getRttServerList()) * 100.0) / 100.0);
 	}
 
+	public XYChart.Series<Integer, Double> getMessageTimeChart() {
+		return messageTimeChart;
+	}
+
+	public synchronized void addMessageTime(Integer messageNumber, Double clientTime) {
+		this.messageTimeChart.getData().add(new XYChart.Data<Integer, Double>(messageNumber, clientTime));
+	}
+
 	public XYChart.Series<Integer, Double> getClientTimeChart() {
 		return clientTimeChart;
 	}
@@ -87,6 +96,14 @@ public class ClientModel {
 		this.clientTimeChart.getData().add(new XYChart.Data<Integer, Double>(clientName, clientTime));
 	}
 
+	public synchronized void updateClientTime(Integer clientName, Double clientTime) {
+		for (XYChart.Data<Integer, Double> data : this.clientTimeChart.getData()) {
+			if(data.getXValue().equals(clientName)) {
+				data.setYValue(clientTime);
+			}
+	    }
+	}
+	
 	public XYChart.Series<Integer, Double> getServerTimeChart() {
 		return serverTimeChart;
 	}

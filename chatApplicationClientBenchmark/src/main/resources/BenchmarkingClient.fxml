@@ -240,7 +240,7 @@
                                     <TableView fx:id="tableResultsGrouped" prefHeight="583.0" prefWidth="986.0">
                                       <columns>
                                         <TableColumn fx:id="colClientName" prefWidth="230.0" text="Clientname" />
-                                          <TableColumn fx:id="colAvgRttOfClient" prefWidth="370.0" text="Ø-RTT aller Nachrichten eines Clients" />
+                                          <TableColumn fx:id="colAvgRttOfClient" prefWidth="370.0" text="Ø-RTT aller Nachrichten eines Clients (ms)" />
                                       </columns>
                                     </TableView>
                                  </children>
@@ -261,6 +261,22 @@
                                   <NumberAxis fx:id="timeOfMessage1" label="Verarbeitungszeit in ms" side="LEFT" />
                                 </yAxis>
                               </AreaChart>
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+                <Tab fx:id="rttDiagramm3" text="Ø-RTT der Clients">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0">
+                           <children>
+                              <LineChart fx:id="areaChart3" horizontalGridLinesVisible="false" layoutY="-3.0" title="Durchschnittliche Round Trip Time (Verarbeitungszeit) Gesamt - gruppiert nach Clients" verticalGridLinesVisible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <xAxis>
+                                  <NumberAxis fx:id="analyzedMessage4" label="Clientnummer" minorTickCount="0" side="BOTTOM" tickUnit="1.0" upperBound="250.0" />
+                                </xAxis>
+                                <yAxis>
+                                  <NumberAxis fx:id="timeOfMessage4" label="Verarbeitungszeit in ms" side="LEFT" />
+                                </yAxis>
+                              </LineChart>
                            </children>
                         </AnchorPane>
                   </content>
