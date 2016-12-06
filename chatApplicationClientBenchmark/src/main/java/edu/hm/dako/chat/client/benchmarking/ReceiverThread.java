@@ -1,24 +1,14 @@
 package edu.hm.dako.chat.client.benchmarking;
 
-import java.net.URISyntaxException;
-
 import javax.jms.JMSException;
 import javax.jms.Message;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import edu.hm.dako.chat.client.ui.BenchmarkingClientFxGUI;
 import edu.hm.dako.chat.model.BenchmarkPDU;
 import edu.hm.dako.chat.model.PDU;
-import edu.hm.dako.chat.rest.MessagingHandler;
-import edu.hm.dako.chat.rest.MessagingHandlerImpl;
-import edu.hm.dako.chat.rest.TechnicalRestException;
 
 public class ReceiverThread implements Runnable {
 
-	private static Log log = LogFactory.getLog(ReceiverThread.class);
-	
 	private BenchmarkPDU bmPDU;
 	private Long rtt;
 	private Double rttMs;
@@ -40,27 +30,10 @@ public class ReceiverThread implements Runnable {
 
 	public void run() {
 		if (bmPDU != null && BenchmarkingClientFxGUI.instance != null) {
-//TODO LOGOUT
-//			if(letzte Nachricht von einem Client erhalten) {
-				logoutClient(bmPDU.getUserName());				
-//			}
 			stopAndCalculateRTT();
-			BenchmarkingClientFxGUI.instance.getModel().addRTTToSharedRTTClientList(bmPDU.getUserName(), getRtt());
 			bmPDU.setAvgCPUUsage(BenchmarkingClientFxGUI.getSysResourceCalc().getAverageCpuUtilisation().doubleValue() * 100);
 			bmPDU.setMessageNr(BenchmarkingClientFxGUI.getAndIncreaseClientNameReceivedCounter());
 			BenchmarkingClientFxGUI.instance.showResults(bmPDU, getRtt(), getRttMs(), getRttServerMs());
-		}
-	}
-	
-	private void logoutClient(String username) {
-		MessagingHandler handler = null;
-		try {
-			handler = new MessagingHandlerImpl("127.0.0.1", 8089);
-			handler.logout(username);
-		} catch (TechnicalRestException e) {
-			log.error(e.getMessage());
-		} catch (URISyntaxException e) {
-			log.error(e.getMessage());
 		}
 	}
 

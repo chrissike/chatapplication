@@ -50,17 +50,10 @@ public class ProcessBenchmarking {
 					log.error(e.getStackTrace());
 				}
 
-				PDU pdu = createBenchmarkCPU(name);
-
-				//login
-				MessagingHandler handler = null;
 				try {
-					handler = new MessagingHandlerImpl("127.0.0.1", 8089);
-					handler.login(pdu.getUserName());
-					
-					for (int i = 1; i <= messageCount; i++) {
-						sendBenchmarkCPU(pdu);
-					}
+					performLogin(name);
+					performMessaging(name, messageCount);
+					performLogout(name);
 				} catch (TechnicalRestException e) {
 					log.error(e.getMessage());
 				} catch (URISyntaxException e) {
@@ -68,6 +61,31 @@ public class ProcessBenchmarking {
 				}
 
 				startingGate.reset();
+			}
+
+			private void performMessaging(String name, Integer messageCount) {
+				PDU pdu = createBenchmarkCPU(name);
+				for (int i = 1; i <= messageCount; i++) {
+					sendBenchmarkCPU(pdu);
+				}
+			}
+
+			private void performLogin(String name) throws URISyntaxException {
+				MessagingHandler handler;
+				PDU loginPDU = createBenchmarkCPU(name);
+				handler = new MessagingHandlerImpl("127.0.0.1", 8089);
+				handler.login(loginPDU.getUserName());
+				Long endTime = System.nanoTime()-loginPDU.getClientStartTime();
+				BenchmarkingClientFxGUI.instance.addEntryToGroupedClientRTTList(name, endTime);
+			}
+			
+			private void performLogout(String name) throws URISyntaxException {
+				MessagingHandler handler;
+				PDU loginPDU = createBenchmarkCPU(name);
+				handler = new MessagingHandlerImpl("127.0.0.1", 8089);
+				handler.logout(loginPDU.getUserName());
+				Long endTime = System.nanoTime()-loginPDU.getClientStartTime();
+				BenchmarkingClientFxGUI.instance.addEntryToGroupedClientRTTList(name, endTime);
 			}
 
 			public void sendBenchmarkCPU(PDU pdu) {

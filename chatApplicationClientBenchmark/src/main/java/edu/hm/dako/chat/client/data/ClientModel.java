@@ -13,6 +13,8 @@ import java.util.Map;
 import edu.hm.dako.chat.client.data.util.ModelCalculator;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.IntegerProperty;
 
 /**
  * Modelldaten fuer FX-GUI
@@ -23,7 +25,7 @@ public class ClientModel {
 	private ModelCalculator calculator;
 
 	private Integer totalNumberOfMessages;
-	
+
 	private ObservableList<ResultTableModel> resultList;
 	private ObservableList<GroupedResultTableModel> groupedResultList;
 
@@ -32,6 +34,9 @@ public class ClientModel {
 	private List<Double> rttList;
 	private List<Double> rttServerList;
 	private List<Double> serverMemoryList;
+
+	private IntegerProperty totalCountOfProcessedMessages;
+	private DoubleProperty processedPercentage;
 
 	private DoubleProperty averageRTT;
 	private DoubleProperty maxRTT;
@@ -59,6 +64,9 @@ public class ClientModel {
 		this.rttServerList = new ArrayList<Double>();
 		this.serverMemoryList = new ArrayList<Double>();
 
+		this.totalCountOfProcessedMessages = new SimpleIntegerProperty(0);
+		this.processedPercentage = new SimpleDoubleProperty(0.0);
+		
 		this.averageRTT = new SimpleDoubleProperty(0.0);
 		this.averageServerRTT = new SimpleDoubleProperty(0.0);
 		this.stdDev = new SimpleDoubleProperty(0.0);
@@ -100,12 +108,12 @@ public class ClientModel {
 
 	public synchronized void updateClientTime(Integer clientName, Double clientTime) {
 		for (XYChart.Data<Integer, Double> data : this.clientTimeChart.getData()) {
-			if(data.getXValue().equals(clientName)) {
+			if (data.getXValue().equals(clientName)) {
 				data.setYValue(clientTime);
 			}
-	    }
+		}
 	}
-	
+
 	public XYChart.Series<Integer, Double> getServerTimeChart() {
 		return serverTimeChart;
 	}
@@ -241,4 +249,19 @@ public class ClientModel {
 		this.totalNumberOfMessages = totalNumberOfMessages;
 	}
 
+	public IntegerProperty getTotalCountOfProcessedMessages() {
+		return totalCountOfProcessedMessages;
+	}
+
+	public synchronized void setTotalCountOfProcessedMessages(Integer totalCountOfProcessedMessages) {
+		this.totalCountOfProcessedMessages.set(totalCountOfProcessedMessages);
+	}
+
+	public DoubleProperty getProcessedPercentage() {
+		return processedPercentage;
+	}
+
+	public void setProcessedPercentage(Double processedPercentage) {
+		this.processedPercentage.set(processedPercentage);
+	}
 }

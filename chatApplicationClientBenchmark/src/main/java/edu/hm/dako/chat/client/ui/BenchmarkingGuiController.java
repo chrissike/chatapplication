@@ -14,6 +14,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.control.Label;
@@ -28,7 +29,8 @@ public class BenchmarkingGuiController {
 	@FXML
 	private TextField txtServername, txtServerPort, txtAnzahlClients, txtAnzahlNachrichten, txtNachrichtenlaenge;
 	@FXML
-	private Label avgRTT, maxRTT, minRTT, avgRTTServer, rttSD, avgCPU, minFreeMemory;
+	private Label avgRTT, maxRTT, minRTT, avgRTTServer, rttSD, avgCPU, minFreeMemory, txtNumberOfMessages,
+			txtNumberOfProcessedMessages;
 	@FXML
 	private Button startButton;
 	@FXML
@@ -51,6 +53,8 @@ public class BenchmarkingGuiController {
 	private LineChart<Integer, Double> areaChart3;
 	@FXML
 	private StackedBarChart<CategoryAxis, Double> stackedbarChart1;
+	@FXML
+	private ProgressBar processBar;
 
 	public void setAppController(BenchmarkingClientFxGUI appController) {
 		// initialize columns of Table tableResults
@@ -78,6 +82,10 @@ public class BenchmarkingGuiController {
 		stackedbarChart1.getData().add(appController.getModel().getAnteilsChartClient());
 		stackedbarChart1.getData().add(appController.getModel().getAnteilsChartServer());
 
+		txtNumberOfMessages.setText(String.valueOf(0));
+		txtNumberOfProcessedMessages.textProperty()
+				.bind(Bindings.convert(appController.getModel().getTotalCountOfProcessedMessages()));
+
 		// initialize statistic-fields
 		avgRTT.textProperty().bind(Bindings.convert(appController.getModel().getAverageRTT()));
 		maxRTT.textProperty().bind(Bindings.convert(appController.getModel().getMaxRTT()));
@@ -86,10 +94,16 @@ public class BenchmarkingGuiController {
 		rttSD.textProperty().bind(Bindings.convert(appController.getModel().getStdDev()));
 		avgCPU.textProperty().bind(Bindings.convert(appController.getSysStatus().getAvgCPU()));
 		minFreeMemory.textProperty().bind(Bindings.convert(appController.getSysStatus().getMinServerMemory()));
+
+		// process
+		processBar.progressProperty().bind(appController.getModel().getProcessedPercentage());
 	}
 
 	@FXML
 	private void startBenchmarking() {
+		txtNumberOfMessages.setText(String.valueOf(
+				Integer.valueOf(txtAnzahlClients.getText()) * Integer.valueOf(txtAnzahlNachrichten.getText())));
+
 		ProcessBenchmarking process = new ProcessBenchmarking(generateMessageByLength(),
 				Integer.parseInt(txtAnzahlClients.getText()));
 
