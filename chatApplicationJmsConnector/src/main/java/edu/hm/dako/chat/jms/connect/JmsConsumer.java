@@ -1,7 +1,6 @@
 package edu.hm.dako.chat.jms.connect;
 
 import java.util.Properties;
-
 import javax.jms.ConnectionFactory;
 import javax.jms.JMSConsumer;
 import javax.jms.JMSContext;

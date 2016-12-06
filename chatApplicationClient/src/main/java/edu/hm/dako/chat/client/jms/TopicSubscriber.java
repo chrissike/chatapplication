@@ -1,4 +1,4 @@
-package edu.hm.dako.chat.client.communication.jms;
+package edu.hm.dako.chat.client.jms;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -33,7 +33,7 @@ public class TopicSubscriber implements MessageListener {
 				ClientFxGUI.instance.setUserList(chatPDU.getClients());
 				break;
 			default:
-				// TODO was tun??
+				// Message will be ignored...
 				break;
 			}
 		}

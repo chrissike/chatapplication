@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 public class MessagingHandlerImpl implements MessagingHandler {
 
-	private static final Logger LOG = LoggerFactory.getLogger(MessagingHandlerImpl.class);
+	private static final Logger log = LoggerFactory.getLogger(MessagingHandlerImpl.class);
 
 
 	private static final String USER_RESOURCE = "chatapp/resources/user";
@@ -95,7 +95,7 @@ public class MessagingHandlerImpl implements MessagingHandler {
 
 	private void handleResponseWithErrorItem(final ErrorItem errorItem) {
 		final String errorMessage = errorMessageFromErrorItem(errorItem);
-		LOG.warn(errorMessage);
+		log.warn(errorMessage);
 		if (ErrorType.VALIDATION_ERROR.equals(errorItem.getErrorType())) {
 			throw new TechnicalRestException(errorMessage);
 		} else {
@@ -108,7 +108,7 @@ public class MessagingHandlerImpl implements MessagingHandler {
 	}
 
 	private void handleTechnicalException(final Throwable th) throws TechnicalRestException {
-		LOG.error("Es ist ein technischer Fehler aufgetreten", th);
+		log.error("Es ist ein technischer Fehler aufgetreten", th);
 		throw new TechnicalRestException(th.getMessage());
 	}
 

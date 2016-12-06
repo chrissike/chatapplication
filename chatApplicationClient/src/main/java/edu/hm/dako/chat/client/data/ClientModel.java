@@ -20,7 +20,7 @@ public class ClientModel {
 	private StringProperty password = new SimpleStringProperty();
 	private StringProperty address = new SimpleStringProperty();
 	private StringProperty port = new SimpleStringProperty();
-	
+
 	public StringProperty userNameProperty() {
 		return userName;
 	}
@@ -40,7 +40,7 @@ public class ClientModel {
 	public void setPassword(String password) {
 		this.password.set(password);
 	}
-	
+
 	public StringProperty getAddress() {
 		return address;
 	}
@@ -56,7 +56,6 @@ public class ClientModel {
 	public void setPort(String port) {
 		this.port.set(port);
 	}
-
 
 	public ObservableList<String> users = FXCollections.observableArrayList();
 	public ObservableList<String> chats = FXCollections.observableArrayList();

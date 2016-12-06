@@ -5,10 +5,10 @@ import static org.junit.Assert.assertTrue;
 import javax.jms.JMSException;
 import javax.naming.NamingException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import edu.hm.dako.chat.jms.connect.JmsChatContext;
 import edu.hm.dako.chat.jms.connect.JmsConsumer;
@@ -19,7 +19,7 @@ import edu.hm.dako.chat.model.PduType;
 
 public class JmsProducerTest {
 
-	private static Log log = LogFactory.getLog(JmsProducerTest.class);
+	private static final Logger log = LoggerFactory.getLogger(JmsProducerTest.class);
 
 	private static final String USERNAME = "Hans Wurst";
 	private static final String MESSAGE = "Habe Hunger";

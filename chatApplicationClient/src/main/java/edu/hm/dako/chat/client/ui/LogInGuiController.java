@@ -4,9 +4,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -23,7 +20,7 @@ import javafx.scene.input.KeyEvent;
 @SuppressWarnings("restriction")
 public class LogInGuiController implements Initializable {
 
-	private static Log log = LogFactory.getLog(LogInGuiController.class);
+//	private static final Logger log = LoggerFactory.getLogger(LogInGuiController.class);
 
 	private String userName;
 
@@ -54,7 +51,7 @@ public class LogInGuiController implements Initializable {
 	public void handleKeyPressed(KeyEvent event) {
 		if (event.getCode() == KeyCode.ENTER) {
 			if(!performLogin()) {
-				log.error("Login war leider nicht erfolgreich.");				
+//				log.error("Login war leider nicht erfolgreich.");				
 			}
 		}
 	}

@@ -9,19 +9,35 @@
 	</parent>
 
 	<artifactId>chatApplicationClient</artifactId>
-	<packaging>jar</packaging>
 
 	<name>chatApplicationClient</name>
-	<url>http://maven.apache.org</url>
+	<description>Desktop Chat-Anwendung.</description>
+	<contributors>
+		<contributor>
+			<name>Hochschule.Muenchen</name>
+		</contributor>
+	</contributors>
+	<organization>
+		<name>Hochschule.Muenchen</name>
+	</organization>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<!-- plugin versions -->
+		<maven-compiler.version>3.1</maven-compiler.version>
+		<maven-jar.version>2.6</maven-jar.version>
+		<maven-site.version>3.3</maven-site.version>
+		<maven-source.version>3.0.1</maven-source.version>
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>edu.hm.dako.chat</groupId>
 			<artifactId>chatApplicationModel</artifactId>
+			<!-- <exclusions> <exclusion> <groupId>commons-logging</groupId> <artifactId>commons-logging</artifactId> 
+				</exclusion> <exclusion> <groupId>org.apache.logging.log4j</groupId> <artifactId>log4j-api</artifactId> 
+				</exclusion> </exclusions> -->
 		</dependency>
 		<dependency>
 			<groupId>edu.hm.dako.chat</groupId>
@@ -30,10 +46,12 @@
 		<dependency>
 			<groupId>edu.hm.dako.chat</groupId>
 			<artifactId>chatApplicationRestConnector</artifactId>
+			<!-- <exclusions> <exclusion> <groupId>org.apache.logging.log4j</groupId> 
+				<artifactId>log4j-core</artifactId> </exclusion> </exclusions> -->
 		</dependency>
-				
+
 		<!-- Third Person Libraries -->
-		<dependency>
+<!-- 		<dependency>
 			<groupId>org.jboss.xnio</groupId>
 			<artifactId>xnio-api</artifactId>
 			<scope>runtime</scope>
@@ -42,47 +60,11 @@
 			<groupId>org.jboss.xnio</groupId>
 			<artifactId>xnio-nio</artifactId>
 			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.marshalling</groupId>
-			<artifactId>jboss-marshalling-river</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.wildfly</groupId>
-			<artifactId>wildfly-jms-client-bom</artifactId>
-			<type>pom</type>
-			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>jcl-over-slf4j</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-		<dependency>
-			<groupId>javax.ws.rs</groupId>
-			<artifactId>javax.ws.rs-api</artifactId>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.glassfish.jersey.core</groupId>
-			<artifactId>jersey-client</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-core</artifactId>
-			<version>2.7</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-			<version>1.7.7</version>
-		</dependency>
-
 
 		<!-- Testing -->
 		<dependency>
@@ -96,4 +78,72 @@
 			<version>1.3</version>
 		</dependency>
 	</dependencies>
+
+	<build>
+		<finalName>ChatClient</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>${maven-jar.version}</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven-compiler.version}</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+					<encoding>${project.build.sourceEncoding}</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>${maven-site.version}</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>${maven-source.version}</version>
+			</plugin>
+			<plugin>
+				<groupId>com.zenjava</groupId>
+				<artifactId>javafx-maven-plugin</artifactId>
+				<version>8.1.4</version>
+				<configuration>
+					<mainClass>edu.hm.dako.chat.client.ui.ClientFxGUI</mainClass>
+					<project>
+						<organization>
+							<name>Hochschule.Muenchen</name>
+						</organization>
+					</project>
+				</configuration>
+				<executions>
+					<execution>
+						<id>create-jfxjar</id>
+						<phase>package</phase>
+						<goals>
+							<goal>build-jar</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>create-native</id>
+						<phase>package</phase>
+						<goals>
+							<goal>build-native</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>

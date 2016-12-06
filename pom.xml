@@ -65,7 +65,7 @@
 				<artifactId>chatApplicationRestConnector</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			
+
 
 			<!-- Wildfly Libs -->
 			<dependency>
@@ -74,6 +74,12 @@
 				<version>${wildfly.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.logging</groupId>
+				<artifactId>jboss-logging</artifactId>
+				<version>3.3.0.Final</version>
+				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.wildfly</groupId>
@@ -88,13 +94,9 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
-			<dependency>
-				<groupId>org.wildfly</groupId>
-				<artifactId>wildfly-jms-client-bom</artifactId>
-				<version>${wildfly-jms-client-bom.version}</version>
-				<type>pom</type>
-				<scope>provided</scope>
-			</dependency>
+			<!-- <dependency> <groupId>org.wildfly</groupId> <artifactId>wildfly-jms-client-bom</artifactId> 
+				<version>${wildfly-jms-client-bom.version}</version> <type>pom</type> <scope>provided</scope> 
+				</dependency> -->
 			<dependency>
 				<groupId>org.jboss.spec</groupId>
 				<artifactId>jboss-javaee-7.0</artifactId>
@@ -102,7 +104,7 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
-			
+
 			<!-- 3rd party Libs -->
 			<!-- https://mvnrepository.com/artifact/commons-logging/commons-logging -->
 			<dependency>
@@ -134,6 +136,12 @@
 				<artifactId>commons-lang3</artifactId>
 				<version>3.5</version>
 			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>1.7.21</version>
+				<scope>compile</scope>
+			</dependency>
 
 			<!-- Tests -->
 			<dependency>
@@ -157,6 +165,10 @@
 		<repository>
 			<id>jboss.org</id>
 			<url>https://repository.jboss.org/nexus/content/repositories/releases/</url>
+		</repository>
+		<repository>
+			<id>jboss-3rd-party-releases</id>
+			<url>https://repository.jboss.org/nexus/content/repositories/thirdparty-releases/</url>
 		</repository>
 	</repositories>
 
