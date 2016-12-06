@@ -29,13 +29,13 @@
               </Button>
                </children>
             </HBox>
-            <HBox maxHeight="26.0" prefHeight="26.0">
+            <HBox maxHeight="30.0" minHeight="30.0" prefHeight="30.0">
                <children>
-                  <Label prefHeight="17.0" prefWidth="159.0" text="Verarbeitete Nachrichten:" />
-                  <ProgressBar fx:id="processBar" minWidth="700.0" prefHeight="18.0" prefWidth="738.0" progress="0.0" />
-                  <Label fx:id="txtNumberOfProcessedMessages" alignment="CENTER_RIGHT" contentDisplay="RIGHT" minWidth="50.0" prefHeight="17.0" text="0" textAlignment="RIGHT" />
-                  <Separator orientation="VERTICAL" prefHeight="200.0" />
-                  <Label fx:id="txtNumberOfMessages" />
+                  <Label maxHeight="30.0" minHeight="30.0" prefHeight="30.0" prefWidth="159.0" text="Verarbeitete Nachrichten:" />
+                  <ProgressBar fx:id="processBar" maxHeight="30.0" minHeight="30.0" minWidth="700.0" prefHeight="30.0" prefWidth="738.0" progress="0.0" />
+                  <Label fx:id="txtNumberOfProcessedMessages" alignment="CENTER_RIGHT" contentDisplay="RIGHT" maxHeight="30.0" minHeight="30.0" minWidth="50.0" prefHeight="30.0" text="0" textAlignment="RIGHT" />
+                  <Label maxHeight="30.0" minHeight="30.0" prefHeight="30.0" text=" / " />
+                  <Label fx:id="txtNumberOfMessages" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" text="0" />
                </children>
             </HBox>
             <TabPane tabClosingPolicy="UNAVAILABLE">
