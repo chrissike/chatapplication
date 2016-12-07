@@ -36,7 +36,7 @@ public class ProcessBenchmarking {
 
 		Thread thread = new Thread() {
 			public void run() {
-				log.info("Client: " + name + " wartet auf den Start!");
+				log.debug("Client: " + name + " wartet auf den Start!");
 
 				// Client legt einen Eintrag in die SharedRTTClientList um bei
 				// den eingehenden Nachrichten eine Zuordnung zu schaffen.
@@ -88,7 +88,7 @@ public class ProcessBenchmarking {
 				BenchmarkingClientFxGUI.instance.addEntryToGroupedClientRTTList(name, endTime);
 			}
 
-			public void sendBenchmarkCPU(PDU pdu) {
+			private void sendBenchmarkCPU(PDU pdu) {
 				JmsProducer<PDU> jms = new JmsProducer<PDU>();
 
 				int retryCounter = 0;
@@ -110,6 +110,12 @@ public class ProcessBenchmarking {
 
 	}
 
+	public void performLogoutAll() throws TechnicalRestException, URISyntaxException {
+		MessagingHandler handler;
+		handler = new MessagingHandlerImpl("127.0.0.1", 8089);
+		handler.logoutAll();				
+	}
+	
 	public PDU createBenchmarkCPU(String name) {
 		PDU chatPdu = new BenchmarkPDU(PduType.MESSAGE);
 		chatPdu.setUserName(name);

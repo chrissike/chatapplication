@@ -85,12 +85,12 @@ public class ProcessPDUImpl implements ProcessPDU {
 		}
 		if (pdu.getPduType().equals(PduType.LOGOUT)) {
 			if (clientList.existsClient(pdu.getUserName())) {
-				clientList.deleteClientWithoutCondition(pdu.getUserName());
+				clientList.deleteClient(pdu.getUserName());
 				success = true;
 			}
 		}
 
-		log.info("clientList: " + clientList.getClientNameList());
+		log.debug("clientList: " + clientList.getClientNameList());
 		return success;
 	}
 
@@ -122,5 +122,9 @@ public class ProcessPDUImpl implements ProcessPDU {
 		requestPdu.setClients(clientList.getClientNameList());
 
 		return requestPdu;
+	}
+	
+	public void clearSharedClientList() {
+		clientList.deleteAllClients();
 	}
 }

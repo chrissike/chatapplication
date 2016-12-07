@@ -20,4 +20,11 @@ public interface MessagingHandler {
 	 */
 	public Boolean logout(final String anmeldename) throws TechnicalRestException;
 	
+	/**
+	 * Logout aller Clients (für Benchmarkzwecke zu verwenden)
+	 * @return
+	 * @throws TechnicalRestException
+	 */
+	public Boolean logoutAll() throws TechnicalRestException;
+	
 }

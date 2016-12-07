@@ -105,7 +105,7 @@ public class BenchmarkingClientFxGUI extends Application {
 	public void showResults(BenchmarkPDU pdu, Long rtt, Double rttMs, Double rttServerMs) {
 		Platform.runLater(() -> {
 
-			log.info("Client: " + pdu.getUserName() + ", ClientTime: " + rttMs + ", ServerTime: " + rttServerMs);
+			log.debug("Client: " + pdu.getUserName() + ", ClientTime: " + rttMs + ", ServerTime: " + rttServerMs);
 
 			// ChartBars
 			getModel().addMessageTime(Integer.valueOf(pdu.getMessageNr()), rttMs);

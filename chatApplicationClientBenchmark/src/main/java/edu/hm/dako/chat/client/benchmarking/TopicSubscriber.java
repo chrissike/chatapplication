@@ -20,7 +20,7 @@ public class TopicSubscriber implements MessageListener {
 			Runnable r = new ReceiverThread(message);
 			new Thread(r).start();
 		}catch(Exception e) {
-			log.info("Nachricht empfangen, die keiner der Benchmark-Nachrichten entspricht.");
+			log.debug("Nachricht empfangen, die keiner der Benchmark-Nachrichten entspricht.");
 		}
 
 	}

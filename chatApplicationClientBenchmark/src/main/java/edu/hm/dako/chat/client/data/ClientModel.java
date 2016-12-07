@@ -47,9 +47,12 @@ public class ClientModel {
 	private XYChart.Series<Integer, Double> serverTimeChart = new XYChart.Series<Integer, Double>();
 	private XYChart.Series<Integer, Double> messageTimeChart = new XYChart.Series<Integer, Double>();
 	private XYChart.Series<Integer, Double> clientTimeChart = new XYChart.Series<Integer, Double>();
-	private XYChart.Series<CategoryAxis, Double> anteilsChartServer = new XYChart.Series<CategoryAxis, Double>();
-	private XYChart.Series<CategoryAxis, Double> anteilsChartClient = new XYChart.Series<CategoryAxis, Double>();
+	private XYChart.Series<String, Double> anteilsChartServer = new XYChart.Series<String, Double>();
+	private XYChart.Series<String, Double> anteilsChartClient = new XYChart.Series<String, Double>();
 
+	private XYChart.Series<Double,Double> regression1 = new XYChart.Series<Double,Double>();
+	private XYChart.Series<Double,Double> regression2 = new XYChart.Series<Double,Double>();
+	
 	public ClientModel() {
 		this.calculator = new ModelCalculator();
 
@@ -72,6 +75,14 @@ public class ClientModel {
 		this.stdDev = new SimpleDoubleProperty(0.0);
 		this.maxRTT = new SimpleDoubleProperty(0.0);
 		this.minRTT = new SimpleDoubleProperty(0.0);
+//		
+//		regression1.getData().add(new XYChart.Data<String, Double>(4.2, 193.2));
+//		regression1.getData().add(new XYChart.Data<String, Double>(2.8, 33.6));
+//		regression1.getData().add(new XYChart.Data<String, Double>(6.8, 23.6));
+//		
+//		regression2.getData().add(new XYChart.Data<String, Double>(5.2, 229.2));
+//		regression2.getData().add(new XYChart.Data<String, Double>(2.4, 37.6));
+//		regression2.getData().add(new XYChart.Data<String, Double>(6.4, 15.6));
 	}
 
 	public synchronized void calculateKPIs() {
@@ -122,20 +133,20 @@ public class ClientModel {
 		this.serverTimeChart.getData().add(new XYChart.Data<Integer, Double>(clientName, serverTime));
 	}
 
-	public XYChart.Series<CategoryAxis, Double> getAnteilsChartServer() {
+	public XYChart.Series<String, Double> getAnteilsChartServer() {
 		return anteilsChartServer;
 	}
 
 	public synchronized void setAnteilsChartServer(Double serverTime) {
-		this.anteilsChartServer.getData().add(new XYChart.Data("Serverzeit", serverTime));
+		this.anteilsChartServer.getData().add(new XYChart.Data<String, Double>("Serverzeit", serverTime));
 	}
 
-	public XYChart.Series<CategoryAxis, Double> getAnteilsChartClient() {
+	public XYChart.Series<String, Double> getAnteilsChartClient() {
 		return anteilsChartClient;
 	}
 
 	public synchronized void setAnteilsChartClient(Double clientZeit) {
-		this.anteilsChartClient.getData().add(new XYChart.Data("Clientzeit", clientZeit));
+		this.anteilsChartClient.getData().add(new XYChart.Data<String, Double>("Clientzeit", clientZeit));
 	}
 
 	public ObservableList<ResultTableModel> getResultList() {
@@ -263,5 +274,21 @@ public class ClientModel {
 
 	public void setProcessedPercentage(Double processedPercentage) {
 		this.processedPercentage.set(processedPercentage);
+	}
+
+	public XYChart.Series<Double,Double> getRegression1() {
+		return regression1;
+	}
+
+	public void setRegression1(XYChart.Series<Double,Double> regression1) {
+		this.regression1 = regression1;
+	}
+
+	public XYChart.Series<Double,Double> getRegression2() {
+		return regression2;
+	}
+
+	public void setRegression2(XYChart.Series<Double,Double> regression2) {
+		this.regression2 = regression2;
 	}
 }

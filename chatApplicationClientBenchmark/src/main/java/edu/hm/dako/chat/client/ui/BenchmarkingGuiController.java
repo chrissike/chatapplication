@@ -1,10 +1,13 @@
 package edu.hm.dako.chat.client.ui;
 
+import java.net.URISyntaxException;
+
 import org.apache.commons.lang3.StringUtils;
 
 import edu.hm.dako.chat.client.benchmarking.ProcessBenchmarking;
 import edu.hm.dako.chat.client.data.GroupedResultTableModel;
 import edu.hm.dako.chat.client.data.ResultTableModel;
+import edu.hm.dako.chat.rest.TechnicalRestException;
 import javafx.fxml.FXML;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.LineChart;
@@ -16,7 +19,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.chart.StackedBarChart;
-import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.beans.binding.Bindings;
 
@@ -52,7 +55,9 @@ public class BenchmarkingGuiController {
 	@FXML
 	private LineChart<Integer, Double> areaChart3;
 	@FXML
-	private StackedBarChart<CategoryAxis, Double> stackedbarChart1;
+	private LineChart<Double, Double> regressionChart;
+	@FXML
+	private StackedBarChart<String, Double> stackedbarChart1;
 	@FXML
 	private ProgressBar processBar;
 
@@ -78,7 +83,12 @@ public class BenchmarkingGuiController {
 		// initialize charts
 		areaChart1.getData().addAll(appController.getModel().getMessageTimeChart());
 		areaChart2.getData().addAll(appController.getModel().getServerTimeChart());
-		areaChart3.getData().addAll(appController.getModel().getClientTimeChart());
+		areaChart3.getData().addAll(new XYChart.Series<Integer, Double>(), appController.getModel().getClientTimeChart());
+		regressionChart.setAnimated(false);
+		regressionChart.setCreateSymbols(true);
+		regressionChart.getData().addAll(appController.getModel().getRegression1(),
+				appController.getModel().getRegression2());
+
 		stackedbarChart1.getData().add(appController.getModel().getAnteilsChartClient());
 		stackedbarChart1.getData().add(appController.getModel().getAnteilsChartServer());
 
@@ -107,6 +117,14 @@ public class BenchmarkingGuiController {
 		ProcessBenchmarking process = new ProcessBenchmarking(generateMessageByLength(),
 				Integer.parseInt(txtAnzahlClients.getText()));
 
+		try {
+			process.performLogoutAll();
+		} catch (TechnicalRestException e) {
+			//Do nothing and try Benchmark
+		} catch (URISyntaxException e) {
+			//Do nothing and try Benchmark
+		}
+		
 		Integer messageCount = Integer.parseInt(txtAnzahlNachrichten.getText());
 		Integer clientCount = Integer.parseInt(txtAnzahlClients.getText());
 

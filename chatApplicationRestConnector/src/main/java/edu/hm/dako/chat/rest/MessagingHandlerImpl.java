@@ -72,6 +72,19 @@ public class MessagingHandlerImpl implements MessagingHandler {
 		}
 		return result;
 	}
+	
+	public Boolean logoutAll() throws TechnicalRestException {
+		Boolean result = false;
+		try {
+			final Response response = this.restClient.target(uri).path(USER_RESOURCE)
+					.path("logout/all")
+					.request(MediaType.APPLICATION_JSON).get();
+			result = handleResponse(response, Status.OK);
+		} catch (final Throwable th) {
+			handleTechnicalException(th);
+		}
+		return result;
+	}
 
 	private Boolean handleResponse(final Response response, final Status expectedStatus)
 			throws TechnicalRestException {
