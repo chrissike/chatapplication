@@ -111,8 +111,8 @@ public class BenchmarkingGuiController {
 
 	@FXML
 	private void startBenchmarking() throws TechnicalRestException, URISyntaxException {
-		BenchmarkingClientFxGUI.instance.setIp(ip);
-		BenchmarkingClientFxGUI.instance.setPort(port);
+		BenchmarkingClientFxGUI.instance.setIp(txtServername.getText());
+		BenchmarkingClientFxGUI.instance.setPort(Integer.valueOf(txtServerPort.getText()));
 		
 		txtNumberOfMessages.setText(String.valueOf(
 				Integer.valueOf(txtAnzahlClients.getText()) * Integer.valueOf(txtAnzahlNachrichten.getText())));

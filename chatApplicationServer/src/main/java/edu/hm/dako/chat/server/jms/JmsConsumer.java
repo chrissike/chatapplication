@@ -15,6 +15,7 @@ import org.apache.commons.logging.LogFactory;
 
 import edu.hm.dako.chat.model.PDU;
 import edu.hm.dako.chat.server.service.ProcessPDU;
+import edu.hm.dako.chat.server.user.SharedChatClientList;
 
 @MessageDriven(name = "JmsConsumer", activationConfig = {
 		@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
@@ -26,7 +27,7 @@ import edu.hm.dako.chat.server.service.ProcessPDU;
 public class JmsConsumer implements MessageListener {
 
 	private static Log log = LogFactory.getLog(JmsConsumer.class);
-
+	
 	@Inject
 	ProcessPDU process;
 
