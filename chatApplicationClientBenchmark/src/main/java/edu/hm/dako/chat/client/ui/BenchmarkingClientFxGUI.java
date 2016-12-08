@@ -37,6 +37,16 @@ public class BenchmarkingClientFxGUI extends Application {
 	private static JmsChatContext jmsContext;
 	private static SystemResourceCalculator sysResourceCalc;
 
+	/**
+	 * Ziel-Adresse des Servers (Default ist 127.0.0.1)
+	 */
+	private static String ip = "127.0.0.1";
+	
+	/**
+	 * Ziel Port des Servers (Default ist 8089)
+	 */
+	private static String port = "8089";
+	
 	private static Integer clientNameCounter = 1;
 	private static Integer clientNameReceivedCounter = 1;
 
@@ -171,5 +181,21 @@ public class BenchmarkingClientFxGUI extends Application {
 		Integer count = clientNameCounter;
 		clientNameCounter++;
 		return count;
+	}
+
+	public static String getIp() {
+		return ip;
+	}
+
+	public static void setIp(String ip) {
+		BenchmarkingClientFxGUI.ip = ip;
+	}
+
+	public static String getPort() {
+		return port;
+	}
+
+	public static void setPort(String port) {
+		BenchmarkingClientFxGUI.port = port;
 	}
 }

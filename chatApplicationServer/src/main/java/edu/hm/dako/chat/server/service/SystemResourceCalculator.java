@@ -1,5 +1,8 @@
 package edu.hm.dako.chat.server.service;
 
+import javax.ejb.Stateless;
+
+@Stateless
 public class SystemResourceCalculator {
 
 	Runtime r;

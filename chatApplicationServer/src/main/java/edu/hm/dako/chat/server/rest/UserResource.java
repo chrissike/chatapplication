@@ -63,7 +63,7 @@ public class UserResource {
 	}
 	
 	@GET
-	@Path("logout/all")
+	@Path("all/logout")
 	public Response logoutAll() {
 		log.debug("Logout aller User gestartet");
 

@@ -95,10 +95,9 @@ public class ProcessPDUImpl implements ProcessPDU {
 	}
 
 	private void sendPDU(PDU pdu) {
-		Long serverTime = Long.valueOf((System.nanoTime())) - pdu.getServerTime();
-		log.debug("pdu servertime: " + serverTime);
+		pdu.setServerTime(Long.valueOf((System.nanoTime())) - pdu.getServerTime());
+		log.debug("pdu servertime: " + pdu.getServerTime());
 
-		pdu.setServerTime(serverTime);
 		try {
 			publisher.sendMessage(pdu);
 		} catch (NamingException e) {
