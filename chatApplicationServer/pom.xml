@@ -120,12 +120,12 @@
 				<groupId>org.wildfly.plugins</groupId>
 				<artifactId>wildfly-maven-plugin</artifactId>
 				<version>${wildfly-maven-plugin.version}</version>
-				<!-- <configuration>
-					<hostname>${wildfly-hostname}</hostname>
-					<port>${wildfly-port}</port>
-					<username>${wildfly-username}</username>
-					<password>${wildfly-password}</password>
-				</configuration> -->
+				<configuration>
+					<hostname>10.28.56.110</hostname>
+					<port>8089</port>
+<!-- 					<username></username>
+					<password></password> -->
+				</configuration>
 				<executions>
 					<execution>
 						<phase>install</phase>
