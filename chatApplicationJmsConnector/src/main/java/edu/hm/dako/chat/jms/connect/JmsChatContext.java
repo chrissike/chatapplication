@@ -3,7 +3,7 @@ package edu.hm.dako.chat.jms.connect;
 public class JmsChatContext {
 
 	private String initialContextFactory = "org.jboss.naming.remote.client.InitialContextFactory";
-	private String providerURL = "http-remoting://10.28.56.110:8089";
+	private String providerURL = "http-remoting://127.0.0.1:8089";
 	private String securityUser = "guest";
 	private String securityPassword = "guest";
 	private Boolean ejbContext = true;
