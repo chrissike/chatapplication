@@ -1,4 +1,4 @@
-package edu.hm.dako.chat.client.communication.rest;
+package edu.hm.dako.chat.rest;
 
 /**
  * Enumeration von Exception-Typen der REST API für Template.<br/>

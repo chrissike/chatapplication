@@ -31,7 +31,7 @@ public class UserResource {
 	@GET
 	@Path("login/{name}")
 	public Response login(@PathParam("name") String username) {
-		log.info("User login gestartet mit dem Nutzernamen: " + username);
+		log.debug("User login gestartet mit dem Nutzernamen: " + username);
 
 		long startTime = System.nanoTime();
 		Validate.notNull(username);
@@ -49,7 +49,7 @@ public class UserResource {
 	@GET
 	@Path("logout/{name}")
 	public Response logout(@PathParam("name") String username) {
-		log.info("User logout gestartet mit dem Nutzernamen: " + username);
+		log.debug("User logout gestartet mit dem Nutzernamen: " + username);
 
 		long startTime = System.nanoTime();
 		Validate.notNull(username);
@@ -60,5 +60,15 @@ public class UserResource {
 		process.processClientListChange(pdu, startTime);
 
 		return Response.status(Status.NO_CONTENT).entity(username).build();
+	}
+	
+	@GET
+	@Path("logout/all")
+	public Response logoutAll() {
+		log.debug("Logout aller User gestartet");
+
+		process.clearSharedClientList();
+
+		return Response.status(Status.OK).build();
 	}
 }

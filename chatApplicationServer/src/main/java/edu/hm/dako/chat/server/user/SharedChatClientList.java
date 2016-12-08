@@ -91,16 +91,24 @@ public class SharedChatClientList {
 	}
 
 	/**
-	 * Loescht einen Client zwangsweise inkl. aller Einträge in Wartelisten.
+	 * Loescht einen Client.
 	 *
 	 * @param userName
 	 *            Name des Clients
 	 */
-	public synchronized void deleteClientWithoutCondition(String userName) {
+	public synchronized void deleteClient(String userName) {
 		clients.remove(userName);
 		log.debug("Client  " + userName + " entfernt");
 	}
 
+	/**
+	 * Loescht alle Clients.
+	 */
+	public synchronized void deleteAllClients() {
+		log.debug(">>> Alle Clients werden entfernt!");
+		clients.clear();
+	}
+	
 	/**
 	 * Laenge der Liste ausgeben
 	 *

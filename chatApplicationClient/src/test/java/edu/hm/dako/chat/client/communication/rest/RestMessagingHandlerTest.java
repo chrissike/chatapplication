@@ -1,8 +1,11 @@
 package edu.hm.dako.chat.client.communication.rest;
 
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
 
-import static org.junit.Assert.assertTrue;
+import edu.hm.dako.chat.rest.MessagingHandler;
+import edu.hm.dako.chat.rest.MessagingHandlerImpl;
 
 public class RestMessagingHandlerTest {
 

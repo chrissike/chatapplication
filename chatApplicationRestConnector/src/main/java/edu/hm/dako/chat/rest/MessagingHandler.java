@@ -1,4 +1,4 @@
-package edu.hm.dako.chat.client.communication.rest;
+package edu.hm.dako.chat.rest;
 
 public interface MessagingHandler {
 
@@ -19,5 +19,12 @@ public interface MessagingHandler {
 	 * @return
 	 */
 	public Boolean logout(final String anmeldename) throws TechnicalRestException;
+	
+	/**
+	 * Logout aller Clients (für Benchmarkzwecke zu verwenden)
+	 * @return
+	 * @throws TechnicalRestException
+	 */
+	public Boolean logoutAll() throws TechnicalRestException;
 	
 }

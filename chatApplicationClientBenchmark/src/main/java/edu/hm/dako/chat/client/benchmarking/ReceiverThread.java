@@ -8,13 +8,13 @@ import edu.hm.dako.chat.model.BenchmarkPDU;
 import edu.hm.dako.chat.model.PDU;
 
 public class ReceiverThread implements Runnable {
-	
+
 	private BenchmarkPDU bmPDU;
 	private Long rtt;
 	private Double rttMs;
 	private Double rttServerMs;
 
-	public ReceiverThread(Message message) {
+	public ReceiverThread(Message message) throws ClassCastException {
 		PDU pdu = null;
 		try {
 			pdu = message.getBody(PDU.class);
@@ -31,7 +31,6 @@ public class ReceiverThread implements Runnable {
 	public void run() {
 		if (bmPDU != null && BenchmarkingClientFxGUI.instance != null) {
 			stopAndCalculateRTT();
-			BenchmarkingClientFxGUI.instance.getModel().addRTTToSharedRTTClientList(bmPDU.getUserName(), getRtt());
 			bmPDU.setAvgCPUUsage(BenchmarkingClientFxGUI.getSysResourceCalc().getAverageCpuUtilisation().doubleValue() * 100);
 			bmPDU.setMessageNr(BenchmarkingClientFxGUI.getAndIncreaseClientNameReceivedCounter());
 			BenchmarkingClientFxGUI.instance.showResults(bmPDU, getRtt(), getRttMs(), getRttServerMs());

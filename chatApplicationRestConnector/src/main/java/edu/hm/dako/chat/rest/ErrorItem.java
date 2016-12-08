@@ -1,4 +1,4 @@
-package edu.hm.dako.chat.client.communication.rest;
+package edu.hm.dako.chat.rest;
 
 import java.util.List;
 

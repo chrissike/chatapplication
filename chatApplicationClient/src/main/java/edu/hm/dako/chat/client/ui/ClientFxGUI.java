@@ -4,11 +4,8 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import edu.hm.dako.chat.client.communication.rest.MessagingHandler;
-import edu.hm.dako.chat.client.communication.rest.MessagingHandlerImpl;
+import edu.hm.dako.chat.rest.MessagingHandler;
+import edu.hm.dako.chat.rest.MessagingHandlerImpl;
 import edu.hm.dako.chat.client.data.ClientModel;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -29,7 +26,7 @@ import javafx.stage.WindowEvent;
 @SuppressWarnings("restriction")
 public class ClientFxGUI extends Application {
 
-	private static Log log = LogFactory.getLog(ClientFxGUI.class);
+//	private final static Logger log = LoggerFactory.getLogger(ClientFxGUI.class);
 
 	protected Stage stage;
 	private ClientModel model = new ClientModel();
@@ -81,16 +78,14 @@ public class ClientFxGUI extends Application {
 			public void run() {
 				getModel().users.clear();
 				getModel().users.addAll(users);
-				log.info(users);
 			}
 		});
 	}
 
 	public void setMessageLine(String sender, String message) {
-		log.info("Update der Nachrichtenliste gestartet.");
 		final String messageText;
 		if (sender.equals(getModel().getUserName())) {
-			messageText = " ich: " + message; //StringUtils.leftPad("", 30, ' ')
+			messageText = " ich: " + message;
 		} else {
 			messageText = sender + ": " + message;
 		}
@@ -124,7 +119,7 @@ public class ClientFxGUI extends Application {
 	}
 
 	public void setErrorMessage(final String sender, final String errorMessage, final long errorCode) {
-		log.debug("errorMessage: " + errorMessage);
+//		log.debug("errorMessage: {}", errorMessage);
 		Platform.runLater(new Runnable() {
 
 			public void run() {
@@ -172,14 +167,14 @@ public class ClientFxGUI extends Application {
 				}
 			});
 		} catch (Exception e) {
-			log.error(e.getStackTrace());
+//			log.error("Error on Login: {}", e);
 		}
 		
 		return success;
 	}
 
 	public void logoutComplete() {
-		log.debug("Abnmeldung durchgefuehrt");
+//		log.debug("Abnmeldung durchgefuehrt");
 	}
 
 

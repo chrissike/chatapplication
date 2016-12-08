@@ -13,6 +13,8 @@ import java.util.Map;
 import edu.hm.dako.chat.client.data.util.ModelCalculator;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.IntegerProperty;
 
 /**
  * Modelldaten fuer FX-GUI
@@ -22,14 +24,19 @@ public class ClientModel {
 
 	private ModelCalculator calculator;
 
+	private Integer totalNumberOfMessages;
+
 	private ObservableList<ResultTableModel> resultList;
 	private ObservableList<GroupedResultTableModel> groupedResultList;
-	
+
 	private final Map<String, List<Double>> sharedRTTClientList;
 
 	private List<Double> rttList;
 	private List<Double> rttServerList;
 	private List<Double> serverMemoryList;
+
+	private IntegerProperty totalCountOfProcessedMessages;
+	private DoubleProperty processedPercentage;
 
 	private DoubleProperty averageRTT;
 	private DoubleProperty maxRTT;
@@ -38,29 +45,44 @@ public class ClientModel {
 	private DoubleProperty stdDev;
 
 	private XYChart.Series<Integer, Double> serverTimeChart = new XYChart.Series<Integer, Double>();
+	private XYChart.Series<Integer, Double> messageTimeChart = new XYChart.Series<Integer, Double>();
 	private XYChart.Series<Integer, Double> clientTimeChart = new XYChart.Series<Integer, Double>();
-	private XYChart.Series<CategoryAxis, Double> anteilsChartServer = new XYChart.Series<CategoryAxis, Double>();
-	private XYChart.Series<CategoryAxis, Double> anteilsChartClient = new XYChart.Series<CategoryAxis, Double>();
+	private XYChart.Series<String, Double> anteilsChartServer = new XYChart.Series<String, Double>();
+	private XYChart.Series<String, Double> anteilsChartClient = new XYChart.Series<String, Double>();
 
+	private XYChart.Series<Double,Double> regression1 = new XYChart.Series<Double,Double>();
+	private XYChart.Series<Double,Double> regression2 = new XYChart.Series<Double,Double>();
+	
 	public ClientModel() {
 		this.calculator = new ModelCalculator();
-		
+
 		sharedRTTClientList = new HashMap<String, List<Double>>();
 
 		this.anteilsChartServer.setName("Serverzeit");
 		this.anteilsChartClient.setName("Clientzeit (Anfrage + Netzlatenz)");
 		this.resultList = FXCollections.observableArrayList();
 		this.groupedResultList = FXCollections.observableArrayList();
-		
+
 		this.rttList = new ArrayList<Double>();
 		this.rttServerList = new ArrayList<Double>();
 		this.serverMemoryList = new ArrayList<Double>();
 
+		this.totalCountOfProcessedMessages = new SimpleIntegerProperty(0);
+		this.processedPercentage = new SimpleDoubleProperty(0.0);
+		
 		this.averageRTT = new SimpleDoubleProperty(0.0);
 		this.averageServerRTT = new SimpleDoubleProperty(0.0);
 		this.stdDev = new SimpleDoubleProperty(0.0);
 		this.maxRTT = new SimpleDoubleProperty(0.0);
 		this.minRTT = new SimpleDoubleProperty(0.0);
+//		
+//		regression1.getData().add(new XYChart.Data<String, Double>(4.2, 193.2));
+//		regression1.getData().add(new XYChart.Data<String, Double>(2.8, 33.6));
+//		regression1.getData().add(new XYChart.Data<String, Double>(6.8, 23.6));
+//		
+//		regression2.getData().add(new XYChart.Data<String, Double>(5.2, 229.2));
+//		regression2.getData().add(new XYChart.Data<String, Double>(2.4, 37.6));
+//		regression2.getData().add(new XYChart.Data<String, Double>(6.4, 15.6));
 	}
 
 	public synchronized void calculateKPIs() {
@@ -79,12 +101,28 @@ public class ClientModel {
 		setAverageServerRTT(Math.round(calculator.calcAverageOfDouble(getRttServerList()) * 100.0) / 100.0);
 	}
 
+	public XYChart.Series<Integer, Double> getMessageTimeChart() {
+		return messageTimeChart;
+	}
+
+	public synchronized void addMessageTime(Integer messageNumber, Double clientTime) {
+		this.messageTimeChart.getData().add(new XYChart.Data<Integer, Double>(messageNumber, clientTime));
+	}
+
 	public XYChart.Series<Integer, Double> getClientTimeChart() {
 		return clientTimeChart;
 	}
 
 	public synchronized void addClientTime(Integer clientName, Double clientTime) {
 		this.clientTimeChart.getData().add(new XYChart.Data<Integer, Double>(clientName, clientTime));
+	}
+
+	public synchronized void updateClientTime(Integer clientName, Double clientTime) {
+		for (XYChart.Data<Integer, Double> data : this.clientTimeChart.getData()) {
+			if (data.getXValue().equals(clientName)) {
+				data.setYValue(clientTime);
+			}
+		}
 	}
 
 	public XYChart.Series<Integer, Double> getServerTimeChart() {
@@ -95,20 +133,20 @@ public class ClientModel {
 		this.serverTimeChart.getData().add(new XYChart.Data<Integer, Double>(clientName, serverTime));
 	}
 
-	public XYChart.Series<CategoryAxis, Double> getAnteilsChartServer() {
+	public XYChart.Series<String, Double> getAnteilsChartServer() {
 		return anteilsChartServer;
 	}
 
 	public synchronized void setAnteilsChartServer(Double serverTime) {
-		this.anteilsChartServer.getData().add(new XYChart.Data("Serverzeit", serverTime));
+		this.anteilsChartServer.getData().add(new XYChart.Data<String, Double>("Serverzeit", serverTime));
 	}
 
-	public XYChart.Series<CategoryAxis, Double> getAnteilsChartClient() {
+	public XYChart.Series<String, Double> getAnteilsChartClient() {
 		return anteilsChartClient;
 	}
 
 	public synchronized void setAnteilsChartClient(Double clientZeit) {
-		this.anteilsChartClient.getData().add(new XYChart.Data("Clientzeit", clientZeit));
+		this.anteilsChartClient.getData().add(new XYChart.Data<String, Double>("Clientzeit", clientZeit));
 	}
 
 	public ObservableList<ResultTableModel> getResultList() {
@@ -117,6 +155,15 @@ public class ClientModel {
 
 	public synchronized void addToGroupedResultList(GroupedResultTableModel groupedResultList) {
 		this.groupedResultList.addAll(groupedResultList);
+	}
+
+	public synchronized void updateGroupedResultList(GroupedResultTableModel groupedResultList) {
+		GroupedResultTableModel model = getGroupedResultList().stream()
+				.filter(p -> p.getColUsername().getValue().equals(groupedResultList.getColUsername().getValue()))
+				.findFirst().get();
+		GroupedResultTableModel newmodel = model;
+		newmodel.setColAvgRTT(groupedResultList.getColAvgRTT());
+		getGroupedResultList().set(getGroupedResultList().indexOf(model), newmodel);
 	}
 
 	public ObservableList<GroupedResultTableModel> getGroupedResultList() {
@@ -191,20 +238,57 @@ public class ClientModel {
 		this.minRTT.set(minRTT);
 	}
 
-	public Map<String, List<Double>> getSharedRttClientList() {
-		return sharedRTTClientList;
-	}
-
 	public void addClientToSharedRTTClientList(String clientName) {
 		sharedRTTClientList.put(clientName, new ArrayList<Double>());
 	}
-	
+
 	public synchronized void addRTTToSharedRTTClientList(String clientName, Long rtt) {
-		sharedRTTClientList.get(clientName).add(rtt.doubleValue());
+		List<Double> list = sharedRTTClientList.get(clientName);
+		list.add(rtt.doubleValue());
+		sharedRTTClientList.put(clientName, list);
 	}
-	
-	public List<Double> getRTTListOfClient(String clientName) {
+
+	public synchronized List<Double> getRTTListOfClient(String clientName) {
 		return sharedRTTClientList.get(clientName);
 	}
 
+	public Integer getTotalNumberOfMessages() {
+		return totalNumberOfMessages;
+	}
+
+	public void setTotalNumberOfMessages(Integer totalNumberOfMessages) {
+		this.totalNumberOfMessages = totalNumberOfMessages;
+	}
+
+	public IntegerProperty getTotalCountOfProcessedMessages() {
+		return totalCountOfProcessedMessages;
+	}
+
+	public synchronized void setTotalCountOfProcessedMessages(Integer totalCountOfProcessedMessages) {
+		this.totalCountOfProcessedMessages.set(totalCountOfProcessedMessages);
+	}
+
+	public DoubleProperty getProcessedPercentage() {
+		return processedPercentage;
+	}
+
+	public void setProcessedPercentage(Double processedPercentage) {
+		this.processedPercentage.set(processedPercentage);
+	}
+
+	public XYChart.Series<Double,Double> getRegression1() {
+		return regression1;
+	}
+
+	public void setRegression1(XYChart.Series<Double,Double> regression1) {
+		this.regression1 = regression1;
+	}
+
+	public XYChart.Series<Double,Double> getRegression2() {
+		return regression2;
+	}
+
+	public void setRegression2(XYChart.Series<Double,Double> regression2) {
+		this.regression2 = regression2;
+	}
 }

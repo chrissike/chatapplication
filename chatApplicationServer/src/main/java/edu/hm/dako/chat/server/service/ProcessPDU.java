@@ -11,4 +11,6 @@ public interface ProcessPDU {
 	public boolean processClientListChange(ChatPDU pdu, long startTime);
 
 	public ChatPDU createPDU(String username, PduType requestType);
+	
+	public void clearSharedClientList();
 }

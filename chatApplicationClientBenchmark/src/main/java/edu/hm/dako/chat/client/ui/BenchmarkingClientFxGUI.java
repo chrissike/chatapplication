@@ -23,9 +23,6 @@ import java.util.stream.Collectors;
 
 /**
  * Chat-GUI
- * 
- * @author Paul Mandl
- *
  */
 @SuppressWarnings("restriction")
 public class BenchmarkingClientFxGUI extends Application {
@@ -108,10 +105,10 @@ public class BenchmarkingClientFxGUI extends Application {
 	public void showResults(BenchmarkPDU pdu, Long rtt, Double rttMs, Double rttServerMs) {
 		Platform.runLater(() -> {
 
-			log.info("Client: " + pdu.getUserName() + ", ClientTime: " + rttMs + ", ServerTime: " + rttServerMs);
+			log.debug("Client: " + pdu.getUserName() + ", ClientTime: " + rttMs + ", ServerTime: " + rttServerMs);
 
 			// ChartBars
-			getModel().addClientTime(Integer.valueOf(pdu.getMessageNr()), rttMs);
+			getModel().addMessageTime(Integer.valueOf(pdu.getMessageNr()), rttMs);
 			getModel().addServerTime(Integer.valueOf(pdu.getMessageNr()), rttServerMs);
 
 			// StockedBarChart
@@ -131,18 +128,37 @@ public class BenchmarkingClientFxGUI extends Application {
 					String.valueOf(rttMs), String.valueOf(rttServerMs), pdu.getFreeMemory().toString(),
 					pdu.getAvgCPUUsage().toString());
 
-			Double avgDbl = getModel().getRTTListOfClient(pdu.getUserName()).parallelStream()
-					.collect(Collectors.averagingDouble(d -> d));
-			GroupedResultTableModel groupedResulttableRow = new GroupedResultTableModel(pdu.getUserName(),
-					avgDbl.toString());
-
 			getModel().addToResultList(resultTableRow);
-			getModel().addToGroupedResultList(groupedResulttableRow);
+			addEntryToGroupedClientRTTList(pdu.getUserName(), rtt);
 
 			// calculate KPIs
 			getModel().calculateKPIs();
 			getSysStatus().calculateSysStatus();
+
+			// progress
+			getModel().setTotalCountOfProcessedMessages(getModel().getTotalCountOfProcessedMessages().get() + 1);
+			getModel().setProcessedPercentage(
+					(getModel().getTotalCountOfProcessedMessages().doubleValue() * 100 / getModel().getTotalNumberOfMessages().doubleValue())/100);
 		});
+	}
+
+	public void addEntryToGroupedClientRTTList(String username, Long rtt) {
+
+		getModel().addRTTToSharedRTTClientList(username, rtt.longValue());
+
+		Double avgRttOfClient = getModel().getRTTListOfClient(username).parallelStream()
+				.collect(Collectors.averagingDouble(d -> d)).longValue() / 1000000000.0;
+		GroupedResultTableModel groupedResulttableRow = new GroupedResultTableModel(username,
+				avgRttOfClient.toString());
+
+		if (getModel().getGroupedResultList().stream().filter(p -> p.getColUsername().getValue().equals(username))
+				.findFirst().isPresent()) {
+			getModel().updateClientTime(Integer.valueOf(username), avgRttOfClient);
+			getModel().updateGroupedResultList(groupedResulttableRow);
+		} else {
+			getModel().addClientTime(Integer.valueOf(username), avgRttOfClient);
+			getModel().addToGroupedResultList(groupedResulttableRow);
+		}
 	}
 
 	public synchronized static Integer getAndIncreaseClientNameReceivedCounter() {

@@ -1,9 +1,9 @@
-package edu.hm.dako.chat.client.communication.rest;
+package edu.hm.dako.chat.rest;
 
 /**
- * Diese Exception wird geworfen, wenn beim Aufruf auf der Server-Seite ein fachlicher Fehler aufgetreten wird.
+ * Diese Exception wird geworfen, wenn beim Aufruf auf der Server-Seite ein technischer Fehler aufgetreten wird.
  */
-public class NonTechnicalException extends RuntimeException {
+public class TechnicalRestException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 
@@ -15,7 +15,7 @@ public class NonTechnicalException extends RuntimeException {
 	 * @param message
 	 *            Textmeldung mit dem Grund fuer den Fehler.
 	 */
-	public NonTechnicalException(final String message) {
+	public TechnicalRestException(final String message) {
 		super(message);
 	}
 
@@ -29,7 +29,7 @@ public class NonTechnicalException extends RuntimeException {
 	 * @param cause
 	 *            Innere Exception mit dem Grund fuer diese Exception.
 	 */
-	public NonTechnicalException(final String message, final Exception cause) {
+	public TechnicalRestException(final String message, final Exception cause) {
 		super(message, cause);
 	}
 

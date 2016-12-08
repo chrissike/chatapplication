@@ -2,6 +2,7 @@ package edu.hm.dako.chat.server.rest;
 
 import edu.hm.dako.chat.server.datasink.DataSink;
 import edu.hm.dako.chat.server.datasink.model.CountEntity;
+import edu.hm.dako.chat.server.rest.model.StatisticsDTO;
 import edu.hm.dako.chat.server.user.SharedChatClientList;
 
 import javax.inject.Inject;

@@ -1,4 +1,4 @@
-package edu.hm.dako.chat.client.communication.rest;
+package edu.hm.dako.chat.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -11,12 +11,12 @@ import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MessagingHandlerImpl implements MessagingHandler {
 
-	private static Log LOG = LogFactory.getLog(MessagingHandlerImpl.class);
+	private static final Logger log = LoggerFactory.getLogger(MessagingHandlerImpl.class);
 
 
 	private static final String USER_RESOURCE = "chatapp/resources/user";
@@ -72,6 +72,19 @@ public class MessagingHandlerImpl implements MessagingHandler {
 		}
 		return result;
 	}
+	
+	public Boolean logoutAll() throws TechnicalRestException {
+		Boolean result = false;
+		try {
+			final Response response = this.restClient.target(uri).path(USER_RESOURCE)
+					.path("logout/all")
+					.request(MediaType.APPLICATION_JSON).get();
+			result = handleResponse(response, Status.OK);
+		} catch (final Throwable th) {
+			handleTechnicalException(th);
+		}
+		return result;
+	}
 
 	private Boolean handleResponse(final Response response, final Status expectedStatus)
 			throws TechnicalRestException {
@@ -95,7 +108,7 @@ public class MessagingHandlerImpl implements MessagingHandler {
 
 	private void handleResponseWithErrorItem(final ErrorItem errorItem) {
 		final String errorMessage = errorMessageFromErrorItem(errorItem);
-		LOG.warn(errorMessage);
+		log.warn(errorMessage);
 		if (ErrorType.VALIDATION_ERROR.equals(errorItem.getErrorType())) {
 			throw new TechnicalRestException(errorMessage);
 		} else {
@@ -108,7 +121,7 @@ public class MessagingHandlerImpl implements MessagingHandler {
 	}
 
 	private void handleTechnicalException(final Throwable th) throws TechnicalRestException {
-		LOG.error("Es ist ein technischer Fehler aufgetreten", th);
+		log.error("Es ist ein technischer Fehler aufgetreten", th);
 		throw new TechnicalRestException(th.getMessage());
 	}
 

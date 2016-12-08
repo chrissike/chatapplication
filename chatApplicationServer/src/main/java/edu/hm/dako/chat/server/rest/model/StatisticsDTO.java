@@ -9,7 +9,7 @@
  * CPU: Intel(R) Core(TM)2 Duo CPU T5870 @ 2.00GHz
  */
 
-package edu.hm.dako.chat.server.rest;
+package edu.hm.dako.chat.server.rest.model;
 
 import edu.hm.dako.chat.server.datasink.model.TraceEntity;
 import edu.hm.dako.chat.server.user.SharedChatClientList;

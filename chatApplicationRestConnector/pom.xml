@@ -8,10 +8,10 @@
 		<version>0.0.2-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>chatApplicationIntegrationTest</artifactId>
+	<artifactId>chatApplicationRestConnector</artifactId>
 	<packaging>jar</packaging>
 
-	<name>chatApplicationIntegrationTest</name>
+	<name>chatApplicationRestConnector</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
@@ -19,32 +19,7 @@
 	</properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>edu.hm.dako.chat</groupId>
-			<artifactId>chatApplicationModel</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>edu.hm.dako.chat</groupId>
-			<artifactId>chatApplicationJmsConnector</artifactId>
-		</dependency>
-		
 		<!-- Third Person Libraries -->
-		<dependency>
-			<groupId>org.jboss.xnio</groupId>
-			<artifactId>xnio-api</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.xnio</groupId>
-			<artifactId>xnio-nio</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.marshalling</groupId>
-			<artifactId>jboss-marshalling-river</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-
 		<dependency>
 			<groupId>javax.ws.rs</groupId>
 			<artifactId>javax.ws.rs-api</artifactId>
@@ -58,16 +33,9 @@
 			<artifactId>jersey-client</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-core</artifactId>
-			<version>2.7</version>
-		</dependency>
-		<dependency>
 			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-			<version>1.7.7</version>
+			<artifactId>slf4j-api</artifactId>
 		</dependency>
-
 
 		<!-- Testing -->
 		<dependency>

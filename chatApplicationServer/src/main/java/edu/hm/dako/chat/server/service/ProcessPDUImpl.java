@@ -35,7 +35,7 @@ public class ProcessPDUImpl implements ProcessPDU {
 
 	@Transactional
 	public void processMessage(PDU pdu) throws Exception {
-		log.info("JMS-Nachricht ist angekommen: " + pdu.toString());
+		log.debug("JMS-Nachricht ist angekommen: " + pdu.toString());
 
 		pdu.setServerTime(Long.valueOf(System.nanoTime()));
 		pdu.setServerThreadName(Thread.currentThread().getName());
@@ -60,7 +60,7 @@ public class ProcessPDUImpl implements ProcessPDU {
 	}
 
 	public boolean processClientListChange(ChatPDU pdu, long startTime) {
-		log.info("JMS-Login/Logout-Request ist mit der folgenden Userliste angekommen: " + pdu.getClients());
+		log.debug("JMS-Login/Logout-Request ist mit der folgenden Userliste angekommen: " + pdu.getClients());
 		pdu.setServerTime(Long.valueOf(System.nanoTime()));
 		boolean success = updateServersideClientList(pdu);
 
@@ -74,7 +74,7 @@ public class ProcessPDUImpl implements ProcessPDU {
 	}
 
 	public boolean updateServersideClientList(ChatPDU pdu) {
-		log.info("updateServersideClientList() mit PDU-Username aufgerufen: " + pdu.getUserName());
+		log.debug("updateServersideClientList() mit PDU-Username aufgerufen: " + pdu.getUserName());
 		boolean success = false;
 
 		if (pdu.getPduType().equals(PduType.LOGIN)) {
@@ -85,20 +85,20 @@ public class ProcessPDUImpl implements ProcessPDU {
 		}
 		if (pdu.getPduType().equals(PduType.LOGOUT)) {
 			if (clientList.existsClient(pdu.getUserName())) {
-				clientList.deleteClientWithoutCondition(pdu.getUserName());
+				clientList.deleteClient(pdu.getUserName());
 				success = true;
 			}
 		}
 
-		log.info("clientList: " + clientList.getClientNameList());
+		log.debug("clientList: " + clientList.getClientNameList());
 		return success;
 	}
 
 	private void sendPDU(PDU pdu) {
-		log.info("pdu servertime: " + pdu.getServerTime() + ", nowtime: " + Long.valueOf((System.nanoTime())));
 		Long serverTime = Long.valueOf((System.nanoTime())) - pdu.getServerTime();
+		log.debug("pdu servertime: " + serverTime);
+
 		pdu.setServerTime(serverTime);
-		log.info("Die Verarbeitungszeit für die Nachricht beträgt: " + pdu.getServerTime() + " ms");
 		try {
 			publisher.sendMessage(pdu);
 		} catch (NamingException e) {
@@ -122,5 +122,9 @@ public class ProcessPDUImpl implements ProcessPDU {
 		requestPdu.setClients(clientList.getClientNameList());
 
 		return requestPdu;
+	}
+	
+	public void clearSharedClientList() {
+		clientList.deleteAllClients();
 	}
 }

@@ -1,5 +1,6 @@
 package edu.hm.dako.chat.client.benchmarking;
 
+import java.net.URISyntaxException;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 
@@ -14,6 +15,9 @@ import edu.hm.dako.chat.jms.connect.JmsProducer;
 import edu.hm.dako.chat.model.BenchmarkPDU;
 import edu.hm.dako.chat.model.PDU;
 import edu.hm.dako.chat.model.PduType;
+import edu.hm.dako.chat.rest.MessagingHandler;
+import edu.hm.dako.chat.rest.MessagingHandlerImpl;
+import edu.hm.dako.chat.rest.TechnicalRestException;
 
 public class ProcessBenchmarking {
 
@@ -32,7 +36,7 @@ public class ProcessBenchmarking {
 
 		Thread thread = new Thread() {
 			public void run() {
-				log.info("Client: " + name + " wartet auf den Start!");
+				log.debug("Client: " + name + " wartet auf den Start!");
 
 				// Client legt einen Eintrag in die SharedRTTClientList um bei
 				// den eingehenden Nachrichten eine Zuordnung zu schaffen.
@@ -46,16 +50,45 @@ public class ProcessBenchmarking {
 					log.error(e.getStackTrace());
 				}
 
-				PDU pdu = createBenchmarkCPU(name);
-
-				for (int i = 1; i <= messageCount; i++) {
-					sendBenchmarkCPU(pdu);
+				try {
+					performLogin(name);
+					performMessaging(name, messageCount);
+					performLogout(name);
+				} catch (TechnicalRestException e) {
+					log.error(e.getMessage());
+				} catch (URISyntaxException e) {
+					log.error(e.getMessage());
 				}
 
 				startingGate.reset();
 			}
 
-			public void sendBenchmarkCPU(PDU pdu) {
+			private void performMessaging(String name, Integer messageCount) {
+				PDU pdu = createBenchmarkCPU(name);
+				for (int i = 1; i <= messageCount; i++) {
+					sendBenchmarkCPU(pdu);
+				}
+			}
+
+			private void performLogin(String name) throws URISyntaxException {
+				MessagingHandler handler;
+				PDU loginPDU = createBenchmarkCPU(name);
+				handler = new MessagingHandlerImpl("127.0.0.1", 8089);
+				handler.login(loginPDU.getUserName());
+				Long endTime = System.nanoTime()-loginPDU.getClientStartTime();
+				BenchmarkingClientFxGUI.instance.addEntryToGroupedClientRTTList(name, endTime);
+			}
+			
+			private void performLogout(String name) throws URISyntaxException {
+				MessagingHandler handler;
+				PDU loginPDU = createBenchmarkCPU(name);
+				handler = new MessagingHandlerImpl("127.0.0.1", 8089);
+				handler.logout(loginPDU.getUserName());
+				Long endTime = System.nanoTime()-loginPDU.getClientStartTime();
+				BenchmarkingClientFxGUI.instance.addEntryToGroupedClientRTTList(name, endTime);
+			}
+
+			private void sendBenchmarkCPU(PDU pdu) {
 				JmsProducer<PDU> jms = new JmsProducer<PDU>();
 
 				int retryCounter = 0;
@@ -77,6 +110,12 @@ public class ProcessBenchmarking {
 
 	}
 
+	public void performLogoutAll() throws TechnicalRestException, URISyntaxException {
+		MessagingHandler handler;
+		handler = new MessagingHandlerImpl("127.0.0.1", 8089);
+		handler.logoutAll();				
+	}
+	
 	public PDU createBenchmarkCPU(String name) {
 		PDU chatPdu = new BenchmarkPDU(PduType.MESSAGE);
 		chatPdu.setUserName(name);
