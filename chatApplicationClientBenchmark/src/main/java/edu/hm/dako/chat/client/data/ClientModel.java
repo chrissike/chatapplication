@@ -3,7 +3,6 @@ package edu.hm.dako.chat.client.data;
 import javafx.scene.chart.XYChart;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.chart.CategoryAxis;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -60,6 +59,8 @@ public class ClientModel {
 
 		this.anteilsChartServer.setName("Serverzeit");
 		this.anteilsChartClient.setName("Clientzeit (Anfrage + Netzlatenz)");
+		this.regression1.setName("REG1");
+		this.regression2.setName("REG2");
 		this.resultList = FXCollections.observableArrayList();
 		this.groupedResultList = FXCollections.observableArrayList();
 
@@ -75,14 +76,7 @@ public class ClientModel {
 		this.stdDev = new SimpleDoubleProperty(0.0);
 		this.maxRTT = new SimpleDoubleProperty(0.0);
 		this.minRTT = new SimpleDoubleProperty(0.0);
-//		
-//		regression1.getData().add(new XYChart.Data<String, Double>(4.2, 193.2));
-//		regression1.getData().add(new XYChart.Data<String, Double>(2.8, 33.6));
-//		regression1.getData().add(new XYChart.Data<String, Double>(6.8, 23.6));
-//		
-//		regression2.getData().add(new XYChart.Data<String, Double>(5.2, 229.2));
-//		regression2.getData().add(new XYChart.Data<String, Double>(2.4, 37.6));
-//		regression2.getData().add(new XYChart.Data<String, Double>(6.4, 15.6));
+		
 	}
 
 	public synchronized void calculateKPIs() {
@@ -280,15 +274,15 @@ public class ClientModel {
 		return regression1;
 	}
 
-	public void setRegression1(XYChart.Series<Double,Double> regression1) {
-		this.regression1 = regression1;
+	public synchronized void setRegression1(Double reg1, Double reg2) {
+		regression1.getData().add(new XYChart.Data<Double, Double>(reg1, reg2));
 	}
 
 	public XYChart.Series<Double,Double> getRegression2() {
 		return regression2;
 	}
 
-	public void setRegression2(XYChart.Series<Double,Double> regression2) {
-		this.regression2 = regression2;
+	public synchronized void setRegression2(Double reg1, Double reg2) {
+		regression2.getData().add(new XYChart.Data<Double, Double>(reg1, reg2));
 	}
 }

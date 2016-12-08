@@ -5,6 +5,9 @@ import java.net.URISyntaxException;
 import javax.jms.JMSException;
 import javax.naming.NamingException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import edu.hm.dako.chat.jms.connect.JmsChatContext;
 import edu.hm.dako.chat.jms.connect.JmsConsumer;
 import edu.hm.dako.chat.jms.connect.JmsProducer;
@@ -34,7 +37,7 @@ import javafx.stage.Stage;
 @SuppressWarnings("restriction")
 public class LoggedInGuiController {
 
-//	private static final Logger log = LoggerFactory.getLogger(LoggedInGuiController.class);
+	private static final Logger log = LoggerFactory.getLogger(LoggedInGuiController.class);
 	
 	private JmsConsumer jmsConsumer;
 	private JmsChatContext jmsContext;
@@ -96,7 +99,7 @@ public class LoggedInGuiController {
 			jmsConsumer = new JmsConsumer();
 			jmsConsumer.initJmsConsumer(new TopicSubscriber(), jmsContext);
 		} catch (NamingException e) {
-//			log.error(e.getMessage() + ", " + e.getCause());
+			log.error(e.getMessage() + ", " + e.getCause());
 		}
 	}
 
@@ -116,7 +119,7 @@ public class LoggedInGuiController {
 		try {
 			handler = new MessagingHandlerImpl(this.appController.getModel().getAddress().getValue(), port);
 		} catch (URISyntaxException e) {
-//			log.error(e.getMessage() + ", " + e.getCause());
+			log.error(e.getMessage() + ", " + e.getCause());
 		}
 		
 		try {
@@ -130,14 +133,14 @@ public class LoggedInGuiController {
 		try {
 			jmsConsumer.closeJmsConsumer();
 		} catch (NamingException e) {
-//			log.error(e.getMessage() + ", " + e.getCause());
+			log.error(e.getMessage() + ", " + e.getCause());
 		}
 		
 		try {
 			ClientFxGUI.instance.stage.close();
 			ClientFxGUI.instance.start(new Stage());
 		} catch (Exception e) {
-//			log.error(e.getMessage() + ", " + e.getCause());
+			log.error(e.getMessage() + ", " + e.getCause());
 		}
 	}
 
@@ -152,9 +155,9 @@ public class LoggedInGuiController {
 		try {
 			jms.sendMessage(chatPdu, jmsContext);
 		} catch (NamingException e) {
-//			log.error(e.getMessage() + ", " + e.getCause());
+			log.error(e.getMessage() + ", " + e.getCause());
 		} catch (JMSException e) {
-//			log.error(e.getMessage() + ", " + e.getCause());
+			log.error(e.getMessage() + ", " + e.getCause());
 		}
 
 		Platform.runLater(new Runnable() {

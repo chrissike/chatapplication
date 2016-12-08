@@ -13,8 +13,9 @@ public class ReceiverThread implements Runnable {
 	private Long rtt;
 	private Double rttMs;
 	private Double rttServerMs;
+	private Long receivedTime;
 
-	public ReceiverThread(Message message) throws ClassCastException {
+	public ReceiverThread(Message message, long receivedTime) throws ClassCastException {
 		PDU pdu = null;
 		try {
 			pdu = message.getBody(PDU.class);
@@ -22,10 +23,12 @@ public class ReceiverThread implements Runnable {
 			e.printStackTrace();
 		}
 		if(pdu instanceof BenchmarkPDU) {
+			
 			bmPDU = (BenchmarkPDU) pdu;
 		}else{
 			throw new ClassCastException();
 		}
+		this.receivedTime = receivedTime;
 	}
 
 	public void run() {
@@ -38,7 +41,7 @@ public class ReceiverThread implements Runnable {
 	}
 
 	private void stopAndCalculateRTT() {
-		setRtt(System.nanoTime() - bmPDU.getClientStartTime());
+		setRtt(this.receivedTime - bmPDU.getClientStartTime());
 		setRttMs(rtt.longValue() / 1000000000.0);
 		setRttServerMs(bmPDU.getServerTime().longValue() / 1000000000.0);
 	}

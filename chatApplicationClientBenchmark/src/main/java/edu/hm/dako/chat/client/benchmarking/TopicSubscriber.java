@@ -17,7 +17,7 @@ public class TopicSubscriber implements MessageListener {
 	
 	public void onMessage(Message message) {
 		try {
-			Runnable r = new ReceiverThread(message);
+			Runnable r = new ReceiverThread(message, System.nanoTime());
 			new Thread(r).start();
 		}catch(Exception e) {
 			log.debug("Nachricht empfangen, die keiner der Benchmark-Nachrichten entspricht.");

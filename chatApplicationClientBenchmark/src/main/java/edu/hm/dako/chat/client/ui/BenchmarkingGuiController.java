@@ -110,20 +110,17 @@ public class BenchmarkingGuiController {
 	}
 
 	@FXML
-	private void startBenchmarking() {
+	private void startBenchmarking() throws TechnicalRestException, URISyntaxException {
+		BenchmarkingClientFxGUI.instance.setIp(ip);
+		BenchmarkingClientFxGUI.instance.setPort(port);
+		
 		txtNumberOfMessages.setText(String.valueOf(
 				Integer.valueOf(txtAnzahlClients.getText()) * Integer.valueOf(txtAnzahlNachrichten.getText())));
 
 		ProcessBenchmarking process = new ProcessBenchmarking(generateMessageByLength(),
 				Integer.parseInt(txtAnzahlClients.getText()));
 
-		try {
-			process.performLogoutAll();
-		} catch (TechnicalRestException e) {
-			//Do nothing and try Benchmark
-		} catch (URISyntaxException e) {
-			//Do nothing and try Benchmark
-		}
+		process.performLogoutAll();
 		
 		Integer messageCount = Integer.parseInt(txtAnzahlNachrichten.getText());
 		Integer clientCount = Integer.parseInt(txtAnzahlClients.getText());

@@ -77,7 +77,7 @@ public class MessagingHandlerImpl implements MessagingHandler {
 		Boolean result = false;
 		try {
 			final Response response = this.restClient.target(uri).path(USER_RESOURCE)
-					.path("logout/all")
+					.path("all/logout")
 					.request(MediaType.APPLICATION_JSON).get();
 			result = handleResponse(response, Status.OK);
 		} catch (final Throwable th) {

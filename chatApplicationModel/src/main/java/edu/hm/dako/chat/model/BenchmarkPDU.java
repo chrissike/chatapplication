@@ -62,5 +62,4 @@ public class BenchmarkPDU extends ChatPDU implements PDU {
 		this.messageNr = messageNr;
 	}
 
-	
 }

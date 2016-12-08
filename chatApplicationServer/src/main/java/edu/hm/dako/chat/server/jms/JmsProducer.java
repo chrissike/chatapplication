@@ -1,6 +1,7 @@
 package edu.hm.dako.chat.server.jms;
 
 import javax.annotation.Resource;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.jms.ConnectionFactory;
 import javax.jms.JMSConnectionFactory;
@@ -14,6 +15,7 @@ import org.apache.commons.logging.LogFactory;
 
 import edu.hm.dako.chat.model.PDU;
 
+@Stateless
 public class JmsProducer {
 
 	private static Log log = LogFactory.getLog(JmsProducer.class);

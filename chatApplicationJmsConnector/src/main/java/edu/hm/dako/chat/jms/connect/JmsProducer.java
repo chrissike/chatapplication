@@ -37,7 +37,6 @@ public class JmsProducer<T extends Serializable> {
 			producer = context.createProducer();
 			producer.send(queue, dto);
 		} catch (Exception e) {
-			//TODO sollte nur throws machen!
 			return false;
 		} finally {
 			if (context != null) {

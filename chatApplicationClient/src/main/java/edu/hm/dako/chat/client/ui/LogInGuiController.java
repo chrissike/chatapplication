@@ -20,8 +20,6 @@ import javafx.scene.input.KeyEvent;
 @SuppressWarnings("restriction")
 public class LogInGuiController implements Initializable {
 
-//	private static final Logger log = LoggerFactory.getLogger(LogInGuiController.class);
-
 	private String userName;
 
 	@FXML
