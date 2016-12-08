@@ -94,7 +94,7 @@ public class LoggedInGuiController {
 		chatList.setItems(this.appController.getModel().chats);
 		btnSubmit.disableProperty().bind(appController.getModel().block);
 		
-		jmsContext = new JmsChatContext();
+		jmsContext = new JmsChatContext(appController.getModel().getAddress().getValue(), Integer.valueOf(appController.getModel().getPort().getValue()));
 		try {
 			jmsConsumer = new JmsConsumer();
 			jmsConsumer.initJmsConsumer(new TopicSubscriber(), jmsContext);
