@@ -45,7 +45,7 @@ public class BenchmarkingClientFxGUI extends Application {
 	/**
 	 * Ziel Port des Servers (Default ist 8089)
 	 */
-	private static String port = "8089";
+	private static Integer port = 8089;
 	
 	private static Integer clientNameCounter = 1;
 	private static Integer clientNameReceivedCounter = 1;
@@ -74,7 +74,7 @@ public class BenchmarkingClientFxGUI extends Application {
 		primaryStage.show();
 
 		JmsConsumer consumer = new JmsConsumer();
-		jmsContext = new JmsChatContext();
+		jmsContext = new JmsChatContext(this.ip, this.port);
 		try {
 			consumer.initJmsConsumer(new TopicSubscriber(), jmsContext);
 		} catch (NamingException e1) {
@@ -191,11 +191,11 @@ public class BenchmarkingClientFxGUI extends Application {
 		BenchmarkingClientFxGUI.ip = ip;
 	}
 
-	public static String getPort() {
+	public static Integer getPort() {
 		return port;
 	}
 
-	public static void setPort(String port) {
+	public static void setPort(Integer port) {
 		BenchmarkingClientFxGUI.port = port;
 	}
 }
