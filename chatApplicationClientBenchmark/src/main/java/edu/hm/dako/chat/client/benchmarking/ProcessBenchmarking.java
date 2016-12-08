@@ -73,7 +73,7 @@ public class ProcessBenchmarking {
 			private void performLogin(String name) throws URISyntaxException {
 				MessagingHandler handler;
 				PDU loginPDU = createBenchmarkCPU(name);
-				handler = new MessagingHandlerImpl("127.0.0.1", 8089);
+				handler = new MessagingHandlerImpl(BenchmarkingClientFxGUI.getIp(), BenchmarkingClientFxGUI.getPort());
 				handler.login(loginPDU.getUserName());
 				Long endTime = System.nanoTime()-loginPDU.getClientStartTime();
 				BenchmarkingClientFxGUI.instance.addEntryToGroupedClientRTTList(name, endTime);
@@ -82,7 +82,7 @@ public class ProcessBenchmarking {
 			private void performLogout(String name) throws URISyntaxException {
 				MessagingHandler handler;
 				PDU loginPDU = createBenchmarkCPU(name);
-				handler = new MessagingHandlerImpl("127.0.0.1", 8089);
+				handler = new MessagingHandlerImpl(BenchmarkingClientFxGUI.getIp(), BenchmarkingClientFxGUI.getPort());
 				handler.logout(loginPDU.getUserName());
 				Long endTime = System.nanoTime()-loginPDU.getClientStartTime();
 				BenchmarkingClientFxGUI.instance.addEntryToGroupedClientRTTList(name, endTime);
@@ -112,7 +112,7 @@ public class ProcessBenchmarking {
 
 	public void performLogoutAll() throws TechnicalRestException, URISyntaxException {
 		MessagingHandler handler;
-		handler = new MessagingHandlerImpl("127.0.0.1", 8089);
+		handler = new MessagingHandlerImpl(BenchmarkingClientFxGUI.getIp(), BenchmarkingClientFxGUI.getPort());
 		handler.logoutAll();				
 	}
 	
