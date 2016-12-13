@@ -15,7 +15,6 @@ import org.apache.commons.logging.LogFactory;
 
 import edu.hm.dako.chat.model.PDU;
 import edu.hm.dako.chat.server.service.ProcessPDU;
-import edu.hm.dako.chat.server.user.SharedChatClientList;
 
 @MessageDriven(name = "JmsConsumer", activationConfig = {
 		@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
