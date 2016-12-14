@@ -19,7 +19,7 @@ import edu.hm.dako.chat.server.service.ProcessPDU;
 @MessageDriven(name = "JmsConsumer", activationConfig = {
 		@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
 		@ActivationConfigProperty(propertyName = "destination", propertyValue = "jms/queue/chatreq2"),
-		@ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge"),
+		@ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "DUPS_OK_ACKNOWLEDGE"),
 		@ActivationConfigProperty(propertyName = "minSessions", propertyValue = "50"),
         @ActivationConfigProperty(propertyName = "maxSessions", propertyValue = "250")})
 @TransactionManagement(TransactionManagementType.CONTAINER)
