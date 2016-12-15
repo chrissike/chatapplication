@@ -57,11 +57,31 @@ public class ChatPDU implements Serializable, PDU {
 	public ChatPDU(PduType type) {
 		pduType = type;
 	}
+	
+	/**
+	 * Default Konstruktor
+	 */
+	public ChatPDU() {
+	}
 
 	public ChatPDU(String clientName, String message, PduType pdutype) {
 		this.userName = clientName;
 		this.pduType = pdutype;
 		this.message = message;
+	}
+
+	
+	public ChatPDU(PduType pduType, String userName, String serverThreadName, String message, List<String> clients,
+			Long serverTime, Long clientStartTime, Long numberOfRetries) {
+		super();
+		this.pduType = pduType;
+		this.userName = userName;
+		this.serverThreadName = serverThreadName;
+		this.message = message;
+		this.clients = clients;
+		this.serverTime = serverTime;
+		this.clientStartTime = clientStartTime;
+		this.numberOfRetries = numberOfRetries;
 	}
 
 	@Override

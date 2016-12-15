@@ -10,6 +10,9 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import edu.hm.dako.chat.jms.connect.JmsChatContext;
 import edu.hm.dako.chat.jms.connect.JmsConsumer;
 import edu.hm.dako.chat.jms.connect.JmsProducer;
@@ -27,7 +30,9 @@ public class JmsProducerTest {
 	private JmsProducer<ChatPDU> jmsProducer;
 	private JmsConsumer jmsConsumer;
 
-	private ChatPDU chatPdu;
+	private final ObjectMapper mapper = new ObjectMapper();
+
+	private PDU pdu;
 	
 	private Boolean successFlag;
 
@@ -37,7 +42,7 @@ public class JmsProducerTest {
 		jmsProducer = new JmsProducer<ChatPDU>();
 		jmsConsumer = new JmsConsumer();
 
-		chatPdu = new ChatPDU(USERNAME, MESSAGE, PduType.MESSAGE);
+		pdu = new ChatPDU(USERNAME, MESSAGE, PduType.MESSAGE);
 	}
 
 	@Test
@@ -45,10 +50,13 @@ public class JmsProducerTest {
 		Boolean success = false;
 		createReceiver();
 		try {
-			success = jmsProducer.sendMessage(chatPdu, new JmsChatContext());
+			String msg = mapper.writeValueAsString(pdu);
+			success = jmsProducer.sendMessage(msg, new JmsChatContext());
 		} catch (NamingException e) {
 			log.error(e.getMessage());
 		} catch (JMSException e) {
+			log.error(e.getMessage());
+		} catch (JsonProcessingException e) {
 			log.error(e.getMessage());
 		}
 		assertTrue(success);

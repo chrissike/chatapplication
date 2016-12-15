@@ -10,6 +10,9 @@ import org.apache.commons.logging.LogFactory;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import edu.hm.dako.chat.client.benchmarking.ProcessBenchmarking;
 import edu.hm.dako.chat.jms.connect.JmsChatContext;
 import edu.hm.dako.chat.jms.connect.JmsConsumer;
@@ -24,6 +27,7 @@ public class JmsBenchmarkProcessTest {
 	JmsConsumer consumer;
 	JmsChatContext context;
 	TestTopicSubscriber testSubscriber;
+	private final ObjectMapper mapper = new ObjectMapper();
 
 	@Before
 	public void prepareTest() {
@@ -44,10 +48,13 @@ public class JmsBenchmarkProcessTest {
 		process = new ProcessBenchmarking("testmessage", 1);
 		JmsProducer<PDU> jms = new JmsProducer<PDU>();
 		try {
-			jms.sendMessage(process.createBenchmarkCPU("Hans Dieter"), context);
+			String msg = mapper.writeValueAsString(process.createBenchmarkCPU("Hans Dieter"));
+			jms.sendMessage(msg, context);
 		} catch (NamingException e) {
 			log.error(e.getMessage() + ", " + e.getCause());
 		} catch (JMSException e) {
+			log.error(e.getMessage() + ", " + e.getCause());
+		} catch (JsonProcessingException e) {
 			log.error(e.getMessage() + ", " + e.getCause());
 		}
 

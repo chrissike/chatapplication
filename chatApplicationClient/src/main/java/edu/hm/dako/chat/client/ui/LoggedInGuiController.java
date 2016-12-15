@@ -8,6 +8,9 @@ import javax.naming.NamingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import edu.hm.dako.chat.jms.connect.JmsChatContext;
 import edu.hm.dako.chat.jms.connect.JmsConsumer;
 import edu.hm.dako.chat.jms.connect.JmsProducer;
@@ -17,6 +20,7 @@ import edu.hm.dako.chat.rest.TechnicalRestException;
 import edu.hm.dako.chat.client.data.ClientModel;
 import edu.hm.dako.chat.client.jms.TopicSubscriber;
 import edu.hm.dako.chat.model.ChatPDU;
+import edu.hm.dako.chat.model.PDU;
 import edu.hm.dako.chat.model.PduType;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
@@ -41,6 +45,7 @@ public class LoggedInGuiController {
 	
 	private JmsConsumer jmsConsumer;
 	private JmsChatContext jmsContext;
+	private final ObjectMapper mapper = new ObjectMapper();
 	
 	@FXML
 	private Button btnSubmit;
@@ -147,16 +152,19 @@ public class LoggedInGuiController {
 	
 	public void btnSubmit_OnAction() {
 		
-		ChatPDU chatPdu = new ChatPDU(PduType.MESSAGE);
-		chatPdu.setUserName(appController.getModel().getUserName());
-		chatPdu.setMessage(txtChatMessage.getText());
+		PDU pdu = new ChatPDU(PduType.MESSAGE);
+		pdu.setUserName(appController.getModel().getUserName());
+		pdu.setMessage(txtChatMessage.getText());
 		
 		JmsProducer<ChatPDU> jms = new JmsProducer<ChatPDU>();
 		try {
-			jms.sendMessage(chatPdu, jmsContext);
+			String msg = mapper.writeValueAsString(pdu);
+			jms.sendMessage(msg, jmsContext);
 		} catch (NamingException e) {
 			log.error(e.getMessage() + ", " + e.getCause());
 		} catch (JMSException e) {
+			log.error(e.getMessage() + ", " + e.getCause());
+		} catch (JsonProcessingException e) {
 			log.error(e.getMessage() + ", " + e.getCause());
 		}
 

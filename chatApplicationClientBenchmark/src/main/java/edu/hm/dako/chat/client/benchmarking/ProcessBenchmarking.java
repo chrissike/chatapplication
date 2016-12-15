@@ -10,6 +10,9 @@ import javax.naming.NamingException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import edu.hm.dako.chat.client.ui.BenchmarkingClientFxGUI;
 import edu.hm.dako.chat.jms.connect.JmsProducer;
 import edu.hm.dako.chat.model.BenchmarkPDU;
@@ -24,6 +27,8 @@ public class ProcessBenchmarking {
 	private static Log log = LogFactory.getLog(ProcessBenchmarking.class);
 
 	private static String message = null;
+	
+	private final ObjectMapper mapper = new ObjectMapper();
 
 	final CyclicBarrier startingGate;
 
@@ -95,11 +100,14 @@ public class ProcessBenchmarking {
 				boolean success = false;
 				while (success == false && retryCounter <= 3) {
 					try {
-						success = jms.sendMessage(pdu, BenchmarkingClientFxGUI.getJmsContext());
+						String msg = mapper.writeValueAsString(pdu);
+						success = jms.sendMessage(msg, BenchmarkingClientFxGUI.getJmsContext());
 						retryCounter++;
 					} catch (NamingException e) {
 						log.error(e.getMessage() + ", " + e.getCause());
 					} catch (JMSException e) {
+						log.error(e.getMessage() + ", " + e.getCause());
+					} catch (JsonProcessingException e) {
 						log.error(e.getMessage() + ", " + e.getCause());
 					}
 				}

@@ -19,15 +19,43 @@ public class BenchmarkPDU extends ChatPDU implements PDU {
 	 * Durchschnittliche CPU-Auslastung
 	 */
 	private Double avgCPUUsage;
-	
+
 	/**
 	 * Zähler für die eingegangenen Nachrichten.
 	 */
 	private Integer messageNr;
-	
 
+	/**
+	 * Default Konstruktor
+	 */
+	public BenchmarkPDU() {
+		super();
+	}
+
+	/**
+	 * Konstruktor
+	 * 
+	 * @param type
+	 */
 	public BenchmarkPDU(PduType type) {
 		super(type);
+	}
+
+	/**
+	 * Konstruktor
+	 * 
+	 * @param type
+	 * @param freeMemory
+	 * @param usedMemory
+	 * @param avgCPUUsage
+	 * @param messageNr
+	 */
+	public BenchmarkPDU(PduType type, Double freeMemory, Double usedMemory, Double avgCPUUsage, Integer messageNr) {
+		super(type);
+		this.freeMemory = freeMemory;
+		this.usedMemory = usedMemory;
+		this.avgCPUUsage = avgCPUUsage;
+		this.messageNr = messageNr;
 	}
 
 	public Double getFreeMemory() {

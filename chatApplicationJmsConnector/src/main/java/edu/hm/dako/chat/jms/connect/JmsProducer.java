@@ -23,7 +23,7 @@ public class JmsProducer<T extends Serializable> {
 	private JMSContext context;
 	private JMSProducer producer;
 	
-	public Boolean sendMessage(T dto, JmsChatContext jmsContext) throws NamingException, JMSException {
+	public Boolean sendMessage(String dto, JmsChatContext jmsContext) throws NamingException, JMSException {
 		
 		Context ctx = new InitialContext(createProperties(jmsContext));
 
@@ -35,7 +35,10 @@ public class JmsProducer<T extends Serializable> {
 			
 			// Perform the JNDI lookups
 			producer = context.createProducer();
-			producer.send(queue, dto);
+			producer.setDisableMessageID(true);
+			producer.setDisableMessageTimestamp(true);
+			producer.send(queue, context.createTextMessage(dto));
+			
 		} catch (Exception e) {
 			return false;
 		} finally {
