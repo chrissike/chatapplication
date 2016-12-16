@@ -2,11 +2,18 @@ package edu.hm.dako.chat.client.ui;
 
 import java.net.URISyntaxException;
 
+import javax.naming.NamingException;
+
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import edu.hm.dako.chat.client.benchmarking.ProcessBenchmarking;
+import edu.hm.dako.chat.client.benchmarking.TopicSubscriber;
 import edu.hm.dako.chat.client.data.GroupedResultTableModel;
 import edu.hm.dako.chat.client.data.ResultTableModel;
+import edu.hm.dako.chat.jms.connect.JmsChatContext;
+import edu.hm.dako.chat.jms.connect.JmsConsumer;
 import edu.hm.dako.chat.rest.TechnicalRestException;
 import javafx.fxml.FXML;
 import javafx.scene.chart.AreaChart;
@@ -28,6 +35,8 @@ import javafx.beans.binding.Bindings;
  */
 @SuppressWarnings("restriction")
 public class BenchmarkingGuiController {
+
+	private static Log log = LogFactory.getLog(BenchmarkingGuiController.class);
 
 	@FXML
 	private TextField txtServername, txtServerPort, txtAnzahlClients, txtAnzahlNachrichten, txtNachrichtenlaenge;
@@ -54,8 +63,6 @@ public class BenchmarkingGuiController {
 	private AreaChart<Integer, Double> areaChart1, areaChart2;
 	@FXML
 	private LineChart<Integer, Double> areaChart3;
-	@FXML
-	private LineChart<Double, Double> regressionChart;
 	@FXML
 	private StackedBarChart<String, Double> stackedbarChart1;
 	@FXML
@@ -84,10 +91,6 @@ public class BenchmarkingGuiController {
 		areaChart1.getData().addAll(appController.getModel().getMessageTimeChart());
 		areaChart2.getData().addAll(appController.getModel().getServerTimeChart());
 		areaChart3.getData().addAll(new XYChart.Series<Integer, Double>(), appController.getModel().getClientTimeChart());
-		regressionChart.setAnimated(false);
-		regressionChart.setCreateSymbols(true);
-		regressionChart.getData().addAll(appController.getModel().getRegression1(),
-				appController.getModel().getRegression2());
 
 		stackedbarChart1.getData().add(appController.getModel().getAnteilsChartClient());
 		stackedbarChart1.getData().add(appController.getModel().getAnteilsChartServer());
@@ -111,8 +114,9 @@ public class BenchmarkingGuiController {
 
 	@FXML
 	private void startBenchmarking() throws TechnicalRestException, URISyntaxException {
-		BenchmarkingClientFxGUI.instance.setIp(txtServername.getText());
-		BenchmarkingClientFxGUI.instance.setPort(Integer.valueOf(txtServerPort.getText()));
+		initializeJMSConsumer();
+		BenchmarkingClientFxGUI.setIp(txtServername.getText());
+		BenchmarkingClientFxGUI.setPort(Integer.valueOf(txtServerPort.getText()));
 		
 		txtNumberOfMessages.setText(String.valueOf(
 				Integer.valueOf(txtAnzahlClients.getText()) * Integer.valueOf(txtAnzahlNachrichten.getText())));
@@ -131,6 +135,16 @@ public class BenchmarkingGuiController {
 			process.createNewBenchmarkingClient(
 					String.valueOf(BenchmarkingClientFxGUI.getAndIncreaseClientNameCounter()), messageCount);
 		}
+	}
+
+	private void initializeJMSConsumer() {
+		JmsConsumer consumer = new JmsConsumer();
+		BenchmarkingClientFxGUI.setJmsContext(new JmsChatContext(txtServername.getText(), Integer.valueOf(txtServerPort.getText())));
+		try {
+			consumer.initJmsConsumer(new TopicSubscriber(), BenchmarkingClientFxGUI.getJmsContext());
+		} catch (NamingException e) {
+			log.error(e.getStackTrace());
+		}		
 	}
 
 	private String generateMessageByLength() {

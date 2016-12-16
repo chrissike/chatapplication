@@ -1,13 +1,11 @@
 package edu.hm.dako.chat.client.ui;
 
-import edu.hm.dako.chat.client.benchmarking.TopicSubscriber;
 import edu.hm.dako.chat.client.data.ClientModel;
 import edu.hm.dako.chat.client.data.GroupedResultTableModel;
 import edu.hm.dako.chat.client.data.ResultTableModel;
 import edu.hm.dako.chat.client.data.SystemStatus;
 import edu.hm.dako.chat.client.data.util.SystemResourceCalculator;
 import edu.hm.dako.chat.jms.connect.JmsChatContext;
-import edu.hm.dako.chat.jms.connect.JmsConsumer;
 import edu.hm.dako.chat.model.BenchmarkPDU;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -18,7 +16,6 @@ import javafx.stage.Stage;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import javax.naming.NamingException;
 import java.util.stream.Collectors;
 
 /**
@@ -72,14 +69,6 @@ public class BenchmarkingClientFxGUI extends Application {
 		primaryStage.setTitle("Benchmarking");
 		primaryStage.setResizable(true);
 		primaryStage.show();
-
-		JmsConsumer consumer = new JmsConsumer();
-		jmsContext = new JmsChatContext(this.ip, this.port);
-		try {
-			consumer.initJmsConsumer(new TopicSubscriber(), jmsContext);
-		} catch (NamingException e1) {
-			log.error(e1.getStackTrace());
-		}
 
 		sysResourceCalc = new SystemResourceCalculator();
 	}
