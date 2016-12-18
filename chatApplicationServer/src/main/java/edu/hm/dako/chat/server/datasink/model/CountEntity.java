@@ -6,7 +6,7 @@ import java.io.Serializable;
 @Entity
 @NamedQueries({
 		@NamedQuery(name = "CountEntity.findAll", query = "SELECT b FROM CountEntity b"),
-		@NamedQuery(name = "CountEntity.findByName", query = "SELECT b FROM CountEntity b WHERE b.nameOfClients = :nameOfClients")
+		@NamedQuery(name = "CountEntity.findByName", query = "SELECT b FROM CountEntity b WHERE b.nameOfClient = :nameOfClient")
 })
 public class CountEntity implements Serializable {
 
@@ -16,15 +16,15 @@ public class CountEntity implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	private String nameOfClients;
+	private String nameOfClient;
 
 	private Integer messageCount;
 
 	public CountEntity() {
 	}
 
-	public CountEntity(String nameOfClients, Integer messageCount) {
-		this.nameOfClients = nameOfClients;
+	public CountEntity(String nameOfClient, Integer messageCount) {
+		this.nameOfClient = nameOfClient;
 		this.messageCount = messageCount;
 	}
 
@@ -36,12 +36,12 @@ public class CountEntity implements Serializable {
 		this.id = id;
 	}
 
-	public String getNameOfClients() {
-		return nameOfClients;
+	public String getNameOfClient() {
+		return nameOfClient;
 	}
 
-	public void setNameOfClients(String nameOfClients) {
-		this.nameOfClients = nameOfClients;
+	public void setNameOfClient(String nameOfClient) {
+		this.nameOfClient = nameOfClient;
 	}
 
 	public Integer getMessageCount() {

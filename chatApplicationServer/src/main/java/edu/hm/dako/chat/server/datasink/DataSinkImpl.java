@@ -19,7 +19,7 @@ public class DataSinkImpl implements DataSink {
 	public Boolean createOrUpdateCount(CountEntity count) throws Exception {
 
 		Boolean success = false;
-		List<CountEntity> entityList = countRepo.getCountByClientname(count.getNameOfClients());
+		List<CountEntity> entityList = countRepo.getCountByClientname(count.getNameOfClient());
 
 		if (entityList == null) {
 			countRepo.addCount(count);
