@@ -8,6 +8,8 @@ import java.io.Serializable;
 		@NamedQuery(name = "CountEntity.findAll", query = "SELECT b FROM CountEntity b"),
 		@NamedQuery(name = "CountEntity.findByName", query = "SELECT b FROM CountEntity b WHERE b.nameOfClient = :nameOfClient")
 })
+@Table(uniqueConstraints=
+           @UniqueConstraint(columnNames = {"nameOfClient"})) 
 public class CountEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -16,6 +18,7 @@ public class CountEntity implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	@Column(unique=true)
 	private String nameOfClient;
 
 	private Integer messageCount;

@@ -70,8 +70,9 @@ public class ProcessBenchmarking {
 
 			private void performMessaging(String name, Integer messageCount) {
 				PDU pdu = createBenchmarkCPU(name);
+				JmsProducer<PDU> jms = new JmsProducer<PDU>();
 				for (int i = 1; i <= messageCount; i++) {
-					sendBenchmarkCPU(pdu);
+					sendBenchmarkCPU(pdu, jms);
 				}
 			}
 
@@ -93,12 +94,10 @@ public class ProcessBenchmarking {
 				BenchmarkingClientFxGUI.instance.addEntryToGroupedClientRTTList(name, endTime);
 			}
 
-			private void sendBenchmarkCPU(PDU pdu) {
-				JmsProducer<PDU> jms = new JmsProducer<PDU>();
-
+			private void sendBenchmarkCPU(PDU pdu, JmsProducer<PDU> jms) {
 				int retryCounter = 0;
 				boolean success = false;
-				while (success == false && retryCounter <= 3) {
+				while (success == false && retryCounter <= 10) {
 					try {
 						String msg = mapper.writeValueAsString(pdu);
 						success = jms.sendMessage(msg, BenchmarkingClientFxGUI.getJmsContext());

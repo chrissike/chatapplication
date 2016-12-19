@@ -90,7 +90,8 @@ public class BenchmarkingGuiController {
 		// initialize charts
 		areaChart1.getData().addAll(appController.getModel().getMessageTimeChart());
 		areaChart2.getData().addAll(appController.getModel().getServerTimeChart());
-		areaChart3.getData().addAll(new XYChart.Series<Integer, Double>(), appController.getModel().getClientTimeChart());
+		areaChart3.getData().addAll(new XYChart.Series<Integer, Double>(),
+				appController.getModel().getClientTimeChart());
 
 		stackedbarChart1.getData().add(appController.getModel().getAnteilsChartClient());
 		stackedbarChart1.getData().add(appController.getModel().getAnteilsChartServer());
@@ -117,15 +118,15 @@ public class BenchmarkingGuiController {
 		initializeJMSConsumer();
 		BenchmarkingClientFxGUI.setIp(txtServername.getText());
 		BenchmarkingClientFxGUI.setPort(Integer.valueOf(txtServerPort.getText()));
-		
-		txtNumberOfMessages.setText(String.valueOf(
-				Integer.valueOf(txtAnzahlClients.getText()) * Integer.valueOf(txtAnzahlNachrichten.getText())));
+
+		txtNumberOfMessages.setText(String.valueOf(Integer.valueOf(txtNumberOfMessages.getText())
+				+ (Integer.valueOf(txtAnzahlClients.getText()) * Integer.valueOf(txtAnzahlNachrichten.getText()))));
 
 		ProcessBenchmarking process = new ProcessBenchmarking(generateMessageByLength(),
 				Integer.parseInt(txtAnzahlClients.getText()));
 
 		process.performLogoutAll();
-		
+
 		Integer messageCount = Integer.parseInt(txtAnzahlNachrichten.getText());
 		Integer clientCount = Integer.parseInt(txtAnzahlClients.getText());
 
@@ -139,12 +140,13 @@ public class BenchmarkingGuiController {
 
 	private void initializeJMSConsumer() {
 		JmsConsumer consumer = new JmsConsumer();
-		BenchmarkingClientFxGUI.setJmsContext(new JmsChatContext(txtServername.getText(), Integer.valueOf(txtServerPort.getText())));
+		BenchmarkingClientFxGUI
+				.setJmsContext(new JmsChatContext(txtServername.getText(), Integer.valueOf(txtServerPort.getText())));
 		try {
 			consumer.initJmsConsumer(new TopicSubscriber(), BenchmarkingClientFxGUI.getJmsContext());
 		} catch (NamingException e) {
 			log.error(e.getStackTrace());
-		}		
+		}
 	}
 
 	private String generateMessageByLength() {
