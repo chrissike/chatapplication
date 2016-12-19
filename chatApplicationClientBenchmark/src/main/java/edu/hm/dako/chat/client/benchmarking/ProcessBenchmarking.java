@@ -21,7 +21,10 @@ import edu.hm.dako.chat.model.PduType;
 import edu.hm.dako.chat.rest.MessagingHandler;
 import edu.hm.dako.chat.rest.MessagingHandlerImpl;
 import edu.hm.dako.chat.rest.TechnicalRestException;
+import javafx.application.Platform;
 
+
+@SuppressWarnings("restriction")
 public class ProcessBenchmarking {
 
 	private static Log log = LogFactory.getLog(ProcessBenchmarking.class);
@@ -82,7 +85,9 @@ public class ProcessBenchmarking {
 				handler = new MessagingHandlerImpl(BenchmarkingClientFxGUI.getIp(), BenchmarkingClientFxGUI.getPort());
 				handler.login(loginPDU.getUserName());
 				Long endTime = System.nanoTime()-loginPDU.getClientStartTime();
-				BenchmarkingClientFxGUI.instance.addEntryToGroupedClientRTTList(name, endTime);
+				Platform.runLater(() -> {
+					BenchmarkingClientFxGUI.instance.addEntryToGroupedClientRTTList(name, endTime);
+				});
 			}
 			
 			private void performLogout(String name) throws URISyntaxException {
@@ -91,7 +96,9 @@ public class ProcessBenchmarking {
 				handler = new MessagingHandlerImpl(BenchmarkingClientFxGUI.getIp(), BenchmarkingClientFxGUI.getPort());
 				handler.logout(loginPDU.getUserName());
 				Long endTime = System.nanoTime()-loginPDU.getClientStartTime();
-				BenchmarkingClientFxGUI.instance.addEntryToGroupedClientRTTList(name, endTime);
+				Platform.runLater(() -> {
+					BenchmarkingClientFxGUI.instance.addEntryToGroupedClientRTTList(name, endTime);
+				});
 			}
 
 			private void sendBenchmarkCPU(PDU pdu, JmsProducer<PDU> jms) {

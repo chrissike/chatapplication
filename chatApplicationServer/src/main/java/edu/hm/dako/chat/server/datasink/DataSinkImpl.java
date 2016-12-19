@@ -6,6 +6,7 @@ import edu.hm.dako.chat.server.datasink.repo.CountRepository;
 import edu.hm.dako.chat.server.datasink.repo.TraceRepository;
 
 import javax.inject.Inject;
+
 import java.util.List;
 
 public class DataSinkImpl implements DataSink {
@@ -15,28 +16,19 @@ public class DataSinkImpl implements DataSink {
 
 	@Inject
 	private TraceRepository traceRepo;
+	
+	public synchronized void createOrUpdateCount(CountEntity count) throws Exception {
 
-	public Boolean createOrUpdateCount(CountEntity count) throws Exception {
-
-		Boolean success = false;
 		List<CountEntity> entityList = countRepo.getCountByClientname(count.getNameOfClient());
 
-		if (entityList == null) {
-			countRepo.addCount(count);
-			success = true;
-		}
-		if (entityList.size() == 0 || entityList.isEmpty()) {
-			countRepo.addCount(count);
-			success = true;
-		}
-		if (entityList.size() == 1) {
+		if (entityList.size() >= 1) {
 			CountEntity existingCount = entityList.get(0);
 			existingCount.setMessageCount(existingCount.getMessageCount() + 1);
 			countRepo.updateCount(existingCount);
-			success = true;
 		}
-
-		return success;
+		if (entityList.size() == 0 || entityList.isEmpty()) {
+			countRepo.addCount(count);
+		}
 	}
 
 	public void persistTrace(TraceEntity trace) throws Exception {
@@ -48,12 +40,12 @@ public class DataSinkImpl implements DataSink {
 	}
 
 	@Override
-	public List<CountEntity> getCountByClientname(final String clientName) {
+	public synchronized List<CountEntity> getCountByClientname(final String clientName) throws Exception {
 		return countRepo.getCountByClientname(clientName);
 	}
 
 	@Override
-	public void deleteAllData() {
+	public void deleteAllData() throws Exception {
 		traceRepo.deleteAllTrace();
 		countRepo.deleteAllCount();
 	}

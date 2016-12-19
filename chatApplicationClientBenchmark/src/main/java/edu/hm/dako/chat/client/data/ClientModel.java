@@ -238,6 +238,9 @@ public class ClientModel {
 
 	public synchronized void addRTTToSharedRTTClientList(String clientName, Long rtt) {
 		List<Double> list = sharedRTTClientList.get(clientName);
+		if(list == null) {	
+			list = new ArrayList<Double>();
+		}
 		list.add(rtt.doubleValue());
 		sharedRTTClientList.put(clientName, list);
 	}

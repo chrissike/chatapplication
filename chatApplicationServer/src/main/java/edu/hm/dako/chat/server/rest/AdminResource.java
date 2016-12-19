@@ -23,27 +23,41 @@ public class AdminResource {
 	@GET
 	@Path("clients")
 	public Response getClients() {
-		return Response.status(Status.OK).entity(SharedChatClientList.getInstance().getClientNameList())
-				.build();
+		return Response.status(Status.OK).entity(SharedChatClientList.getInstance().getClientNameList()).build();
 	}
 
 	@GET
 	@Path("count/{clientId}")
 	public Response getClientCount(@PathParam("clientId") String clientId) {
-		List<CountEntity> entityList = dataSink.getCountByClientname(clientId);
-		return Response.ok(200).entity(entityList).build();
+		List<CountEntity> entityList;
+		try {
+			entityList = dataSink.getCountByClientname(clientId);
+			return Response.ok(200).entity(entityList).build();
+		} catch (Exception e) {
+			return Response.status(Status.CONFLICT).entity(e).build();
+		}
 	}
 
 	@GET
 	@Path("statistics")
 	public Response getStatistics() {
-		return Response.ok(200).entity(new StatisticsDTO(dataSink.getAllTraceData())).build();
+		StatisticsDTO dto;
+		try {
+			dto = new StatisticsDTO(dataSink.getAllTraceData());
+			return Response.ok(200).entity(dto).build();
+		} catch (Exception e) {
+			return Response.status(Status.CONFLICT).entity(e).build();
+		}
 	}
 
 	@DELETE
 	@Path("deleteAllData")
 	public Response deleteAllData() {
-		dataSink.deleteAllData();
-		return Response.ok(200).build();
+		try {
+			dataSink.deleteAllData();
+			return Response.ok(200).build();
+		} catch (Exception e) {
+			return Response.status(Status.CONFLICT).entity(e).build();
+		}
 	}
 }
