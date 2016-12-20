@@ -7,13 +7,13 @@ import java.util.List;
 
 public interface DataSink {
 
-	public Boolean createOrUpdateCount(CountEntity count) throws Exception;
+	public void createOrUpdateCount(CountEntity count) throws Exception;
 
 	public void persistTrace(TraceEntity trace) throws Exception;
 
-	public List<TraceEntity> getAllTraceData();
+	public List<TraceEntity> getAllTraceData() throws Exception;
 
-	public List<CountEntity> getCountByClientname(String clientName);
+	public List<CountEntity> getCountByClientname(String clientName) throws Exception;
 
-	public void deleteAllData();
+	public void deleteAllData() throws Exception;
 }
