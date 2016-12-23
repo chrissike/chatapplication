@@ -1,0 +1,10 @@
+Gedanken Abstract:
+
+Diese Arbeit befasst sich mit der Umstellung einer bislang monolithischen Chat-Anwendung auf ein verteiltes System.
+Ziel war die Ablösung von TCP-Sockets durch die Einführung von JMS.
+Für Login und Logout wurden RESTful-Webservices implementiert.
+Die serverseitigen Verarbeitungsschritte, die u. a. das Persistieren in zwei Datenbanken umfassen, sind Teil einer verteilten XA-Transaktion.
+Für den Zugriff auf die persistierten Daten wurde unter Verwendung von Angular2 eine administrative Benutzeroberfläche implementiert.
+Es wurden verschiedene Maßnahmen zur Optimierung der Performance von MariaDB und Wildfly ergriffen.
+Abschließende Tests mithilfe eines eigenentwickelten Benchmarking-Clients bestätigen die Skalierbarkeit und Zuverlässigkeit der Anwendung.
+
