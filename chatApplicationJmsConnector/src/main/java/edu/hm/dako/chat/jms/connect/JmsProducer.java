@@ -31,9 +31,10 @@ public class JmsProducer<T extends Serializable> {
 
 		try {
 			context = confac.createContext(jmsContext.getSecurityUser(), jmsContext.getSecurityPassword());
+			
+			// Perform the JNDI lookup
 			Queue queue = (Queue) ctx.lookup(jmsContext.getQueue());
 			
-			// Perform the JNDI lookups
 			producer = context.createProducer();
 			producer.setDisableMessageID(true);
 			producer.setDisableMessageTimestamp(true);
