@@ -1,0 +1,5 @@
+projectKey=hm:verteilte
+serverUrl=http://localhost:9000
+dashboardUrl=http://localhost:9000/dashboard/index/hm:verteilte
+ceTaskId=AVl_c68OOZPairtaFdoH
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AVl_c68OOZPairtaFdoH
