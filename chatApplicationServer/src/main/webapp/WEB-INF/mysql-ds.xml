@@ -2,7 +2,7 @@
 <datasources>
 	<xa-datasource enabled="true" jndi-name="java:jboss/datasources/traceDS"
 		pool-name="mydatasource" use-java-context="true">
-		<xa-datasource-property name="URL">jdbc:mysql://192.168.0.75:3306/tracedb</xa-datasource-property>
+		<xa-datasource-property name="URL">jdbc:mysql://localhost:3316/tracedb</xa-datasource-property>
 		<driver>mariadb-java-client-1.5.4.jar</driver>
 		<xa-pool>
 			<min-pool-size>100</min-pool-size>
