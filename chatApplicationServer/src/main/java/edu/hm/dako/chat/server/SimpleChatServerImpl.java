@@ -1,6 +1,7 @@
 package edu.hm.dako.chat.server;
 
 import java.util.Vector;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -92,7 +93,7 @@ public class SimpleChatServerImpl extends AbstractChatServer {
 
 		// Alle Verbindungen zu aktiven Clients abbauen
 		Vector<String> sendList = clients.getClientNameList();
-		for (String s : new Vector<String>(sendList)) {
+		for (String s : new ArrayList<String>(sendList)) {
 			ClientListEntry client = clients.getClient(s);
 			try {
 				if (client != null) {
