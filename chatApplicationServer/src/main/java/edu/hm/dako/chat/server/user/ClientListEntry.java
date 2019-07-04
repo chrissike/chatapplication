@@ -1,6 +1,7 @@
 package edu.hm.dako.chat.server.user;
 
 import java.util.Vector;
+import java.util.ArrayList;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -54,7 +55,7 @@ public class ClientListEntry {
 	// Liste, die auf alle Clients verweist, die noch kein Event-Confirm fuer
 	// einen
 	// konkret laufenden Request gesendet haben
-	private Vector<String> waitList;
+	private ArrayList<String> waitList;
 
 	public ClientListEntry(String userName) {
 		this.userName = userName;
@@ -67,7 +68,7 @@ public class ClientListEntry {
 		this.numberOfReceivedEventConfirms = 0;
 		this.numberOfLostEventConfirms = 0;
 		this.numberOfRetries = 0;
-		this.waitList = new Vector<String>();
+		this.waitList = new ArrayList<String>();
 	}
 
 	@Override
